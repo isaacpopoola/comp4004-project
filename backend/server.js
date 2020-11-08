@@ -2,6 +2,7 @@ const express =  require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
+const { Pool } = require('pg')
 const app = express();
 
 const route = require("./routes/test_route");
@@ -14,6 +15,15 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
+
+
+const pool = new Pool({
+    user: 'postgres',
+    host: 'localhost',
+    database: 'postgres',
+    password: 'postgres',
+    port: 5432,
+});
 
 /* ROUTES */
 app.get("/test", route.test_endpoint);
