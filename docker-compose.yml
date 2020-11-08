@@ -10,6 +10,7 @@ services:
     restart: always # What to do if container crashes
     links:
       - backend
+    stdin_open: true # I added this cause there's something going wrong docker-compose + react-scripts
 
   backend:
     build: ./backend

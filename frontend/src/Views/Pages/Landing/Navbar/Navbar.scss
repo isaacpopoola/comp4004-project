@@ -1,0 +1,17 @@
+.nav {
+    padding: 12px 0;
+    margin: auto;
+    max-width: 1128px;
+    display: flex;
+    justify-content: flex-end;
+    vertical-align: middle;
+}
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-right: 12px;
+    padding: 0 8px;
+}
