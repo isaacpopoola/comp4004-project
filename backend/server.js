@@ -16,6 +16,7 @@ const API_PORT = process.env.API_PORT || 8080;
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(bodyParser.raw());
 app.use(logger("dev"));
 
 const sequelize = new Sequelize("postgres", "postgres", "postgres", {
@@ -33,9 +34,40 @@ sequelize.authenticate().then(
     }
 );
 
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-});
+//this wasn't syncing the tables in the right order
+// db.sequelize.sync({ force: false }).then(() => {
+//     console.log("Drop and re-sync db.");
+// });
+
+db.Courses.sync().then(() => {
+    
+})
+db.Students.sync().then(() => {
+    
+})
+db.Professors.sync().then(() => {
+    
+})
+db.Administrators.sync().then(() => {
+    
+})
+db.Deliverables.sync().then(() => {
+    
+})
+db.DeliverableGrades.sync().then(() => {
+    
+})
+db.FinalGrades.sync().then(() => {
+    
+})
+db.ProfessorAssignedCourses.sync().then(() => {
+    
+})
+db.StudentRegisteredCourses.sync().then(() => {
+    
+})
+
+
 
 /* ROUTES */
 app.use(router);

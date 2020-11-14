@@ -45,6 +45,20 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.Student = require("./student.model.js")(sequelize, Sequelize);
+
+db.Students = require("./Students.model")(sequelize, Sequelize);
+db.Professors = require("../models/Professors.model")(sequelize, Sequelize);
+db.Deliverables = require("../models/Deliverables.model")(sequelize, Sequelize);
+db.Administrators = require("../models/Administrators.model")(sequelize, Sequelize);
+db.Courses = require("../models/Courses.model")(sequelize, Sequelize);
+db.DeliverableGrades = require("../models/DeliverableGrades.model")(sequelize, Sequelize);
+db.FinalGrades = require("./FinalGrades.model")(sequelize, Sequelize);
+db.ProfessorAssignedCourses = require("./ProfessorAssignedCourses.model")(sequelize,Sequelize);
+db.StudentRegisteredCourses = require("./StudentRegisteredCourses.model")(sequelize,Sequelize);
+
+
+
+
+
 
 module.exports = db;
