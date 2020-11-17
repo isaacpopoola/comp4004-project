@@ -22,6 +22,8 @@
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^7.0.0-rc.0"
+    "cucumber": "^6.0.5",
+    "superagent": "^6.1.0",
+    "supertest": "^6.0.1"
   }
 }
