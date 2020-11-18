@@ -57,3 +57,21 @@ Then('New user is added to the database', function () {
         assert.fail;
     })
 });
+
+When('User {string}, {string}, {string}, {string} is registered', function (name, username, password, type) {    //checks if the server is running, page doesn't exist...but the server works
+    request(app)
+    .post(`/${"register"}?username=${username}&password=${password}&name=${name}&type=${type}`)
+    .end(resp => {"User created successfully"})
+});
+
+Then('User is no longer in database', function () {
+    request(app)
+    .post(`/${this.endpoint}?username=${this.username}&type=${this.type}`)
+    .then(resp => {
+        assert.strictEqual(response.status, 201);
+        assert.strictEqual(response.data.message, "User deleted successfully")        
+    })
+    .catch(err =>{
+        assert.fail;
+    })
+});

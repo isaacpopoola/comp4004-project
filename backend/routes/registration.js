@@ -4,7 +4,7 @@ const router = express.Router();
 const Students = require("../db/models").Students;
 const Professors = require("../db/models").Professors
 
-router.post("", async (req, res) => {
+router.post("/register", async (req, res) => {
     const { username, password, name, type } = req.query;
 
     switch (type){
