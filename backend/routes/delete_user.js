@@ -8,7 +8,7 @@ const FinalGrade = require("../db/models").FinalGrades
 const ProfessorAssignedCourses = require("../db/models").ProfessorAssignedCourses
 
 
-router.post("/delete", async (req, res) => {
+router.delete("/delete", async (req, res) => {
     const { username, type } = req.query;
 
     switch (type){
@@ -18,7 +18,11 @@ router.post("/delete", async (req, res) => {
                   username: username,
                   type: type
                 }
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send({ message: "Student not found" });
+            });;;
 
             DeliverableGrades.destroy({
                 where: {
@@ -50,7 +54,7 @@ router.post("/delete", async (req, res) => {
                 res.status(500).send({ message: "Error deleting student" });
             });
 
-            res.status(201).send({ message: "Student deleted successfully" })
+            res.status(201).send({ message: "User deleted successfully" })
 
             break;
         case "Professor":
@@ -60,7 +64,11 @@ router.post("/delete", async (req, res) => {
                     username: username,
                     type: type
                 }
-            });
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send({ message: "Professor not found" });
+            });;
 
             ProfessorAssignedCourses.destroy({
                 where: {
@@ -82,7 +90,7 @@ router.post("/delete", async (req, res) => {
                 res.status(500).send({ message: "Error deleting professor" });
             });
 
-            res.status(201).send({ message: "Professor deleted successfully" })
+            res.status(201).send({ message: "User deleted successfully" })
         
             break;
 
