@@ -1,7 +1,7 @@
 .nav {
     padding: 12px 0;
     margin: auto;
-    max-width: 1128px;
+    // max-width: 1128px;
     display: flex;
     justify-content: flex-end;
     vertical-align: middle;
@@ -14,4 +14,8 @@
     justify-content: center;
     margin-right: 12px;
     padding: 0 8px;
+}
+
+.signin {
+    margin-right: 1.5em;
 }

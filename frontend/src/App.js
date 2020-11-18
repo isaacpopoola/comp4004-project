@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import './App.css'
 
 import LandingPage from './Views/Pages/Landing/LandingPage'
-import RegisterPage from './Views/Pages/Register/RegisterPage'
 
 class App extends Component {
   render() {
@@ -12,7 +11,6 @@ class App extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route exact path="/signup" component={RegisterPage} />
         </Switch>
       </BrowserRouter>
     )

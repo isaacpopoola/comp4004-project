@@ -6,10 +6,11 @@ const Navbar = (props) => {
     return (
         <nav className='nav'>
             {/* eslint-disable-next-line */}
-            <a className='signup' onClick={props.handleSignup}>
+            {/* <a className='signup' onClick={props.handleSignup}>
                 Join Now
-            </a>
-            <Button type='primary'>Sign In</Button>
+            </a> */}
+            <Button className='signin' type='primary' onClick={props.handleSignin}>Sign In</Button>
+            
         </nav>
     );
 };
