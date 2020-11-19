@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "node server.js",
-    "test": "cucumber-js",
+    "test": "NODE_ENV=test cucumber-js",
     "unit-test": "jest"
   },
   "dependencies": {
