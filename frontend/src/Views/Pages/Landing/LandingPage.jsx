@@ -30,9 +30,6 @@ class LandingPage extends Component {
     this.setState({signinmodal: !this.state.signinmodal})
   }
 
-  // render() {
-  //   return <LandingNavBar onClick={this.handleSignup} />
-  // }
 
   render() {
     const { collapsed, signinmodal } = this.state;
