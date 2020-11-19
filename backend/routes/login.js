@@ -8,7 +8,7 @@ router.post("", async (req, res) => {
     const { username, password, type } = req.body;
 
     if (!username || !password || !type)
-        res.status(400).send({
+        return res.status(400).send({
             message: "Missing username, password, or type",
         });
 
@@ -23,12 +23,12 @@ router.post("", async (req, res) => {
             break;
     }
 
-    if (!user) res.status(400).send({ message: "User does not exist" });
+    if (!user) return res.status(400).send({ message: "User does not exist" });
     else {
         if (password === user.password) {
-            res.status(200).send({ id: user.id, type });
+            return res.status(200).send({ id: user.id, type });
         } else {
-            res.status(400).send({ message: "Incorrect password" });
+            return res.status(400).send({ message: "Incorrect password" });
         }
     }
 });
