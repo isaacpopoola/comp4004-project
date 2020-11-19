@@ -1,8 +1,15 @@
 import axios from "axios";
 
-const api = axios.create({
-    baseURL: "localhost:8080",
+const ApiInstance = axios.create({
+    baseURL: "http://localhost:8080",
     timeout: 10000,
 });
+
+const api = {
+    login: (body) =>
+        ApiInstance.post("/login", { ...body, type: "Student" }).catch(
+            (err) => err.response
+        ),
+};
 
 export default api;
