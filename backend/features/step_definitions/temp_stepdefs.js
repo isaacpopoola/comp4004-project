@@ -1,10 +1,41 @@
 const assert = require("assert");
-const { Given, When, Then, setDefaultTimeout } = require("cucumber");
+const {
+    Given,
+    When,
+    Then,
+    setDefaultTimeout,
+    Before,
+    After,
+} = require("cucumber");
 
 setDefaultTimeout(10000);
 
 const app = require("../../test-app");
 const request = require("supertest");
+
+const db = require("../../db/models");
+
+Before({ tags: "@createadmin" }, async () => {
+    await db.Administrators.create({
+        username: "admin",
+        password: "admin",
+    });
+});
+
+Before({ tags: "@createstudent" }, async () => {
+    await db.Students.create({
+        username: "ryanduan",
+        password: "pw",
+        gpa: 12.0,
+        name: "Ryan Duan",
+    });
+});
+
+After({ tags: "@wipetables" }, () => {
+    Object.values(db.sequelize.models).map(function (model) {
+        return model.destroy({ truncate: true, cascade: true });
+    });
+});
 
 Given("Express Server is running and address is {string}", function (address) {
     //checks if the server is running, page doesn't exist...but the server works
@@ -18,6 +49,21 @@ Given("Express Server is running and address is {string}", function (address) {
         .catch((err) => {
             assert.fail;
         });
+});
+
+When("Student {string} exists", function (string) {
+    db.Students.create({
+        username: "ryanduan",
+        password: "pw",
+        type: "Student",
+    });
+});
+
+When("Administrator {string} exists", function (string) {
+    db.Administrators.create({
+        username: "admin",
+        password: "admin",
+    });
 });
 
 When("Username is {string}", function (username) {

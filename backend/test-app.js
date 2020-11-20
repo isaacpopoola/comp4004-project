@@ -34,39 +34,15 @@ sequelize.authenticate().then(
     }
 );
 
-db.Courses.sync().then(() => db.Deliverables.sync().then(() => {}));
-db.Students.sync().then(
-    db.DeliverableGrades.sync().then(() =>
-        db.Students.bulkCreate(
-            [
-                {
-                    username: "ryanduan",
-                    password: "pw",
-                    name: "Ryan Duan",
-                    gpa: 12.0,
-                },
-            ],
-            { returning: true }
-        )
-    )
-);
-db.Professors.sync({ force: true }).then(
-    db.StudentRegisteredCourses.sync().then(() => {})
-);
-db.Administrators.sync().then(() =>
-    db.Administrators.bulkCreate(
-        [
-            {
-                username: "admin",
-                password: "admin",
-                name: "admin",
-            },
-        ],
-        { returning: true }
-    )
-);
+db.Courses.sync().then(() => {});
+db.Students.sync().then(() => {});
+db.Professors.sync().then(() => {});
+db.Administrators.sync().then(() => {});
+db.Deliverables.sync().then(() => {});
+db.DeliverableGrades.sync().then(() => {});
 db.FinalGrades.sync().then(() => {});
 db.ProfessorAssignedCourses.sync().then(() => {});
+db.StudentRegisteredCourses.sync().then(() => {});
 
 /* ROUTES */
 app.use(router);
