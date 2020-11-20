@@ -55,7 +55,8 @@ When("Student {string} exists", function (string) {
     db.Students.create({
         username: "ryanduan",
         password: "pw",
-        type: "Student",
+        name: "Ryan Duan",
+        gpa: 12.0,
     });
 });
 
@@ -98,6 +99,24 @@ When("logs in", async function () {
             this.response = {};
             this.response.status = res.status;
         });
+});
+
+When("Get all students", async function () {
+    await request(app)
+        .get("/students/all")
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.students = res.body.students;
+        });
+});
+
+Then("Return list of students", function () {
+    assert.strictEqual(this.response.students.length, 1);
+});
+
+Then("Return empty list of students", function () {
+    assert.strictEqual(this.response.students.length, 0);
 });
 
 Then("Operation was successful", function () {
