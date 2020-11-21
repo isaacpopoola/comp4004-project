@@ -54,6 +54,41 @@ When("logs in", async function () {
         });
 });
 
+
+When('Course code is {string} and course name is {string}', function (course_code, course_name) {
+    this.course_code = course_code;
+    this.course_name = course_name;
+});
+
+When('Professor ID is {int}', function (prof_id) {
+    this.prof_id = prof_id;
+});
+
+When('Course description is {string}', function (course_descr) {
+    this.course_descr = course_descr
+});
+
+When('Course credits is {float}', function (course_credits) {
+    this.course_credits = course_credits;
+});
+
+Then("Course is created", async function () {
+   await request(app)
+        .post("/course")
+        .send({
+           course_code: this.course_code,
+           course_name: this.course_name,
+           course_descr: this.course_descr,
+           course_credits: this.course_descr,
+           profId: this.prof_id
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            console.log(res);
+        });
+});
+
 Then("Operation was successful", function () {
     assert.strictEqual(this.response.status, 200);
 });
@@ -62,8 +97,8 @@ Then("Operation was unsuccessful", function () {
     assert.strictEqual(this.response.status, 400);
 });
 
-Then("New user is added to the database", function () {
-    request(app)
+Then("New user is added to the database", async function () {
+    await request(app)
         .post(
             `/${this.endpoint}?username=${this.username}&password=${this.password}&name=${this.name}&type=${this.type}`
         )
