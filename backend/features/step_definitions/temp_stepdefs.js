@@ -31,9 +31,17 @@ Before({ tags: "@createstudent" }, async () => {
     });
 });
 
+Before({ tags: "@createprof" }, async () => {
+    await db.Professors.create({
+        username: "ryanduan",
+        password: "pw",
+        name: "Ryan Duan",
+    });
+});
+
 After({ tags: "@wipetables" }, () => {
     Object.values(db.sequelize.models).map(function (model) {
-        return model.destroy({ truncate: true, cascade: true });
+        return model.destroy({ truncate: true, cascade: true, restartIdentity: true });
     });
 });
 
@@ -65,6 +73,16 @@ When("Administrator {string} exists", function (string) {
         username: "admin",
         password: "admin",
     });
+});
+
+When("Professor {int} exists", function (prof_id) {
+    console.log("CREATING PROF");
+    db.Professors.create({
+        username: "jeanpier",
+        password: "pw",
+        name: "JP",
+    }).then(()=> this.prof_id = prof_id );
+    
 });
 
 When("Username is {string}", function (username) {
@@ -107,10 +125,6 @@ When('Course code is {string} and course name is {string}', function (course_cod
     this.course_name = course_name;
 });
 
-When('Professor ID is {int}', function (prof_id) {
-    this.prof_id = prof_id;
-});
-
 When('Course description is {string}', function (course_descr) {
     this.course_descr = course_descr
 });
@@ -119,7 +133,7 @@ When('Course credits is {float}', function (course_credits) {
     this.course_credits = course_credits;
 });
 
-Then("Course is created", async function () {
+When("Course is created", async function () {
    await request(app)
         .post("/course")
         .send({
@@ -132,7 +146,7 @@ Then("Course is created", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log(res);
+            console.log(res.body)
         });
 });
 
