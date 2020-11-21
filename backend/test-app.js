@@ -34,94 +34,15 @@ sequelize.authenticate().then(
     }
 );
 
-// Some of the tables weren't being created***
-
-// db.Courses.sync().then(() => db.Deliverables.sync().then(() => {}));
-// db.Students.sync().then(
-//     db.DeliverableGrades.sync().then(() =>
-//         db.Students.bulkCreate(
-//             [
-//                 {
-//                     username: "ryanduan",
-//                     password: "pw",
-//                     name: "Ryan Duan",
-//                     gpa: 12.0,
-//                 },
-//             ],
-//             { returning: true }
-//         )
-//     )
-// );
-// db.Professors.sync({ force: true }).then(
-//     db.StudentRegisteredCourses.sync().then(() => {})
-// );
-// db.Administrators.sync().then(() =>
-//     db.Administrators.bulkCreate(
-//         [
-//             {
-//                 username: "admin",
-//                 password: "admin",
-//                 name: "admin",
-//             },
-//         ],
-//         { returning: true }
-//     )
-// );
-// db.FinalGrades.sync().then(() => {});
-// db.ProfessorAssignedCourses.sync().then(() => {});
-
-
-
-db.Courses.sync({ force: true}).then();
-db.Students.sync({ force: true}).then(() => {
-    db.Students.bulkCreate(
-        [
-            {
-                username: "ryanduan",
-                password: "pw",
-                name: "Ryan Duan",
-                gpa: 12.0,
-            },
-        ],
-        { returning: true }
-    )
-});
-
-db.Professors.sync({ force: true}).then(() => {
-    db.Professors.bulkCreate(
-        [
-            {
-                username: "jeanpier",
-                password: "pw",
-                name: "JP",
-            },
-        ],
-        { returning: true }
-    )
-});
-
-db.Administrators.sync({ force: true}).then(() => {
-    db.Administrators.bulkCreate(
-        [
-            {
-                username: "admin",
-                password: "admin",
-                name: "admin",
-            },
-        ],
-        { returning: true }
-    )
-});
-
-db.Deliverables.sync({ force: true}).then();
-
-db.DeliverableGrades.sync({ force: true}).then();
-
-db.FinalGrades.sync({ force: true}).then();
-
-db.ProfessorAssignedCourses.sync({ force: true}).then();
-
-db.StudentRegisteredCourses.sync({ force: true}).then();
+db.Courses.sync().then(() => {});
+db.Students.sync().then(() => {});
+db.Professors.sync().then(() => {});
+db.Administrators.sync().then(() => {});
+db.Deliverables.sync().then(() => {});
+db.DeliverableGrades.sync().then(() => {});
+db.FinalGrades.sync().then(() => {});
+db.ProfessorAssignedCourses.sync().then(() => {});
+db.StudentRegisteredCourses.sync().then(() => {});
 
 /* ROUTES */
 app.use(router);

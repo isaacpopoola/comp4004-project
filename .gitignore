@@ -1,7 +1,8 @@
 **/node_modules
 /.pnp
 .pnp.js
-
+**/coverage
+**/.nyc_output
 # testing
 /coverage
 
