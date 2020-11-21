@@ -31,9 +31,17 @@ Before({ tags: "@createstudent" }, async () => {
     });
 });
 
+Before({ tags: "@createprof" }, async () => {
+    await db.Professors.create({
+        username: "ryanduan",
+        password: "pw",
+        name: "Ryan Duan",
+    });
+});
+
 After({ tags: "@wipetables" }, () => {
     Object.values(db.sequelize.models).map(function (model) {
-        return model.destroy({ truncate: true, cascade: true });
+        return model.destroy({ truncate: true, cascade: true, restartIdentity: true });
     });
 });
 
@@ -65,6 +73,16 @@ When("Administrator {string} exists", function (string) {
         username: "admin",
         password: "admin",
     });
+});
+
+When("Professor {int} exists", function (prof_id) {
+    console.log("CREATING PROF");
+    db.Professors.create({
+        username: "jeanpier",
+        password: "pw",
+        name: "JP",
+    }).then(()=> this.prof_id = prof_id );
+    
 });
 
 When("Username is {string}", function (username) {
@@ -101,6 +119,37 @@ When("logs in", async function () {
         });
 });
 
+
+When('Course code is {string} and course name is {string}', function (course_code, course_name) {
+    this.course_code = course_code;
+    this.course_name = course_name;
+});
+
+When('Course description is {string}', function (course_descr) {
+    this.course_descr = course_descr
+});
+
+When('Course credits is {float}', function (course_credits) {
+    this.course_credits = course_credits;
+});
+
+When("Course is created", async function () {
+   await request(app)
+        .post("/course")
+        .send({
+           course_code: this.course_code,
+           course_name: this.course_name,
+           course_descr: this.course_descr,
+           course_credits: this.course_descr,
+           profId: this.prof_id
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            console.log(res.body)
+        });
+});
+
 When("Get all students", async function () {
     await request(app)
         .get("/students/all")
@@ -127,8 +176,8 @@ Then("Operation was unsuccessful", function () {
     assert.strictEqual(this.response.status, 400);
 });
 
-Then("New user is added to the database", function () {
-    request(app)
+Then("New user is added to the database", async function () {
+    await request(app)
         .post(
             `/${this.endpoint}?username=${this.username}&password=${this.password}&name=${this.name}&type=${this.type}`
         )
