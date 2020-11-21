@@ -143,3 +143,15 @@ Then("New user is added to the database", function () {
             assert.fail;
         });
 });
+
+When('Student is deleted', async function () {
+    await request(app)
+        .post("/delete_student")
+        .send({
+            username: this.username,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        });
+});
