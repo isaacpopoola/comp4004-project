@@ -39,6 +39,15 @@ Before({ tags: "@createprof" }, async () => {
     });
 });
 
+Before({ tags: "@createcourse" }, async () => {
+    await db.Courses.create({
+        course_code: "COMP4004",
+        course_name: "Software Quality Assurance",
+        course_descr: "A very interesting course",
+        course_credits: "0.5",
+    });
+});
+
 After({ tags: "@wipetables" }, () => {
     Object.values(db.sequelize.models).map(function (model) {
         return model.destroy({ truncate: true, cascade: true, restartIdentity: true });
@@ -198,6 +207,26 @@ When('Student is deleted', async function () {
         .post("/delete_student")
         .send({
             username: this.username,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        });
+});
+
+When('Registration deadline is {string}', async function (reg_deadline) {
+    await db.Courses.update(
+        { course_registration_deadline: reg_deadline },
+        { where: { 'course_code' : this.course_code } }
+    );
+});
+
+When('Student registers for the course', async function () {
+    await request(app)
+        .post("/course_registration")
+        .send({
+            username: this.username,
+            course_code: this.course_code,
         })
         .then((res) => {
             this.response = {};
