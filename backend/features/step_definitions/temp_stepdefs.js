@@ -257,13 +257,15 @@ When('Student drops the course', async function () {
 Then('Operation was successful with final grade', async function () {
     assert.strictEqual(this.response.status, 200);
 
-    // let student_grade = await FinalGrade.findOne({ where: { student_id: student.id, course_code: course.course_code } });
-    // assert.notStrictEqual(student_grade, null)
+    let student = await db.Students.findOne({ where: { username: this.username } });
+    let student_grade = await db.FinalGrades.findOne({ where: { student_id: student.id, course_code: this.course_code } });
+    assert.notStrictEqual(student_grade, null)
 });
 
 Then('Operation was successful with no final grade', async function () {
     assert.strictEqual(this.response.status, 200);
 
-    // let student_grade = await FinalGrade.findOne({ where: { student_id: student.id, course_code: course.course_code } });
-    // assert.strictEqual(student_grade, null)
+    let student = await db.Students.findOne({ where: { username: this.username } });
+    let student_grade = await db.FinalGrades.findOne({ where: { student_id: student.id, course_code: this.course_code } });
+    assert.strictEqual(student_grade, null)
 });

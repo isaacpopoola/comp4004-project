@@ -5,7 +5,7 @@ const Students = require("../db/models").Students;
 const Courses = require("../db/models").Courses
 const DeliverableGrades = require("../db/models").DeliverableGrades
 const StudentRegisteredCourses = require("../db/models").StudentRegisteredCourses
-const FinalGrade = require("../db/models").FinalGrades
+const FinalGrades = require("../db/models").FinalGrades
 
 
 router.post("", async (req, res) => {
@@ -29,7 +29,7 @@ router.post("", async (req, res) => {
             // set final grade as withdrawn if past deadline
             if (today > course.course_drop_deadline) {
                 let final_grade = { student_id: student.id, course_code: course.course_code, status: "WITHDRAWN" };
-                FinalGrade.create(final_grade);
+                FinalGrades.create(final_grade);
             }
 
             return res.status(200).send({ message: "Student has been withdrawn from course" });
