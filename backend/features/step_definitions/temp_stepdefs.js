@@ -221,6 +221,13 @@ When('Registration deadline is {string}', async function (reg_deadline) {
     );
 });
 
+When('Drop deadline is {string}', async function (drop_deadline) {
+    await db.Courses.update(
+        { course_drop_deadline: drop_deadline },
+        { where: { 'course_code' : this.course_code } }
+    );
+});
+
 When('Student registers for the course', async function () {
     await request(app)
         .post("/course_registration")
@@ -232,4 +239,31 @@ When('Student registers for the course', async function () {
             this.response = {};
             this.response.status = res.status;
         });
+});
+
+When('Student drops the course', async function () {
+    await request(app)
+        .post("/drop_course")
+        .send({
+            username: this.username,
+            course_code: this.course_code,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        });
+});
+
+Then('Operation was successful with final grade', async function () {
+    assert.strictEqual(this.response.status, 200);
+
+    // let student_grade = await FinalGrade.findOne({ where: { student_id: student.id, course_code: course.course_code } });
+    // assert.notStrictEqual(student_grade, null)
+});
+
+Then('Operation was successful with no final grade', async function () {
+    assert.strictEqual(this.response.status, 200);
+
+    // let student_grade = await FinalGrade.findOne({ where: { student_id: student.id, course_code: course.course_code } });
+    // assert.strictEqual(student_grade, null)
 });
