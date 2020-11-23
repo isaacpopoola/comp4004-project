@@ -16,7 +16,7 @@ router.post("", async (req, res) => {
     let course = await Courses.findOne({ where: { course_code } });
 
     if (!student || !course) {
-        return res.status(400).send({ message: "Student does not exist" });
+        return res.status(400).send({ message: "Student or Course does not exist" });
     }
     else if (today > course.course_registration_deadline) {
         return res.status(400).send({ message: "Registration deadline has passed" });

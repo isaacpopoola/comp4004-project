@@ -4,6 +4,7 @@ const router = express.Router();
 const Students = require("../db/models").Students;
 const DeliverableGrades = require("../db/models").DeliverableGrades
 const FinalGrade = require("../db/models").FinalGrades
+const StudentRegisteredCourses = require("../db/models").StudentRegisteredCourses
 
 
 router.post("", async (req, res) => {
@@ -16,9 +17,11 @@ router.post("", async (req, res) => {
         }
         else {
             try {
-                DeliverableGrades.destroy({ where: { id: student.id } });
+                DeliverableGrades.destroy({ where: { student_id: student.id } });
         
-                FinalGrade.destroy({ where: { id: student.id } });
+                FinalGrade.destroy({ where: { student_id: student.id } });
+
+                StudentRegisteredCourses.destroy({ where: { student_id: student.id } });
         
                 Students.destroy({ where: { id: student.id } });
 
