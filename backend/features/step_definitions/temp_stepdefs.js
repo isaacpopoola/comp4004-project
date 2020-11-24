@@ -269,3 +269,15 @@ Then('Operation was successful with no final grade', async function () {
     let student_grade = await db.FinalGrades.findOne({ where: { student_id: student.id, course_code: this.course_code } });
     assert.strictEqual(student_grade, null)
 });
+
+When('Admin cancels the course', async function () {
+    await request(app)
+        .post("/cancel_course")
+        .send({
+            course_code: this.course_code,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        });
+});

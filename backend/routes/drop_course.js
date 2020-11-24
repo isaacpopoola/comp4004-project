@@ -35,7 +35,7 @@ router.post("", async (req, res) => {
             return res.status(200).send({ message: "Student has been withdrawn from course" });
         }
         catch {       
-            return res.status(600).send({ message: "Error dropping course" });
+            return res.status(400).send({ message: "Error dropping course" });
         }
     }
 });
