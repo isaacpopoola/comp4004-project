@@ -50,7 +50,11 @@ Before({ tags: "@createcourse" }, async () => {
 
 After({ tags: "@wipetables" }, () => {
     Object.values(db.sequelize.models).map(function (model) {
-        return model.destroy({ truncate: true, cascade: true, restartIdentity: true });
+        return model.destroy({
+            truncate: true,
+            cascade: true,
+            restartIdentity: true,
+        });
     });
 });
 
@@ -68,8 +72,8 @@ Given("Express Server is running and address is {string}", function (address) {
         });
 });
 
-When("Student {string} exists", function (string) {
-    db.Students.create({
+When("Student {string} exists", async function (string) {
+    await db.Students.create({
         username: "ryanduan",
         password: "pw",
         name: "Ryan Duan",
@@ -77,21 +81,21 @@ When("Student {string} exists", function (string) {
     });
 });
 
-When("Administrator {string} exists", function (string) {
-    db.Administrators.create({
+When("Administrator {string} exists", async function (string) {
+    await db.Administrators.create({
         username: "admin",
         password: "admin",
     });
 });
 
-When("Professor {int} exists", function (prof_id) {
+When("Professor {int} exists", async function (prof_id) {
     console.log("CREATING PROF");
-    db.Professors.create({
+    await db.Professors.create({
         username: "jeanpier",
         password: "pw",
         name: "JP",
-    }).then(()=> this.prof_id = prof_id );
-    
+    });
+    this.prof_id = prof_id;
 });
 
 When("Username is {string}", function (username) {
@@ -128,34 +132,36 @@ When("logs in", async function () {
         });
 });
 
+When(
+    "Course code is {string} and course name is {string}",
+    function (course_code, course_name) {
+        this.course_code = course_code;
+        this.course_name = course_name;
+    }
+);
 
-When('Course code is {string} and course name is {string}', function (course_code, course_name) {
-    this.course_code = course_code;
-    this.course_name = course_name;
+When("Course description is {string}", function (course_descr) {
+    this.course_descr = course_descr;
 });
 
-When('Course description is {string}', function (course_descr) {
-    this.course_descr = course_descr
-});
-
-When('Course credits is {float}', function (course_credits) {
+When("Course credits is {float}", function (course_credits) {
     this.course_credits = course_credits;
 });
 
 When("Course is created", async function () {
-   await request(app)
+    await request(app)
         .post("/course")
         .send({
-           course_code: this.course_code,
-           course_name: this.course_name,
-           course_descr: this.course_descr,
-           course_credits: this.course_descr,
-           profId: this.prof_id
+            course_code: this.course_code,
+            course_name: this.course_name,
+            course_descr: this.course_descr,
+            course_credits: this.course_descr,
+            profId: this.prof_id,
         })
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log(res.body)
+            console.log(res.body);
         });
 });
 
@@ -202,7 +208,7 @@ Then("New user is added to the database", async function () {
         });
 });
 
-When('Student is deleted', async function () {
+When("Student is deleted", async function () {
     await request(app)
         .post("/delete_student")
         .send({
@@ -214,21 +220,21 @@ When('Student is deleted', async function () {
         });
 });
 
-When('Registration deadline is {string}', async function (reg_deadline) {
+When("Registration deadline is {string}", async function (reg_deadline) {
     await db.Courses.update(
         { course_registration_deadline: reg_deadline },
-        { where: { 'course_code' : this.course_code } }
+        { where: { course_code: this.course_code } }
     );
 });
 
-When('Drop deadline is {string}', async function (drop_deadline) {
+When("Drop deadline is {string}", async function (drop_deadline) {
     await db.Courses.update(
         { course_drop_deadline: drop_deadline },
-        { where: { 'course_code' : this.course_code } }
+        { where: { course_code: this.course_code } }
     );
 });
 
-When('Student registers for the course', async function () {
+When("Student registers for the course", async function () {
     await request(app)
         .post("/course_registration")
         .send({
@@ -241,7 +247,7 @@ When('Student registers for the course', async function () {
         });
 });
 
-When('Student drops the course', async function () {
+When("Student drops the course", async function () {
     await request(app)
         .post("/drop_course")
         .send({
@@ -254,23 +260,31 @@ When('Student drops the course', async function () {
         });
 });
 
-Then('Operation was successful with final grade', async function () {
+Then("Operation was successful with final grade", async function () {
     assert.strictEqual(this.response.status, 200);
 
-    let student = await db.Students.findOne({ where: { username: this.username } });
-    let student_grade = await db.FinalGrades.findOne({ where: { student_id: student.id, course_code: this.course_code } });
-    assert.notStrictEqual(student_grade, null)
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+    let student_grade = await db.FinalGrades.findOne({
+        where: { student_id: student.id, course_code: this.course_code },
+    });
+    assert.notStrictEqual(student_grade, null);
 });
 
-Then('Operation was successful with no final grade', async function () {
+Then("Operation was successful with no final grade", async function () {
     assert.strictEqual(this.response.status, 200);
 
-    let student = await db.Students.findOne({ where: { username: this.username } });
-    let student_grade = await db.FinalGrades.findOne({ where: { student_id: student.id, course_code: this.course_code } });
-    assert.strictEqual(student_grade, null)
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+    let student_grade = await db.FinalGrades.findOne({
+        where: { student_id: student.id, course_code: this.course_code },
+    });
+    assert.strictEqual(student_grade, null);
 });
 
-When('Admin cancels the course', async function () {
+When("Admin cancels the course", async function () {
     await request(app)
         .post("/cancel_course")
         .send({
