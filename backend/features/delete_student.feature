@@ -1,7 +1,7 @@
 Feature: Admin deleting Students
     This endpoint should allow admins to delete students and all their records
 	
-    @createstudent 
+    @createstudent @wipetables
 	Scenario Outline: Delete Student
         Given Express Server is running and address is <address>
         When Username is <username>
@@ -12,7 +12,6 @@ Feature: Admin deleting Students
         | username      | address           |
         | "ryanduan"    | "localhost:8080"  |
 
-    # @wipetables
 	Scenario Outline: Fail to Delete Student
         Given Express Server is running and address is <address>
         When Username is <username>
