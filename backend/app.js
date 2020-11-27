@@ -38,8 +38,28 @@ sequelize.authenticate().then(
 // db.sequelize.sync({ force: false }).then(() => {
 //     console.log("Drop and re-sync db.");
 // });
+// db.Courses.sync({ force: true}).then(() => {
+//     db.Students.sync({ force: true}).then(() => {
+//         db.Professors.sync({ force: true}).then(() => {
+//             db.Administrators.sync({ force: true}).then();
 
-db.Courses.sync({ force: true }).then(() => {
+//             db.Deliverables.sync({ force: true}).then(() => {
+//                 db.DeliverableGrades.sync({ force: true}).then();
+//             });
+            
+//             db.FinalGrades.sync({ force: true}).then();
+            
+//             db.ProfessorAssignedCourses.sync({ force: true}).then();
+            
+//             db.StudentRegisteredCourses.sync({ force: true}).then();
+//         });
+
+//     });
+
+// });
+
+
+db.Courses.sync({ force: true }).then(() => { 
     db.Students.sync({ force: true }).then(() => {
         db.FinalGrades.sync({ force: true }).then(() => {
             db.Deliverables.sync({ force: true }).then(() => {
@@ -62,6 +82,7 @@ db.Courses.sync({ force: true }).then(() => {
         });
     });
 });
+
 
 /* ROUTES */
 app.use(router);
