@@ -311,8 +311,8 @@ When("Course has {int} students registered", async function (reg_count) {
 When("Student registers for the course", async function () {
     await request(app)
         .post("/course_registration")
+        .set("Cookie", [`username=${this.username}`])
         .send({
-            username: this.username,
             course_code: this.course_code,
         })
         .then((res) => {
@@ -324,8 +324,8 @@ When("Student registers for the course", async function () {
 When("Student drops the course", async function () {
     await request(app)
         .post("/drop_course")
+        .set("Cookie", [`username=${this.username}`])
         .send({
-            username: this.username,
             course_code: this.course_code,
         })
         .then((res) => {

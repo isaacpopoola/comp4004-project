@@ -4,6 +4,8 @@ import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
 import CoursesTable from "./CoursesTable.component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { Layout, Menu, Breadcrumb, Modal, Form, Input, Button } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
@@ -94,6 +96,7 @@ class LandingPage extends Component {
                     signinmodal={signinmodal}
                     handleSignIn={this.handleSignIn}
                 />
+                <ToastContainer autoClose={1300} />
             </>
         );
     }

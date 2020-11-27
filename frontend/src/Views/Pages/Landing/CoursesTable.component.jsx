@@ -57,16 +57,31 @@ class CoursesTable extends Component {
                     key='enroll'
                     render={(text, record) => (
                         <Space size='middle'>
-                            <a>Enroll</a>
+                            <a
+                                onClick={() => {
+                                    this.props.enrollInClass(
+                                        record.course_code
+                                    );
+                                }}
+                            >
+                                Enroll
+                            </a>
                         </Space>
                     )}
                 />
                 <Column
                     title='Drop'
-                    key='action'
+                    dataIndex='drop'
+                    key='drop'
                     render={(text, record) => (
                         <Space size='middle'>
-                            <a>Drop course</a>
+                            <a
+                                onClick={() => {
+                                    this.props.dropClass(record.course_code);
+                                }}
+                            >
+                                Drop
+                            </a>
                         </Space>
                     )}
                 />
