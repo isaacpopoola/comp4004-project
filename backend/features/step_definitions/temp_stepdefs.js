@@ -6,6 +6,8 @@ const {
     setDefaultTimeout,
     Before,
     After,
+    BeforeAll,
+    AfterAll,
 } = require("cucumber");
 
 setDefaultTimeout(10000);
@@ -14,6 +16,30 @@ const app = require("../../test-app");
 const request = require("supertest");
 
 const db = require("../../db/models");
+
+BeforeAll(() => {
+    db.Courses.sync().then(() => {
+        db.Students.sync().then(() => {
+            db.FinalGrades.sync().then(() => {
+                db.Deliverables.sync().then(() => {
+                    db.DeliverableGrades.sync().then(() => {
+                        db.Professors.sync().then(() => {
+                            db.ProfessorAssignedCourses.sync({}).then(() => {
+                                db.StudentRegisteredCourses.sync({}).then(
+                                    () => {
+                                        db.Administrators.sync(
+                                            {}
+                                        ).then(() => {});
+                                    }
+                                );
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
 
 Before({ tags: "@createadmin" }, async () => {
     await db.Administrators.create({
@@ -27,6 +53,25 @@ Before({ tags: "@createstudent" }, async () => {
         username: "ryanduan",
         password: "pw",
         gpa: 12.0,
+        name: "Ryan Duan",
+    });
+});
+
+Before({ tags: "@createunavailablecourse" }, async () => {
+    await db.Courses.create({
+        course_code: 100,
+        course_name: "COMP4004",
+        registered_students: 50,
+        course_student_limit: 50,
+        course_descr: "Hello hi",
+        course_credits: 0.5,
+    });
+});
+
+Before({ tags: "@createprof" }, async () => {
+    await db.Professors.create({
+        username: "ryanduan",
+        password: "pw",
         name: "Ryan Duan",
     });
 });
@@ -73,6 +118,16 @@ Given("Express Server is running and address is {string}", function (address) {
         })
         .catch((err) => {
             assert.fail;
+        });
+});
+
+When("Get all courses", async function () {
+    await request(app)
+        .get("/course/available")
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.courses = res.body.courses;
         });
 });
 
@@ -187,6 +242,14 @@ Then("Return empty list of students", function () {
     assert.strictEqual(this.response.students.length, 0);
 });
 
+Then("Return list of courses", function () {
+    assert.strictEqual(this.response.courses.length, 1);
+});
+
+Then("Return empty list of courses", function () {
+    assert.strictEqual(this.response.courses.length, 0);
+});
+
 Then("Operation was successful", function () {
     assert.strictEqual(this.response.status, 200);
 });
@@ -238,7 +301,7 @@ When("Drop deadline is {string}", async function (drop_deadline) {
     );
 });
 
-When('Course has {int} students registered', async function (reg_count) {
+When("Course has {int} students registered", async function (reg_count) {
     await db.Courses.update(
         { registered_students: reg_count },
         { where: { course_code: this.course_code } }
