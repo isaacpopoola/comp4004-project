@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
+import CoursesTable from "./CoursesTable.component";
 
 import { Layout, Menu, Breadcrumb, Modal, Form, Input, Button } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
@@ -81,6 +82,7 @@ class LandingPage extends Component {
                             >
                                 Bill is a cat.
                             </div>
+                            <CoursesTable />
                         </Content>
                         <Footer style={{ textAlign: "center" }}>
                             Ant Design ©2018 Created by Ant UED

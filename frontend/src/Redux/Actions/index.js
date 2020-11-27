@@ -10,3 +10,17 @@ export const attemptLogin = (body) => async (dispatch) => {
     }
     return Promise.resolve();
 };
+
+export const fetchAllCourses = () => async (dispatch) => {
+    const response = await api.fetchAllCourses();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_ALL_COURSES_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_ALL_COURSES_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
+};

@@ -10,6 +10,8 @@ const api = {
         ApiInstance.post("/login", { ...body, type: "Student" }).catch(
             (err) => err.response
         ),
+    fetchAllCourses: () =>
+        ApiInstance.get("/courses/available").catch((err) => err.response),
 };
 
 export default api;
