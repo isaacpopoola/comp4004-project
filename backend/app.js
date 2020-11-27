@@ -56,8 +56,6 @@ sequelize.authenticate().then(
 
 //     });
 
-// });
-
 
 db.Courses.sync({ force: true }).then(() => { 
     db.Students.sync({ force: true }).then(() => {

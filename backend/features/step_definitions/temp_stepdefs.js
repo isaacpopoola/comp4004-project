@@ -220,7 +220,6 @@ When("Course is created", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log(res.body);
         });
 });
 

@@ -10,3 +10,34 @@ export const attemptLogin = (body) => async (dispatch) => {
     }
     return Promise.resolve();
 };
+
+export const fetchStudents = () => async (dispatch) => {
+    const response = await api.getStudents();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_STUDENTS_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_STUDENTS_SUCCESS",
+            payload: response.data.students,
+        });
+    }
+    return Promise.resolve();
+};
+
+export const deleteStudentByUsername = (username) => async (dispatch) => {
+    const response = await api.deleteStudentByUsername(username);
+
+    if (response.status >= 400) {
+        dispatch({
+            type: "DELETE_STUDENT_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "DELETE_STUDENT_SUCCESS",
+            payload: username,
+        });
+    }
+    return Promise.resolve();
+};

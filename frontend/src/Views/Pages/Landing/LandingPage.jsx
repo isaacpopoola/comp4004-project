@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
+import StudentsTable from "./StudentsTable/StudentsTable.component";
 
 import { menus, views } from "./views";
 
@@ -81,13 +82,14 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            <Breadcrumb style={{ margin: "16px 0" }}>
+                            {/* <Breadcrumb style={{ margin: "16px 0" }}>
                                 <Breadcrumb.Item>User</Breadcrumb.Item>
                                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                            </Breadcrumb>
-              
-                            {views["Admin"][this.state.currentview]} {/**TODO: change "Admin" to a user type variable */}
 
+                            </Breadcrumb> */}
+                                          
+                            {views["Admin"][this.state.currentview]} {/**TODO: change "Admin" to a user type variable */}
+                            <StudentsTable />
                         </Content>
                         <Footer style={{ textAlign: "center" }}>
                             Ant Design ©2018 Created by Ant UED

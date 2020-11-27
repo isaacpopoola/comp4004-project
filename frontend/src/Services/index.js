@@ -10,6 +10,12 @@ const api = {
         ApiInstance.post("/login", { ...body, type: "Student" }).catch(
             (err) => err.response
         ),
+    getStudents: () =>
+        ApiInstance.get("/students/all").catch((err) => err.response),
+    deleteStudentByUsername: (username) =>
+        ApiInstance.post("/delete_student", { username }).catch(
+            (err) => err.response
+        ),
 };
 
 export default api;
