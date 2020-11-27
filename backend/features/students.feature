@@ -13,12 +13,12 @@ Feature: Register a Student and Professor
     | address          | username |
     | "localhost:8080" | "ryanduan" |
 
-    # Scenario Outline: Get all students returns empty list of students
-    #     Given Express Server is running and address is <address>
-    #     When Get all students
-    #     Then Operation was successful
-    #     Then Return empty list of students
+    Scenario Outline: Get all students returns empty list of students
+        Given Express Server is running and address is <address>
+        When Get all students
+        Then Operation was successful
+        Then Return empty list of students
 
-    # Examples:
-    # | address          | 
-    # | "localhost:8080" | 
+    Examples:
+    | address          | 
+    | "localhost:8080" | 
