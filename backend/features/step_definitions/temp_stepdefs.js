@@ -44,7 +44,11 @@ Before({ tags: "@createcourse" }, async () => {
         course_code: "COMP4004",
         course_name: "Software Quality Assurance",
         course_descr: "A very interesting course",
-        course_credits: "0.5",
+        course_credits: 0.5,
+        course_student_limit: 1,
+        registered_students: 0,
+        course_registration_deadline: "2020/12/25",
+        course_drop_deadline: "2020/12/25",
     });
 });
 
@@ -234,6 +238,13 @@ When("Drop deadline is {string}", async function (drop_deadline) {
     );
 });
 
+When('Course has {int} students registered', async function (reg_count) {
+    await db.Courses.update(
+        { registered_students: reg_count },
+        { where: { course_code: this.course_code } }
+    );
+});
+
 When("Student registers for the course", async function () {
     await request(app)
         .post("/course_registration")
@@ -270,6 +281,12 @@ Then("Operation was successful with final grade", async function () {
         where: { student_id: student.id, course_code: this.course_code },
     });
     assert.notStrictEqual(student_grade, null);
+
+    let course = await db.Courses.findOne({
+        where: { course_code: this.course_code },
+    });
+
+    assert.strictEqual(course.registered_students, 0);
 });
 
 Then("Operation was successful with no final grade", async function () {
@@ -282,6 +299,12 @@ Then("Operation was successful with no final grade", async function () {
         where: { student_id: student.id, course_code: this.course_code },
     });
     assert.strictEqual(student_grade, null);
+
+    let course = await db.Courses.findOne({
+        where: { course_code: this.course_code },
+    });
+
+    assert.strictEqual(course.registered_students, 0);
 });
 
 When("Admin cancels the course", async function () {
