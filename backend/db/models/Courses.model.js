@@ -28,6 +28,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    registered_students: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     course_credits: {
       type: DataTypes.DOUBLE,
       allowNull: false

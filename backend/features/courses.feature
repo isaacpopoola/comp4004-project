@@ -54,3 +54,24 @@ Feature: Create Courses and Assign Professor
     Examples:
     | address          | course_code   | course_name                  | course_descr                | credits | prof_id |
     | "localhost:8080" | "COMP4004"    | "Software Quality Assurance" | "A very interesting course" | 0.5     | 2       |
+
+    @wipetables @createcourse
+    Scenario Outline: Get all available courses returns list of courses if more than 0 courses are available
+        Given Express Server is running and address is <address>
+        When Get all courses
+        Then Return list of courses
+        Then Operation was successful
+Examples:
+    |address|
+    | "localhost:8080" |
+
+
+    @wipetables @createunavailablecourse
+    Scenario Outline: Get all available courses returns empty list of courses if 0 courses are available
+        Given Express Server is running and address is <address>
+        When Get all courses
+        Then Return empty list of courses
+        Then Operation was successful
+Examples:
+        |address|
+    | "localhost:8080" |

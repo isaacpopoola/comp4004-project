@@ -25,16 +25,20 @@ router.post("", async (req, res) => {
             // delete course records
             DeliverableGrades.destroy({ where: { student_id: student.id, course_code: course.course_code } });
             StudentRegisteredCourses.destroy({ where: { student_id: student.id, course_code: course.course_code } });
+            Courses.update(
+                { registered_students: course.registered_students - 1 },
+                { where: { course_code: course.course_code } }
+            );
 
             // set final grade as withdrawn if past deadline
-            if (today > course.course_drop_deadline) {
+            if (course.course_drop_deadline && today > course.course_drop_deadline) {
                 let final_grade = { student_id: student.id, course_code: course.course_code, status: "WITHDRAWN" };
                 FinalGrades.create(final_grade);
             }
 
             return res.status(200).send({ message: "Student has been withdrawn from course" });
         }
-        catch {       
+        catch {
             return res.status(400).send({ message: "Error dropping course" });
         }
     }

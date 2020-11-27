@@ -9,29 +9,29 @@ const StudentRegisteredCourses = require("../db/models").StudentRegisteredCourse
 
 router.post("", async (req, res) => {
 
-    let username = req.body.username;
-    Students.findOne({ where: { 'username' : username } })
-    .then(student => {
-        if (!student) {
-            return res.status(400).send({ message: "Student does not exist" });
-        }
-        else {
-            try {
-                DeliverableGrades.destroy({ where: { student_id: student.id } });
-        
-                FinalGrade.destroy({ where: { student_id: student.id } });
+    const { username } = req.body;
 
-                StudentRegisteredCourses.destroy({ where: { student_id: student.id } });
-        
-                Students.destroy({ where: { id: student.id } });
+    let student = await Students.findOne({ where: { username } });
 
-                return res.status(200).send({ message: "Student deleted successfully" });
-            }
-            catch {       
-                return res.status(400).send({ message: "Error deleting student" });
-            }
+    if (!student) {
+        return res.status(400).send({ message: "Student does not exist" });
+    }
+    else {
+        try {
+            DeliverableGrades.destroy({ where: { student_id: student.id } });
+    
+            FinalGrade.destroy({ where: { student_id: student.id } });
+
+            StudentRegisteredCourses.destroy({ where: { student_id: student.id } });
+    
+            Students.destroy({ where: { id: student.id } });
         }
-    });
+        catch {       
+            return res.status(400).send({ message: "Error deleting student" });
+        }
+    }
+
+    return res.status(200).send({ message: "Student deleted successfully" });
 
 });
 
