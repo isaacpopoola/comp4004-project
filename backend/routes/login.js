@@ -19,7 +19,7 @@ router.post("", async (req, res) => {
         type = "Admin"
     }
 
-    console.log(user);
+    // console.log(user);
 
     // switch (type) {
     //     case "Student":

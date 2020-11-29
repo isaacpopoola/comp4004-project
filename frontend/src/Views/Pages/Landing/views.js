@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-
+import StudentsTable from "./StudentsTable/StudentsTable.component";
 import { Layout, Menu, Breadcrumb, Modal, Form, Input, Button } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+
 
 export const menus = {
     "Student": <>
@@ -34,6 +35,8 @@ export const views = {
         </div>,
         "students": <div>
             Students
+           
+            <StudentsTable />
         </div>
     }
 }

@@ -41,3 +41,21 @@ export const deleteStudentByUsername = (username) => async (dispatch) => {
     }
     return Promise.resolve();
 };
+
+export const createStudent = ({ name, username, password }) => async (dispatch) => {
+    const response = await api.deleteStudentByUsername({name, username, password, });
+
+    if (response.status >= 400) {
+        dispatch({
+            type: "CREATE_STUDENT_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "CREATE_STUDENT_SUCCESS",
+            payload: username,
+        });
+    }
+    return Promise.resolve();
+};
+

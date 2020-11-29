@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
-import StudentsTable from "./StudentsTable/StudentsTable.component";
+// import StudentsTable from "./StudentsTable/StudentsTable.component";
 
 import { menus, views } from "./views";
 
@@ -89,7 +89,7 @@ class LandingPage extends Component {
                             </Breadcrumb> */}
                                           
                             {views["Admin"][this.state.currentview]} {/**TODO: change "Admin" to a user type variable */}
-                            <StudentsTable />
+                            {/* <StudentsTable /> */}
                         </Content>
                         <Footer style={{ textAlign: "center" }}>
                             Ant Design ©2018 Created by Ant UED
