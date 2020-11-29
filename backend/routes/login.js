@@ -5,23 +5,30 @@ const Students = require("../db/models").Students;
 const Administrators = require("../db/models").Administrators;
 
 router.post("", async (req, res) => {
-    const { username, password, type } = req.body;
+    const { username, password } = req.body;
 
-    if (!username || !password || !type)
+    if (!username || !password)
         return res.status(400).send({
             message: "Missing username, password, or type",
         });
 
-    let user;
-
-    switch (type) {
-        case "Student":
-            user = await Students.findOne({ where: { username } });
-            break;
-        case "Administrator":
-            user = await Administrators.findOne({ where: { username } });
-            break;
+    var  user = await Students.findOne({ where: { username } });;
+    var type = "Student"
+    if (!user) {
+        user = await Administrators.findOne({ where: { username } });
+        type = "Admin"
     }
+
+    // console.log(user);
+
+    // switch (type) {
+    //     case "Student":
+    //         user = await Students.findOne({ where: { username } });
+    //         break;
+    //     case "Administrator":
+    //         user = await Administrators.findOne({ where: { username } });
+    //         break;
+    // }
 
     if (!user) return res.status(400).send({ message: "User does not exist" });
     else {
