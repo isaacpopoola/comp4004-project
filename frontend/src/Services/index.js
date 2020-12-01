@@ -21,6 +21,20 @@ const api = {
         ApiInstance.post("/drop_course", { course_code: courseCode }).catch(
             (err) => err.response
         ),
+    getStudents: () =>
+        ApiInstance.get("/students/all").catch((err) => err.response),
+    deleteStudentByUsername: (username) =>
+        ApiInstance.post("/delete_student", { username }).catch(
+            (err) => err.response
+        ),
+    createStudent: ({ username, password, name }) => {
+        ApiInstance.post("/register", {
+            username,
+            password,
+            name,
+            type: "Student",
+        }).catch((err) => err.response);
+    },
 };
 
 export default api;

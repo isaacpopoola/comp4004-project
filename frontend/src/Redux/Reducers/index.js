@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { login } from "./login";
-import { courses } from "./courses";
+import { students } from "./students";
 
-const rootReducer = combineReducers({ login, courses });
+const rootReducer = combineReducers({ login, students });
 
 export default rootReducer;

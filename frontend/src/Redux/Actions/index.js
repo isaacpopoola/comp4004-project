@@ -12,6 +12,20 @@ export const attemptLogin = (body) => async (dispatch) => {
     return Promise.resolve();
 };
 
+export const fetchStudents = () => async (dispatch) => {
+    const response = await api.getStudents();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_STUDENTS_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_STUDENTS_SUCCESS",
+            payload: response.data.students,
+        });
+    }
+    return Promise.resolve();
+};
+
 export const fetchAllCourses = () => async (dispatch) => {
     const response = await api.fetchAllCourses();
 
@@ -23,7 +37,6 @@ export const fetchAllCourses = () => async (dispatch) => {
             payload: response.data.courses,
         });
     }
-    return Promise.resolve();
 };
 
 export const enrollInClass = (courseCode) => async (dispatch) => {
@@ -36,6 +49,45 @@ export const enrollInClass = (courseCode) => async (dispatch) => {
         dispatch({
             type: "ENROLL_CLASS_SUCCESS",
             payload: response.data.courses,
+        });
+    }
+};
+
+export const deleteStudentByUsername = (username) => async (dispatch) => {
+    const response = await api.deleteStudentByUsername(username);
+
+    if (response.status >= 400) {
+        dispatch({
+            type: "DELETE_STUDENT_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "DELETE_STUDENT_SUCCESS",
+            payload: username,
+        });
+    }
+    return Promise.resolve();
+};
+
+export const createStudent = ({ name, username, password }) => async (
+    dispatch
+) => {
+    const response = await api.deleteStudentByUsername({
+        name,
+        username,
+        password,
+    });
+
+    if (response.status >= 400) {
+        dispatch({
+            type: "CREATE_STUDENT_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "CREATE_STUDENT_SUCCESS",
+            payload: username,
         });
     }
     return Promise.resolve();
@@ -53,5 +105,4 @@ export const dropClass = (courseCode) => async (dispatch) => {
             payload: response.data.courses,
         });
     }
-    return Promise.resolve();
 };

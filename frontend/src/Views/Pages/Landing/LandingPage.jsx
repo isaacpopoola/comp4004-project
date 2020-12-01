@@ -6,6 +6,9 @@ import SignInModal from "./SignInModal/Modal.component";
 import CoursesTable from "./CoursesTable.component";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import StudentsTable from "./StudentsTable/StudentsTable.component";
+
+import { menus, views } from "./views";
 
 import { Layout, Menu, Breadcrumb, Modal, Form, Input, Button } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
@@ -18,6 +21,7 @@ class LandingPage extends Component {
             redirect: false,
             collapsed: false,
             signinmodal: true,
+            currentview: "home",
         };
     }
 
@@ -32,9 +36,25 @@ class LandingPage extends Component {
         this.setState({ signinmodal: !this.state.signinmodal });
     };
 
+    menuItemClick = ({ item, key }) => {
+        switch (key) {
+            case "1":
+                this.setState({ currentview: "home" });
+                break;
+            case "2":
+                this.setState({ currentview: "courses" });
+                break;
+            case "3":
+                this.setState({ currentview: "students" });
+                break;
+            default:
+                break;
+        }
+    };
+
     render() {
         const { collapsed, signinmodal } = this.state;
-
+        console.log(this.state.currentview);
         return (
             <>
                 <Layout style={{ minHeight: "100vh" }}>
@@ -48,19 +68,10 @@ class LandingPage extends Component {
                             theme='dark'
                             defaultSelectedKeys={["1"]}
                             mode='inline'
+                            onSelect={this.menuItemClick}
                         >
-                            <Menu.Item key='1'>Option 1</Menu.Item>
-                            <Menu.Item key='2'>Option 2</Menu.Item>
-                            <SubMenu key='sub1' title='User'>
-                                <Menu.Item key='3'>Tom</Menu.Item>
-                                <Menu.Item key='4'>Bill</Menu.Item>
-                                <Menu.Item key='5'>Alex</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key='sub2' title='Team'>
-                                <Menu.Item key='6'>Team 1</Menu.Item>
-                                <Menu.Item key='8'>Team 2</Menu.Item>
-                            </SubMenu>
-                            <Menu.Item key='9'>Files</Menu.Item>
+                            {menus["Admin"]}{" "}
+                            {/**TODO: change "Admin" to a user type variable */}
                         </Menu>
                     </Sider>
                     <Layout className='site-layout'>
@@ -74,17 +85,14 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            <Breadcrumb style={{ margin: "16px 0" }}>
+                            {/* <Breadcrumb style={{ margin: "16px 0" }}>
                                 <Breadcrumb.Item>User</Breadcrumb.Item>
                                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                            </Breadcrumb>
-                            <div
-                                className='site-layout-background'
-                                style={{ padding: 24, minHeight: 360 }}
-                            >
-                                Bill is a cat.
-                            </div>
-                            <CoursesTable />
+
+                            </Breadcrumb> */}
+                            {views["Admin"][this.state.currentview]}{" "}
+                            {/**TODO: change "Admin" to a user type variable */}
+                            {/* <StudentsTable /> */}
                         </Content>
                         <Footer style={{ textAlign: "center" }}>
                             Ant Design ©2018 Created by Ant UED
