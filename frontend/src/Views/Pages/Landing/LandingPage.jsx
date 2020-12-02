@@ -54,7 +54,6 @@ class LandingPage extends Component {
 
     render() {
         const { collapsed, signinmodal } = this.state;
-        console.log(this.state.currentview);
         return (
             <>
                 <Layout style={{ minHeight: "100vh" }}>
@@ -94,9 +93,6 @@ class LandingPage extends Component {
                             {/**TODO: change "Admin" to a user type variable */}
                             {/* <StudentsTable /> */}
                         </Content>
-                        <Footer style={{ textAlign: "center" }}>
-                            Ant Design ©2018 Created by Ant UED
-                        </Footer>
                     </Layout>
                 </Layout>
 
@@ -104,7 +100,7 @@ class LandingPage extends Component {
                     signinmodal={signinmodal}
                     handleSignIn={this.handleSignIn}
                 />
-                <ToastContainer autoClose={1300} />
+                <ToastContainer />
             </>
         );
     }

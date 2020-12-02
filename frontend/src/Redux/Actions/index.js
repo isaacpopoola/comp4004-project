@@ -66,6 +66,7 @@ export const deleteStudentByUsername = (username) => async (dispatch) => {
             type: "DELETE_STUDENT_SUCCESS",
             payload: username,
         });
+        toast.success(`Studednt ${username} successfully deleted`);
     }
     return Promise.resolve();
 };
