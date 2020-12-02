@@ -10,7 +10,7 @@ const FinalGrades = require("../db/models").FinalGrades;
 
 router.post("", async (req, res) => {
     let today = new Date();
-    const username = req.headers.cookie.split("=")[1];
+    const username = req.cookies.username;
 
     const { course_code } = req.body;
 

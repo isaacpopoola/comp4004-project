@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const Sequelize = require("sequelize");
 
@@ -13,6 +14,7 @@ const router = require("./routes");
 const API_PORT = process.env.API_PORT || 8080;
 
 /* MIDDLEWARE */
+app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

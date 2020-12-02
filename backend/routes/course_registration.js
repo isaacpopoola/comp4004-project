@@ -7,7 +7,7 @@ const StudentRegisteredCourses = require("../db/models")
     .StudentRegisteredCourses;
 
 router.post("", async (req, res) => {
-    const username = req.headers.cookie.split("=")[1];
+    const username = req.cookies.username;
     const { course_code } = req.body;
 
     let today = new Date();

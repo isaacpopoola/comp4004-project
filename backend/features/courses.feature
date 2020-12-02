@@ -75,3 +75,41 @@ Examples:
 Examples:
         |address|
     | "localhost:8080" |
+
+    @enrollCOMP3000 @wipetables @createstudent
+    Scenario Outline: Get all ryanduan's enrolled classes returns non-empty list of courses
+        Given Express Server is running and address is <address>
+        When Get enrolled courses for <username>
+        Then Return list of courses
+        Then Operation was successful
+        Examples:
+        |address           | username   |
+        | "localhost:8080" | "ryanduan" |
+
+    @wipetables @createstudent
+    Scenario Outline: Get all ryanduan's enrolled classes returns empty list of courses
+        Given Express Server is running and address is <address>
+        When Get enrolled courses for <username>
+        Then Return empty list of courses
+        Then Operation was successful
+        Examples:
+        |address           | username   |
+        | "localhost:8080" | "ryanduan" |
+    
+        @wipetables @createstudent
+    Scenario Outline: Get all ryanduan's enrolled classes returns 400 if no username
+        Given Express Server is running and address is <address>
+        When Get enrolled courses for <username>
+        Then Operation was unsuccessful
+        Examples:
+        |address           | username   |
+        | "localhost:8080" | "" |
+
+        @wipetables @createstudent
+    Scenario Outline: Get all ryanduan's enrolled classes returns 400 if user does not exist
+        Given Express Server is running and address is <address>
+        When Get enrolled courses for <username>
+        Then Operation was unsuccessful
+        Examples:
+        |address           | username   |
+        | "localhost:8080" | "harrypotter" |

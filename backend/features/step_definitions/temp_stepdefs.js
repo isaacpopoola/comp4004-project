@@ -48,6 +48,13 @@ Before({ tags: "@createadmin" }, async () => {
     });
 });
 
+Before({ tags: "@enrollCOMP3000" }, async () => {
+    await db.StudentRegisteredCourses.create({
+        student_id: 1,
+        course_code: "COMP3000",
+    });
+});
+
 Before({ tags: "@createstudent" }, async () => {
     await db.Students.create({
         username: "ryanduan",
@@ -317,6 +324,17 @@ When("Student registers for the course", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
+        });
+});
+
+When("Get enrolled courses for {string}", async function (username) {
+    await request(app)
+        .get("/course/me")
+        .set("Cookie", [`username=${username}`])
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.courses = res.body.courses;
         });
 });
 
