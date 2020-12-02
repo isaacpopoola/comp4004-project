@@ -83,8 +83,6 @@ router.get("/available", async (req, res) => {
                 },
             },
         });
-        console.log("XXX");
-        console.log(courses);
         return res.status(200).send({ courses });
     } catch {
         return res

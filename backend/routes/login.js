@@ -33,7 +33,7 @@ router.post("", async (req, res) => {
     if (!user) return res.status(400).send({ message: "User does not exist" });
     else {
         if (password === user.password) {
-            return res.status(200).send({ id: user.id, type });
+            return res.status(200).send({ username: user.username, type });
         } else {
             return res.status(400).send({ message: "Incorrect password" });
         }

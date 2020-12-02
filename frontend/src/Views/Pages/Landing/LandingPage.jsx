@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
+import CoursesTable from "./CoursesTable.component";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import StudentsTable from "./StudentsTable/StudentsTable.component";
 
 import { menus, views } from "./views";
@@ -18,7 +21,7 @@ class LandingPage extends Component {
             redirect: false,
             collapsed: false,
             signinmodal: true,
-            currentview: 'home'
+            currentview: "home",
         };
     }
 
@@ -33,26 +36,24 @@ class LandingPage extends Component {
         this.setState({ signinmodal: !this.state.signinmodal });
     };
 
-    menuItemClick = ({ item, key}) => {
+    menuItemClick = ({ item, key }) => {
         switch (key) {
-            case '1':
-                this.setState({ currentview: 'home' });
+            case "1":
+                this.setState({ currentview: "home" });
                 break;
-            case '2':
-                this.setState({ currentview: 'courses' });
+            case "2":
+                this.setState({ currentview: "courses" });
                 break;
-            case '3':
-                this.setState({ currentview: 'students' });
+            case "3":
+                this.setState({ currentview: "students" });
                 break;
             default:
                 break;
         }
-
-    }
+    };
 
     render() {
         const { collapsed, signinmodal } = this.state;
-        console.log(this.state.currentview);
         return (
             <>
                 <Layout style={{ minHeight: "100vh" }}>
@@ -68,7 +69,8 @@ class LandingPage extends Component {
                             mode='inline'
                             onSelect={this.menuItemClick}
                         >
-                            {menus["Admin"]} {/**TODO: change "Admin" to a user type variable */}
+                            {menus["Admin"]}{" "}
+                            {/**TODO: change "Admin" to a user type variable */}
                         </Menu>
                     </Sider>
                     <Layout className='site-layout'>
@@ -87,13 +89,10 @@ class LandingPage extends Component {
                                 <Breadcrumb.Item>Bill</Breadcrumb.Item>
 
                             </Breadcrumb> */}
-                                          
-                            {views["Admin"][this.state.currentview]} {/**TODO: change "Admin" to a user type variable */}
+                            {views["Admin"][this.state.currentview]}{" "}
+                            {/**TODO: change "Admin" to a user type variable */}
                             {/* <StudentsTable /> */}
                         </Content>
-                        <Footer style={{ textAlign: "center" }}>
-                            Ant Design ©2018 Created by Ant UED
-                        </Footer>
                     </Layout>
                 </Layout>
 
@@ -101,6 +100,7 @@ class LandingPage extends Component {
                     signinmodal={signinmodal}
                     handleSignIn={this.handleSignIn}
                 />
+                <ToastContainer />
             </>
         );
     }
