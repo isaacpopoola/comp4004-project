@@ -35,6 +35,10 @@ module.exports = function(sequelize, DataTypes) {
     course_credits: {
       type: DataTypes.DOUBLE,
       allowNull: false
+    },
+    price: {
+      type: DataTypes.DOUBLE,
+      allowNull: true
     }
   }, {
     sequelize,

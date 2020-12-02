@@ -25,6 +25,10 @@ module.exports = function(sequelize, DataTypes) {
     gpa: {
       type: DataTypes.DOUBLE,
       allowNull: true
+    },
+    balance: {
+      type: DataTypes.DOUBLE,
+      allowNull: true
     }
   }, {
     sequelize,

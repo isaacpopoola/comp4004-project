@@ -1,8 +1,6 @@
 Feature: Student drops a course
     This endpoint should allow students to drop a courses
 
-    # @createstudent @createcourse
-    # @wipetables
     @createstudent @createcourse @wipetables
     Scenario Outline: Student drops course before deadline
         Given Express Server is running and address is <address>
@@ -11,7 +9,7 @@ Feature: Student drops a course
         When Drop deadline is <drop_deadline>
         When Student registers for the course
         When Student drops the course
-        Then Operation was successful with no final grade
+        Then Operation was successful with no final grade and refund
 
     Examples:
     | address          | course_code | course_name | username   | drop_deadline |
@@ -25,7 +23,7 @@ Feature: Student drops a course
         When Drop deadline is <drop_deadline>
         When Student registers for the course
         When Student drops the course
-        Then Operation was successful with final grade
+        Then Operation was successful with final grade and no refund
 
     Examples:
     | address          | course_code | course_name | username   | drop_deadline |

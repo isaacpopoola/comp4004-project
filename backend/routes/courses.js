@@ -19,6 +19,7 @@ router.post("", async (req, resp) => {
         course_student_limit,
         course_credits,
         section,
+        price,
     } = req.body;
 
     // check if primary and foreign keys are null
@@ -47,6 +48,7 @@ router.post("", async (req, resp) => {
             course_drop_deadline,
             course_student_limit,
             course_credits,
+            price
         })
             .then((res) => {
                 console.log("Assigning Professor to Course");

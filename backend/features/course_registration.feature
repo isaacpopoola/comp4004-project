@@ -8,11 +8,11 @@ Feature: Student registers for a course
         When Course code is <course_code> and course name is <course_name>
         When Registration deadline is <reg_deadline>
         When Student registers for the course
-        Then Operation was successful
+        Then Operation was successful and student balance is <student_balance>
 
     Examples:
-    | address          | course_code | course_name | username   | reg_deadline |
-    | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" | "2020/12/25" |
+    | address          | course_code | course_name | username   | reg_deadline | student_balance |
+    | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" | "2020/12/25" | 10000           |
 
     @createstudent @wipetables
     Scenario Outline: Fail to register for course that doesnt exist

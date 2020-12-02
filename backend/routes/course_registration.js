@@ -34,6 +34,12 @@ router.post("", async (req, res) => {
                 { where: { course_code: course.course_code } }
             );
 
+            // add course price to student balance
+            Students.update(
+                { balance: (student.balance + course.price) },
+                { where: { id: student.id } }
+            );
+
             // deregister if over the limit
             let course_after = Courses.findOne({ where: { course_code } });
             if (course_after.registered_students >= course_after.course_student_limit) {

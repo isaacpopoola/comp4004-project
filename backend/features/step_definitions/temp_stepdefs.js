@@ -76,14 +76,6 @@ Before({ tags: "@createprof" }, async () => {
     });
 });
 
-Before({ tags: "@createprof" }, async () => {
-    await db.Professors.create({
-        username: "ryanduan",
-        password: "pw",
-        name: "Ryan Duan",
-    });
-});
-
 Before({ tags: "@createcourse" }, async () => {
     await db.Courses.create({
         course_code: "COMP4004",
@@ -94,6 +86,7 @@ Before({ tags: "@createcourse" }, async () => {
         registered_students: 0,
         course_registration_deadline: "2020/12/25",
         course_drop_deadline: "2020/12/25",
+        price: 10000,
     });
 });
 
@@ -333,7 +326,7 @@ When("Student drops the course", async function () {
         });
 });
 
-Then("Operation was successful with final grade", async function () {
+Then("Operation was successful with final grade and no refund", async function () {
     assert.strictEqual(this.response.status, 200);
 
     let student = await db.Students.findOne({
@@ -349,9 +342,11 @@ Then("Operation was successful with final grade", async function () {
     });
 
     assert.strictEqual(course.registered_students, 0);
+
+    assert.strictEqual(student.balance, 10000);
 });
 
-Then("Operation was successful with no final grade", async function () {
+Then("Operation was successful with no final grade and refund", async function () {
     assert.strictEqual(this.response.status, 200);
 
     let student = await db.Students.findOne({
@@ -367,6 +362,8 @@ Then("Operation was successful with no final grade", async function () {
     });
 
     assert.strictEqual(course.registered_students, 0);
+
+    assert.strictEqual(student.balance, 0);
 });
 
 When("Admin cancels the course", async function () {
@@ -379,4 +376,14 @@ When("Admin cancels the course", async function () {
             this.response = {};
             this.response.status = res.status;
         });
+});
+
+Then('Operation was successful and student balance is {int}', async function (student_balance) {
+    assert.strictEqual(this.response.status, 200);
+
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    assert.strictEqual(student.balance, 10000);
 });

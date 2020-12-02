@@ -35,6 +35,13 @@ router.post("", async (req, res) => {
                 let final_grade = { student_id: student.id, course_code: course.course_code, status: "WITHDRAWN" };
                 FinalGrades.create(final_grade);
             }
+            else {
+                // reduce balance if not past the drop deadline
+                Students.update(
+                    { balance: (student.balance - course.price) },
+                    { where: { id: student.id } }
+                );
+            }
 
             return res.status(200).send({ message: "Student has been withdrawn from course" });
         }
