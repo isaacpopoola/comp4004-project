@@ -24,6 +24,9 @@ const SignInModal = (props) => {
                                     setCookie("username", res.data.username, {
                                         path: "/",
                                     });
+                                    setCookie("type", res.data.type, {
+                                        path: "/",
+                                    });
                                     props.handleSignIn();
                                 } else {
                                     setFailed(true);

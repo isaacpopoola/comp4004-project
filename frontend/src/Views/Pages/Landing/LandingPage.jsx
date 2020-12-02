@@ -6,8 +6,7 @@ import SignInModal from "./SignInModal/Modal.component";
 import CoursesTable from "./CoursesTable.component";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import StudentsTable from "./StudentsTable/StudentsTable.component";
-
+import { withCookies } from "react-cookie";
 import { menus, views } from "./views";
 
 import { Layout, Menu, Breadcrumb, Modal, Form, Input, Button } from "antd";
@@ -37,23 +36,43 @@ class LandingPage extends Component {
     };
 
     menuItemClick = ({ item, key }) => {
-        switch (key) {
-            case "1":
-                this.setState({ currentview: "home" });
-                break;
-            case "2":
-                this.setState({ currentview: "courses" });
-                break;
-            case "3":
-                this.setState({ currentview: "students" });
-                break;
-            default:
-                break;
+        const { cookies } = this.props;
+        const type = cookies.get("type") || "Student";
+        if (type === "Admin") {
+            switch (key) {
+                case "1":
+                    this.setState({ currentview: "home" });
+                    break;
+                case "2":
+                    this.setState({ currentview: "courses" });
+                    break;
+                case "3":
+                    this.setState({ currentview: "students" });
+                    break;
+                default:
+                    break;
+            }
+        } else if (type === "Student") {
+            switch (key) {
+                case "1":
+                    this.setState({ currentview: "home" });
+                    break;
+                case "2":
+                    this.setState({ currentview: "myCourses" });
+                    break;
+                case "3":
+                    this.setState({ currentview: "registration" });
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
     render() {
         const { collapsed, signinmodal } = this.state;
+        const { cookies } = this.props;
+        const type = cookies.get("type") || "Student";
         return (
             <>
                 <Layout style={{ minHeight: "100vh" }}>
@@ -69,8 +88,7 @@ class LandingPage extends Component {
                             mode='inline'
                             onSelect={this.menuItemClick}
                         >
-                            {menus["Admin"]}{" "}
-                            {/**TODO: change "Admin" to a user type variable */}
+                            {menus[type]}
                         </Menu>
                     </Sider>
                     <Layout className='site-layout'>
@@ -84,14 +102,7 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            {/* <Breadcrumb style={{ margin: "16px 0" }}>
-                                <Breadcrumb.Item>User</Breadcrumb.Item>
-                                <Breadcrumb.Item>Bill</Breadcrumb.Item>
-
-                            </Breadcrumb> */}
-                            {views["Admin"][this.state.currentview]}{" "}
-                            {/**TODO: change "Admin" to a user type variable */}
-                            {/* <StudentsTable /> */}
+                            {views[type][this.state.currentview]}
                         </Content>
                     </Layout>
                 </Layout>
@@ -111,4 +122,4 @@ class LandingPage extends Component {
 // const mapDispatchToProps = (dispatch) => {};
 // export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
 
-export default LandingPage;
+export default withCookies(LandingPage);

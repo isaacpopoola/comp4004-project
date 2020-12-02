@@ -35,6 +35,8 @@ const api = {
             type: "Student",
         }).catch((err) => err.response);
     },
+    fetchEnrolledCourses: () =>
+        ApiInstance.get("/course/me").catch((err) => err.response),
 };
 
 export default api;
