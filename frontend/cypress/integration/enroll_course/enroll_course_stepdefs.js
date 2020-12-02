@@ -42,10 +42,16 @@ When("I click Courses", () => {
 
 And("I enroll in course {string}", (course_code) => {
     cy.wait(200);
+    cy.contains(course_code);
     cy.get(".ant-table-cell:nth-child(8) a").click();
 });
 
 Then("show toast success for enrolling in course", () => {
     cy.wait(200);
     cy.get(".Toastify__toast-body").should("be.visible");
+});
+
+Then("cannot enroll in {string}", (course_code) => {
+    cy.wait(200);
+    cy.contains(course_code).should("not.be.visible");
 });

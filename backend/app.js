@@ -94,6 +94,18 @@ db.Courses.sync({ force: true }).then(() => {
                                             "2020/12/25",
                                         course_drop_deadline: "2020/12/25",
                                     });
+                                    await db.Courses.create({
+                                        course_code: "COMP3000",
+                                        course_name: "OS",
+                                        course_descr:
+                                            "A very interesting OS course",
+                                        course_credits: 0.5,
+                                        course_student_limit: 1,
+                                        registered_students: 1,
+                                        course_registration_deadline:
+                                            "2020/12/25",
+                                        course_drop_deadline: "2020/12/25",
+                                    });
                                 });
                             });
                         });
