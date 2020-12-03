@@ -41,13 +41,13 @@ class LandingPage extends Component {
         if (type === "Admin") {
             switch (key) {
                 case "1":
-                    this.setState({ currentview: "home" });
+                    this.setState({ currentview: "Home" });
                     break;
                 case "2":
-                    this.setState({ currentview: "courses" });
+                    this.setState({ currentview: "Courses" });
                     break;
                 case "3":
-                    this.setState({ currentview: "students" });
+                    this.setState({ currentview: "Students" });
                     break;
                 default:
                     break;
@@ -55,19 +55,37 @@ class LandingPage extends Component {
         } else if (type === "Student") {
             switch (key) {
                 case "1":
-                    this.setState({ currentview: "home" });
+                    this.setState({ currentview: "Home" });
                     break;
                 case "2":
-                    this.setState({ currentview: "myCourses" });
+                    this.setState({ currentview: "MyCourses" });
                     break;
                 case "3":
-                    this.setState({ currentview: "registration" });
+                    this.setState({ currentview: "Registration" });
                     break;
                 default:
                     break;
             }
         }
     };
+
+    route = (type, menu) => {
+        switch (type){
+            case "Student":
+                switch (menu){
+                    case "MyCourses": return <views.Student.MyCourses />
+                    case "Registration": return <views.Student.Registration />
+                }
+                break;
+            case "Admin":
+                switch (menu){
+                    case "Home": return <views.Admin.Home />
+                    case "Courses": return <views.Admin.Courses />
+                    case "Students": return <views.Admin.Students />
+                }
+                break;
+        }
+    }
 
     render() {
         const { collapsed, signinmodal } = this.state;
@@ -102,7 +120,8 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            {views[type][this.state.currentview]}
+                            {/* {views[type][this.state.currentview]} */}
+                            {this.route(type, this.state.currentview)}
                         </Content>
                     </Layout>
                 </Layout>

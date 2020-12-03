@@ -50,6 +50,7 @@ router.post("", async (req, resp) => {
             course_drop_deadline,
             course_student_limit,
             course_credits,
+            registered_students: 0,
         })
             .then((res) => {
                 console.log("Assigning Professor to Course");

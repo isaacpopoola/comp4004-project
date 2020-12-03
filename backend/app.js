@@ -51,6 +51,11 @@ db.Courses.sync({ force: true }).then(() => {
                                 db.Administrators.sync({
                                     force: true,
                                 }).then(async () => {
+                                    await db.Professors.create({
+                                        username: "jeanpier",
+                                        password: "jp",
+                                        name: "JP"
+                                    })
                                     await db.Students.create({
                                         username: "ryanduan",
                                         password: "pw",

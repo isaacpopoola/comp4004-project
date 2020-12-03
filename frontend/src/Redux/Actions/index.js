@@ -73,6 +73,7 @@ export const deleteStudentByUsername = (username) => async (dispatch) => {
     const response = await api.deleteStudentByUsername(username);
 
     if (response.status >= 400) {
+        toast.error(`Student ${username} could not be deleted, please try again`);
         dispatch({
             type: "DELETE_STUDENT_FAILED",
             payload: (response.data || {}).message,
@@ -82,26 +83,28 @@ export const deleteStudentByUsername = (username) => async (dispatch) => {
             type: "DELETE_STUDENT_SUCCESS",
             payload: username,
         });
-        toast.success(`Studednt ${username} successfully deleted`);
+        toast.success(`Student ${username} successfully deleted`);
     }
     return Promise.resolve();
 };
 
-export const createStudent = ({ name, username, password }) => async (
+export const createStudent = (name, username, password) => async (
     dispatch
 ) => {
-    const response = await api.deleteStudentByUsername({
+    const response = await api.createStudent(
         name,
         username,
-        password,
-    });
+        password
+    );
 
     if (response.status >= 400) {
+        toast.error(`Student ${username} could not be created, please try again`);
         dispatch({
             type: "CREATE_STUDENT_FAILED",
             payload: (response.data || {}).message,
         });
     } else if (response.status === 200) {
+        toast.success(`Student ${username} successfully created`);
         dispatch({
             type: "CREATE_STUDENT_SUCCESS",
             payload: username,
@@ -120,6 +123,50 @@ export const dropClass = (courseCode) => async (dispatch) => {
         dispatch({
             type: "DROP_CLASS_SUCCESS",
             payload: courseCode,
+        });
+    }
+    return Promise.resolve();
+};
+
+export const cancelCourse = (courseCode) => async (dispatch) => {
+    const response = await api.cancelCourse(courseCode);
+
+    if (response.status >= 400) {
+        dispatch({ type: "CANCEL_COURSE_FAILED" });
+    } else if (response.status === 200) {
+        toast.success(`Canceled course ${courseCode}`);
+        dispatch({
+            type: "CANCEL_COURSE_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
+};
+
+export const createCourse = (course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits) => async (
+    dispatch
+) => {
+    const response = await api.createCourse(
+        course_code,
+        course_name,
+        course_descr,
+        course_registration_deadline,
+        course_drop_deadline,
+        course_student_limit,
+        course_credits
+    );
+
+    if (response.status >= 400) {
+        toast.error(`Course ${course_code} could not be created, please try again`);
+        dispatch({
+            type: "CREATE_COURSE_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        toast.success(`Course ${course_code} successfully created`);
+        dispatch({
+            type: "CREATE_COURSE_SUCCESS",
+            payload: course_code,
         });
     }
     return Promise.resolve();
