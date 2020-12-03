@@ -39,18 +39,37 @@ class LandingPage extends Component {
     menuItemClick = ({ item, key }) => {
         switch (key) {
             case "1":
-                this.setState({ currentview: "home" });
+                this.setState({ currentview: "Home" });
                 break;
             case "2":
-                this.setState({ currentview: "courses" });
+                this.setState({ currentview: "Courses" });
                 break;
             case "3":
-                this.setState({ currentview: "students" });
+                this.setState({ currentview: "Students" });
                 break;
             default:
                 break;
         }
     };
+
+    route = (type, menu) => {
+        switch (type){
+            case "Student":
+                switch (this.state.currentview){
+                    case "Home": 
+                    case "Courses":
+                    case "Students":
+                }
+                break;
+            case "Admin":
+                switch (this.state.currentview){
+                    case "Home": return <views.Admin.Home />
+                    case "Courses": return <views.Admin.Courses />
+                    case "Students": return <views.Admin.Students />
+                }
+                break;
+        }
+    }
 
     render() {
         const { collapsed, signinmodal } = this.state;
@@ -84,13 +103,11 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            {/* <Breadcrumb style={{ margin: "16px 0" }}>
-                                <Breadcrumb.Item>User</Breadcrumb.Item>
-                                <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                            
+                            
 
-                            </Breadcrumb> */}
-                            {views["Admin"][this.state.currentview]}{" "}
-                            {/**TODO: change "Admin" to a user type variable */}
+                            {this.route("Admin", this.state.currentview)}
+\                            {/**TODO: change "Admin" to a user type variable */}
                             {/* <StudentsTable /> */}
                         </Content>
                     </Layout>

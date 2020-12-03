@@ -35,6 +35,11 @@ const api = {
             type: "Student",
         }).catch((err) => err.response);
     },
+    cancelCourse: ({courseCode}) => {
+        ApiInstance.post("/cancel_course", {
+            course_code: courseCode
+        }).catch((err) => err.response);
+    }
 };
 
 export default api;

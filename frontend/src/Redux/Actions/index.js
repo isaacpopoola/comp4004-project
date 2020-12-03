@@ -86,6 +86,7 @@ export const createStudent = ({ name, username, password }) => async (
             payload: (response.data || {}).message,
         });
     } else if (response.status === 200) {
+        toast.success(`Student ${username} successfully created`);
         dispatch({
             type: "CREATE_STUDENT_SUCCESS",
             payload: username,
@@ -106,4 +107,19 @@ export const dropClass = (courseCode) => async (dispatch) => {
             payload: response.data.courses,
         });
     }
+};
+
+export const cancelCourse = (courseCode) => async (dispatch) => {
+    const response = await api.cancelCourse(courseCode);
+
+    if (response.status >= 400) {
+        dispatch({ type: "CANCEL_COURSE_FAILED" });
+    } else if (response.status === 200) {
+        toast.success(`Canceled course ${courseCode}`);
+        dispatch({
+            type: "CANCEL_COURSE_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
 };
