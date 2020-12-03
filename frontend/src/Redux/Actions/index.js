@@ -37,6 +37,21 @@ export const fetchAllCourses = () => async (dispatch) => {
             payload: response.data.courses,
         });
     }
+    return Promise.resolve();
+};
+
+export const fetchEnrolledCourses = () => async (dispatch) => {
+    const response = await api.fetchEnrolledCourses();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_ENROLLED_COURSES_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_ENROLLED_COURSES_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
 };
 
 export const enrollInClass = (courseCode) => async (dispatch) => {
@@ -51,6 +66,7 @@ export const enrollInClass = (courseCode) => async (dispatch) => {
             payload: response.data.courses,
         });
     }
+    return Promise.resolve();
 };
 
 export const deleteStudentByUsername = (username) => async (dispatch) => {
@@ -104,9 +120,10 @@ export const dropClass = (courseCode) => async (dispatch) => {
         toast.success(`Dropped class ${courseCode}`);
         dispatch({
             type: "DROP_CLASS_SUCCESS",
-            payload: response.data.courses,
+            payload: courseCode,
         });
     }
+    return Promise.resolve();
 };
 
 export const cancelCourse = (courseCode) => async (dispatch) => {

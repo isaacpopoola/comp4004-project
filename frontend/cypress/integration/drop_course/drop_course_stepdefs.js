@@ -1,3 +1,4 @@
+import { getByAltText } from "@testing-library/react";
 import {
     Before,
     After,
@@ -36,22 +37,21 @@ And("I click Sign in", () => {
 When("I click Courses", () => {
     cy.wait(200);
     cy.get(
-        "#root > section > aside > div.ant-layout-sider-children > ul > li:nth-child(3)"
+        "#root > section > aside > div.ant-layout-sider-children > ul > li:nth-child(2)"
     ).click();
 });
 
-And("I enroll in course {string}", (course_code) => {
+When("I drop course {string}", (courseCode) => {
     cy.wait(200);
-    cy.contains(course_code).should("be.visible");
-    cy.get(".ant-table-row:nth-child(1) a").click();
+    cy.get(".ant-table-row:nth-child(2) a").click();
 });
 
-Then("show toast success for enrolling in course", () => {
+Then("show toast success for dropping out of course", () => {
     cy.wait(200);
     cy.get(".Toastify__toast-body").should("be.visible");
 });
 
-Then("cannot enroll in {string}", (course_code) => {
+And("Course {string} should not exist", (courseCode) => {
     cy.wait(200);
-    cy.contains(course_code).should("not.be.visible");
+    cy.get(courseCode).should("not.be.visible");
 });

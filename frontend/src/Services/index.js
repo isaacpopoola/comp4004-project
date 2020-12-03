@@ -39,7 +39,9 @@ const api = {
         ApiInstance.post("/cancel_course", {
             course_code: courseCode
         }).catch((err) => err.response);
-    }
+    },
+    fetchEnrolledCourses: () =>
+        ApiInstance.get("/course/me").catch((err) => err.response),
 };
 
 export default api;

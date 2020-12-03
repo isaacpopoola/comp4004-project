@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import StudentsTable from "./StudentsTable/StudentsTable.component";
 import CoursesTable from "./CoursesTable.component";
 import AdminCourseTable from "./AdminCourseTable.component";
+import EnrolledCoursesTable from "./EnrolledCoursesTable.component";
 
 import * as actions from "../../../Redux/Actions";
 import { connect } from "react-redux";
@@ -17,8 +18,8 @@ export const menus = {
     Student: (
         <>
             <Menu.Item key='1'>Home</Menu.Item>
-            <Menu.Item key='2'>Classes</Menu.Item>
-            <Menu.Item key='3'>Resgistration</Menu.Item>
+            <Menu.Item key='2'>My Courses</Menu.Item>
+            <Menu.Item key='3'>Registration</Menu.Item>
             <Menu.Item key='4'>Calendar</Menu.Item>
         </>
     ),
@@ -33,7 +34,23 @@ export const menus = {
 };
 
 export const views = {
-    Student: {},
+    Student: {
+        Registration: () => {
+            return (
+                <div>
+                    Registration
+                    <CoursesTable />
+                </div>
+            )
+        },
+        MyCourses: () => {
+            return (
+                <div>
+                    My Courses <EnrolledCoursesTable />
+                </div>
+            )
+        },
+    },
 
     Admin: {
         Home: () => {
@@ -50,12 +67,12 @@ export const views = {
             return (
                 <div>
                     <div style={{ padding: '0.7em 0', float: 'right' }}>
-                    <Button type="primary" onClick={toggleModal}>Create Course</Button>
-                </div>
-                <div>
-                    <AdminCourseTable />
-                </div>
-                    
+                        <Button type="primary" onClick={toggleModal}>Create Course</Button>
+                    </div>
+                    <div>
+                        <AdminCourseTable />
+                    </div>
+
                 </div>
             )
         },
