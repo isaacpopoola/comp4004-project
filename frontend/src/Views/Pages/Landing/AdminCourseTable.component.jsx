@@ -6,6 +6,10 @@ import * as actions from "../../../Redux/Actions";
 const { Column, ColumnGroup } = Table;
 
 class AdminCoursesTable extends Component {
+    constructor(props) {
+        super(props);
+    }
+    
     componentDidMount() {
         this.props.fetchAllCourses();
     }
