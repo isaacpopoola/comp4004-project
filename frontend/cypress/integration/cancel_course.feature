@@ -1,7 +1,7 @@
 Feature: Cancel Course
     I want to be able to cancel/delete a Course
 
-    @createCourse @createAdmin
+    @createCourse
     Scenario Outline: Cancel Course Successfully
         Given I open CMS page
         When I see the Sign in modal

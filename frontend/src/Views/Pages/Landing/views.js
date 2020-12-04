@@ -60,6 +60,7 @@ export const views = {
             )
         },
         Courses: connect(null, actions)((props) => {
+            props.fetchAllCourses();
             const [isModalVisible, setIsModalVisible] = useState(false);
 
             const toggleModal = () => {
@@ -154,7 +155,7 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <DatePicker id='create-course-courseregistrationdeadline' />
+                                <DatePicker  id='create-course-courseregistrationdeadline' />
                             </Form.Item>
 
                             <Form.Item
@@ -168,7 +169,7 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <DatePicker id='create-course-coursedropdeadline' />
+                                <DatePicker  id='create-course-coursedropdeadline' />
                             </Form.Item>
 
                             <Form.Item
@@ -212,8 +213,6 @@ export const views = {
         Students: connect(null, actions)((props) => {
             props.fetchStudents();
             const [isModalVisible, setIsModalVisible] = useState(false);
-            const [failed, setFailed] = useState(false);
-
 
             const [form] = Form.useForm();
 
@@ -261,7 +260,7 @@ export const views = {
                                 },
                             ]}
                         >
-                            <Input id='sign-in-username' />
+                            <Input id='student-name' />
                         </Form.Item>
                         <Form.Item
                             required
@@ -274,7 +273,7 @@ export const views = {
                                 },
                             ]}
                         >
-                            <Input id='sign-in-username' />
+                            <Input id='student-username' />
                         </Form.Item>
 
                         <Form.Item
@@ -283,11 +282,11 @@ export const views = {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your password!",
+                                    message: "Please input the password!",
                                 },
                             ]}
                         >
-                            <Input.Password id='sign-in-password' />
+                            <Input.Password id='student-password' />
                         </Form.Item>
 
                         {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
