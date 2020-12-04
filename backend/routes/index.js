@@ -7,6 +7,7 @@ const students = require("./students");
 const course_registration = require("./course_registration");
 const drop_course = require("./drop_course");
 const cancel_course = require("./cancel_course");
+const submit_deliverable = require("./submit_deliverable");
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/students", students);
 router.use("/course_registration", course_registration);
 router.use("/drop_course", drop_course);
 router.use("/cancel_course", cancel_course);
+router.use("/submit_deliverable", submit_deliverable);
 
 module.exports = router;

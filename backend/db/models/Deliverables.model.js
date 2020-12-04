@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
     due_date: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    answer: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,

@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     grade: {
       type: DataTypes.INTEGER,
       allowNull: true
+    },
+    student_submission: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   }, {
     sequelize,

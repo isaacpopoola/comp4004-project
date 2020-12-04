@@ -97,6 +97,17 @@ Before({ tags: "@createcourse" }, async () => {
     });
 });
 
+Before({ tags: "@createdeliverable" }, async () => {
+    await db.Deliverables.create({
+        id: 1,
+        course_code: "COMP4004",
+        grade_weight: 70,
+        description: "group project",
+        due_date: "2020/12/25",
+        answer: "correct"
+    });
+});
+
 After({ tags: "@wipetables" }, () => {
     Object.values(db.sequelize.models).map(function (model) {
         return model.destroy({
@@ -404,4 +415,48 @@ Then('Operation was successful and student balance is {int}', async function (st
     });
 
     assert.strictEqual(student.balance, 10000);
+});
+
+When('Course code is {string} and Deliverable id is {int}', function (course_code, deliverable_id) {
+    this.course_code = course_code;
+    this.deliverable_id = deliverable_id;
+});
+
+When('Deliverable deadline is {string}', async function (deadline) {
+    await db.Deliverables.update(
+        { due_date: deadline },
+        { where: { id: this.deliverable_id } }
+    );
+});
+
+When('Student submits deliverable with answer {string}', async function (answer) {
+    await request(app)
+        .post("/submit_deliverable")
+        .set("Cookie", [`username=${this.username}`])
+        .send({
+            deliverable_id: this.deliverable_id,
+            submission: answer,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        });
+});
+
+Then('Operation was successful and grade is {int}', async function (grade) {
+    assert.strictEqual(this.response.status, 200);
+
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let d_grade = await db.DeliverableGrades.findOne({
+        where: { 
+            student_id: student.id,
+            course_code: this.course_code,
+            deliverable_id: this.deliverable_id,
+        },
+    });
+
+    assert.strictEqual(d_grade.grade, grade);
 });
