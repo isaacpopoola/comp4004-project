@@ -6,6 +6,9 @@ const ProffessorAssignedCourses = require("../db/models")
     .ProfessorAssignedCourses;
 const Courses = require("../db/models").Courses;
 const { Op } = require("sequelize");
+const Students = require("../db/models").Students;
+const StudentRegisteredCourses = require("../db/models")
+    .StudentRegisteredCourses;
 const db = require("../db/models");
 
 router.post("", async (req, resp) => {
@@ -48,7 +51,8 @@ router.post("", async (req, resp) => {
             course_drop_deadline,
             course_student_limit,
             course_credits,
-            price
+            price,
+            registered_students: 0,
         })
             .then((res) => {
                 console.log("Assigning Professor to Course");
@@ -85,8 +89,6 @@ router.get("/available", async (req, res) => {
                 },
             },
         });
-        console.log("XXX");
-        console.log(courses);
         return res.status(200).send({ courses });
     } catch {
         return res
@@ -95,9 +97,21 @@ router.get("/available", async (req, res) => {
     }
 });
 
-// router.delete("", (req, res) => {
-//     const { course_code, course_name } = req.body;
-
-// });
+router.get("/me", async (req, res) => {
+    try {
+        const username = req.cookies.username;
+        if (!username)
+            return res.status(400).send({ message: "Missing username" });
+        const user = await Students.findOne({ where: { username } });
+        if (!user)
+            return res.status(400).send({ message: "User does not exist" });
+        const courses = await StudentRegisteredCourses.findAll({
+            where: { student_id: user.id },
+        });
+        return res.status(200).send({ courses });
+    } catch {
+        return res.sendStatus(400);
+    }
+});
 
 module.exports = router;

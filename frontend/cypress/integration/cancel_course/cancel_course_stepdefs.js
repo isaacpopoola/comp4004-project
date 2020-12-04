@@ -1,11 +1,15 @@
 import { Before, After, Given, Then, When } from "cypress-cucumber-preprocessor/steps";
 import api from "../../../src/Services"
 
-  Before({ tags: "@createStudent" }, async () => {
-    var username = "sampleuser" ;
-    var password = "samplepass";
-    var name = "samplename";
-    await api.createStudent({ name, username, password})
+  Before({ tags: "@createCourse" }, async () => {
+    var course_code = "COMP7007" ;
+    var course_name = "Introduction to a Test Course";
+    var course_descr = "A very interesting test course";
+    var course_registration_deadline = Date.now();
+    var course_drop_deadline = Date.now();
+    var course_student_limit = 250;
+    var course_credits = 0.5;
+    await api.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits)
 
   })
 
@@ -34,28 +38,28 @@ import api from "../../../src/Services"
     cy.get("body > div:nth-child(6) > div > div.ant-modal-wrap.ant-modal-centered > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary").click();
   })
 
-  When('I click Students', () => {
+  When('I click Courses', () => {
     cy.wait(200);
-    cy.get("#root > section > aside > div.ant-layout-sider-children > ul > li:nth-child(3)").click();
+    cy.get("#root > section > aside > div.ant-layout-sider-children > ul > li:nth-child(2)").click();
   })
 
-  When('I delete student with username {string}', (student_username) => {
+  And('I delete course with course code {string}', (course_code) => {
     cy.wait(200);
     // this.student_username = student_username; this doesnt work in cypress for some reason
     
     
     const exists = { is: false}; //this is dumb i know 
     
-    // selects the column "Username" in table
+    // selects the column "Course Code" in table
     cy.get("#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr > td:nth-child(2)") 
           .each(($e1, index, $list) => {
             
             const text = $e1.text();
             
-            // checks if username exist in table
-            if (text.includes(student_username)){
+            // checks if course code exist in table
+            if (text.includes(course_code)){
               exists.is = true;
-              cy.get(`#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr:nth-child(${index+1}) > td:nth-child(4) > div > div > a`).click()
+              cy.get(`#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr:nth-child(${index+1}) > td:nth-child(8) > div > div > a`).click()
             }
 
           }).then( () => {
@@ -64,14 +68,14 @@ import api from "../../../src/Services"
 
   })
 
-  Then(`{string} should not exist in table`, (student_username) => {
+  Then(`{string} should not exist in table`, (course_code) => {
     cy.wait(200);
 
-    cy.get("#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr") 
+    cy.get("#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr ") 
     .each(($e1, index, $list) => {
       
       const text = $e1.text();
-      expect(text).to.not.include(student_username);
+      expect(text).to.not.include(course_code);
 
     })
   })

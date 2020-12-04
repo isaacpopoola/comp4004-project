@@ -48,6 +48,13 @@ Before({ tags: "@createadmin" }, async () => {
     });
 });
 
+Before({ tags: "@enrollCOMP3000" }, async () => {
+    await db.StudentRegisteredCourses.create({
+        student_id: 1,
+        course_code: "COMP3000",
+    });
+});
+
 Before({ tags: "@createstudent" }, async () => {
     await db.Students.create({
         username: "ryanduan",
@@ -303,8 +310,8 @@ When("Course has {int} students registered", async function (reg_count) {
 When("Student registers for the course", async function () {
     await request(app)
         .post("/course_registration")
+        .set("Cookie", [`username=${this.username}`])
         .send({
-            username: this.username,
             course_code: this.course_code,
         })
         .then((res) => {
@@ -313,11 +320,22 @@ When("Student registers for the course", async function () {
         });
 });
 
+When("Get enrolled courses for {string}", async function (username) {
+    await request(app)
+        .get("/course/me")
+        .set("Cookie", [`username=${username}`])
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.courses = res.body.courses;
+        });
+});
+
 When("Student drops the course", async function () {
     await request(app)
         .post("/drop_course")
+        .set("Cookie", [`username=${this.username}`])
         .send({
-            username: this.username,
             course_code: this.course_code,
         })
         .then((res) => {

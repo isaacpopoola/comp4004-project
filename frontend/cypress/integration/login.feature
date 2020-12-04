@@ -9,4 +9,4 @@ Feature: Login
     
     Examples:
     | username   | password       | type       |
-    | "ipopoola" | "cmspassword"  | "Student"  |
+    | "ryanduan" | "pw"  | "Student"  |

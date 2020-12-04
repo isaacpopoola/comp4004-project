@@ -26,12 +26,14 @@ router.post("", async (req, res) => {
             ProfessorAssignedCourses.destroy({ where: { course_code } });
             Courses.destroy({ where: { course_code } });
     
-            return res.status(200).send({ message: "Course has been canceled" });
+            
         }
         catch {       
             return res.status(400).send({ message: "Error canceling course" });
         }
     }
+
+    return res.status(200).send({ message: "Course has been canceled" });
 });
 
 module.exports = router;
