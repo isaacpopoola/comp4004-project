@@ -14,6 +14,11 @@ class AdminCoursesTable extends Component {
         this.props.fetchAllCourses();
     }
 
+    update() {
+        this.props.fetchAllCourses();
+        this.forceUpdate();
+    }
+
     render() {
         return (
             <Table dataSource={this.props.courses}>
@@ -62,8 +67,9 @@ class AdminCoursesTable extends Component {
                     render={(text, record) => (
                         <Space size='middle'>
                             <a
-                                onClick={() => {
-                                    this.props.cancelCourse(record.course_code);
+                                onClick={async () => {
+                                    await this.props.cancelCourse(record.course_code);
+                                    this.update();
                                 }}
                             >
                                 Cancel Course

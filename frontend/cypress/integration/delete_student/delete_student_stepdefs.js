@@ -5,7 +5,7 @@ import api from "../../../src/Services"
     var username = "sampleuser" ;
     var password = "samplepass";
     var name = "samplename";
-    await api.createStudent({ name, username, password})
+    await api.createStudent(name, username, password)
 
   })
 

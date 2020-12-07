@@ -66,6 +66,21 @@ import api from "../../../src/Services"
 
 })
 
+And('Input course days {string}', (days) => {
+  cy.wait(200);
+  cy.get('input#create-course-courseday.ant-input').type(days);
+})
+
+And('Input course time {string}', (time) => {
+  cy.wait(200);
+  cy.get('input#create-course-coursetime.ant-input').type(time);
+})
+
+And('Input duration {float}', (duration) => {
+  cy.wait(200);
+  cy.get('input#create-course-courseduration.ant-input-number-input').type(duration);
+})
+
   And('Input student limit {int}', (limit) => {
     cy.wait(200);
     cy.get('input#create-course-coursestudentlimit.ant-input-number-input').type(limit);
@@ -74,6 +89,11 @@ import api from "../../../src/Services"
   And('Input credits {float}', (credits) => {
     cy.wait(200);
     cy.get('input#create-course-coursecredits.ant-input-number-input').type(credits);
+  })
+
+  And('Input price {float}', (price) => {
+    cy.wait(200);
+    cy.get('input#create-course-courseprice.ant-input-number-input').type(price);
   })
 
   And('Submit form', () => {
