@@ -54,13 +54,14 @@ import api from "../../../src/Services"
   And('Input registration deadline', () => {
     cy.wait(200);
     var d = new Date();
-    
+    cy.get('input#create-course-courseregistrationdeadline').click();
     cy.get('input#create-course-courseregistrationdeadline').type(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()+1}{enter}`, {force: true});
   })
 
   And('Input drop deadline', () => {
     cy.wait(200);
     var d = new Date();
+    cy.get('input#create-course-coursedropdeadline').click
     cy.get('input#create-course-coursedropdeadline').type(`${d.getFullYear()}-${d.getMonth()}-${d.getDate()+1}{enter}`, {force: true});
 
 })
