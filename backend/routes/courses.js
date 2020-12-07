@@ -23,6 +23,9 @@ router.post("", async (req, resp) => {
         course_credits,
         section,
         price,
+        course_time,
+        course_day,
+        course_duration
     } = req.body;
 
     // check if primary and foreign keys are null
@@ -52,6 +55,9 @@ router.post("", async (req, resp) => {
             course_student_limit,
             course_credits,
             price,
+            course_time,
+            course_day,
+            course_duration,
             registered_students: 0,
         })
             .then((res) => {

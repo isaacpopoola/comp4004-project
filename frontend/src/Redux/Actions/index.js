@@ -143,7 +143,7 @@ export const cancelCourse = (courseCode) => async (dispatch) => {
     return Promise.resolve();
 };
 
-export const createCourse = (course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits) => async (
+export const createCourse = (course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day) => async (
     dispatch
 ) => {
     const response = await api.createCourse(
@@ -153,7 +153,11 @@ export const createCourse = (course_code, course_name, course_descr, course_regi
         course_registration_deadline,
         course_drop_deadline,
         course_student_limit,
-        course_credits
+        course_credits, 
+        price, 
+        course_duration, 
+        course_time, 
+        course_day
     );
 
     if (response.status >= 400) {

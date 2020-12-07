@@ -42,7 +42,7 @@ const api = {
     ,
     fetchEnrolledCourses: () =>
         ApiInstance.get("/course/me").catch((err) => err.response),
-    createCourse: (course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits) =>
+    createCourse: (course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day) =>
         ApiInstance.post("/course", {
           course_code,
           profId: 1,
@@ -51,7 +51,11 @@ const api = {
           course_registration_deadline,
           course_drop_deadline,
           course_student_limit,
-          course_credits,
+          course_credits, 
+          price, 
+          course_duration, 
+          course_time, 
+          course_day,
           section: 'A'
         })
 };

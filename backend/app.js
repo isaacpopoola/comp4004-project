@@ -78,6 +78,10 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_registration_deadline:
                                             "2020/12/25",
                                         course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "10:00",
+                                        course_duration: 1.5,
+                                        course_day: "Monday, Wednesday"
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3004",
@@ -90,6 +94,10 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_registration_deadline:
                                             "2020/12/25",
                                         course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "10:00",
+                                        course_duration: 1.5,
+                                        course_day: "Tuesday, Thursday"
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3000",
@@ -102,6 +110,10 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_registration_deadline:
                                             "2020/12/25",
                                         course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "11:30",
+                                        course_duration: 1.5,
+                                        course_day: "Wednesday, Friday"
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3005",
@@ -114,6 +126,10 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_registration_deadline:
                                             "2020/12/25",
                                         course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "14:30",
+                                        course_duration: 3,
+                                        course_day: "Friday"
                                     });
                                     await db.StudentRegisteredCourses.create({
                                         student_id: 1,

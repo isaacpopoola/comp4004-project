@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StudentsTable from "./StudentsTable/StudentsTable.component";
 import CoursesTable from "./CoursesTable.component";
 import AdminCourseTable from "./AdminCourseTable.component";
@@ -84,9 +84,10 @@ export const views = {
                         onOk={() => {
                             form.validateFields()
                                 .then(async (values) => {
-                                    const { course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits } = values;
+                                    const { course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day} = values;
                                     form.resetFields();
-                                    props.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits);
+                                    await props.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day);
+
                                 }).then(res => {
                                     toggleModal();
                                 })
@@ -101,6 +102,7 @@ export const views = {
                             labelCol={{ span: 5 }}
                             name='basic'
                             initialValues={{ remember: true }}
+                            layout="horizontal"
                         >
                             <Form.Item
                                 required
@@ -155,7 +157,7 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <Input  id='create-course-courseregistrationdeadline' />
+                                <Input id='create-course-courseregistrationdeadline' />
                             </Form.Item>
 
                             <Form.Item
@@ -169,9 +171,50 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <Input  id='create-course-coursedropdeadline' />
+                                <Input id='create-course-coursedropdeadline' />
                             </Form.Item>
 
+                            <Form.Item
+                                required
+                                label='Course Day'
+                                name='course_day'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the course day!",
+                                    },
+                                ]}
+                            >
+                                <Input id='create-course-courseday' placeholder="Comma separated days" />
+                            </Form.Item>
+
+                            <Form.Item
+                                required
+                                label='Course Time'
+                                name='course_time'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the course time!",
+                                    },
+                                ]}
+                            >
+                                <Input style={{ width: 90}} id='create-course-coursetime' placeholder="HH:MM" />
+                            </Form.Item>
+
+                            <Form.Item
+                                required
+                                label='Duration (Hours)'
+                                name='course_duration'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the course duration!",
+                                    },
+                                ]}
+                            >
+                                <InputNumber min={0} step={0.5} id='create-course-courseduration' />
+                            </Form.Item>
                             <Form.Item
                                 required
                                 label='Student Limit'
@@ -200,13 +243,33 @@ export const views = {
                                 <InputNumber min={0} step={0.5} id='create-course-coursecredits' />
                             </Form.Item>
 
+                            <Form.Item
+                                required
+                                label='Price'
+                                name='price'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the course price!",
+                                    },
+                                ]}
+                            >
+                                <InputNumber 
+                                    formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                    min={0} 
+                                    step={10} 
+                                    id='create-course-courseprice' 
+                                />
+                            </Form.Item>
+
 
                             {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             {failed && "Wrong credentials"}
                         </Form.Item> */}
                         </Form>
                     </Modal>
-                        <ToastContainer />
+                    <ToastContainer />
                 </div>
             )
         }),
