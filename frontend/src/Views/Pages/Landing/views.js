@@ -155,7 +155,7 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <DatePicker  id='create-course-courseregistrationdeadline' />
+                                <Input  id='create-course-courseregistrationdeadline' />
                             </Form.Item>
 
                             <Form.Item
@@ -169,7 +169,7 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <DatePicker  id='create-course-coursedropdeadline' />
+                                <Input  id='create-course-coursedropdeadline' />
                             </Form.Item>
 
                             <Form.Item
