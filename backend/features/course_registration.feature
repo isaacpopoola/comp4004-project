@@ -52,3 +52,17 @@ Feature: Student registers for a course
     | address          | course_code | course_name | username   | reg_count |
     | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" | 1         |
     
+
+    @createstudent @createcourse @wipetables
+    Scenario Outline: Fail to register for the same course twice
+        Given Express Server is running and address is <address>
+        When Username is <username>
+        When Course code is <course_code> and course name is <course_name>
+        When Registration deadline is <reg_deadline>
+        When Student registers for the course
+        When Student registers for the course
+        Then Operation was unsuccessful
+
+    Examples:
+    | address          | course_code | course_name | username   | reg_deadline |
+    | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" | "2020/12/25" |

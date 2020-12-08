@@ -29,6 +29,16 @@ router.post("", async (req, res) => {
     } else if (course.registered_students >= course.course_student_limit) {
         return res.status(400).send({ message: "Course is full" });
     } else {
+        let registered = await StudentRegisteredCourses.findOne({ 
+            where: {
+                student_id: student.id,
+                course_code: course.course_code,
+            } });
+
+        if (registered) {
+            return res.status(400).send({ message: "Student is already registered" });
+        }
+
         let student_registration = {
             student_id: student.id,
             course_code: course.course_code,
