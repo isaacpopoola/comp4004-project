@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, Tabs } from "antd";
 import api from "../../../../Services";
 import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
+
+const { TabPane } = Tabs;
 
 const SignInModal = (props) => {
     const [failed, setFailed] = useState(false);
+    const [isLogin, setIsLogin] = useState("1");
     const [cookie, setCookie] = useCookies(["username"]);
     const [form] = Form.useForm();
+
+    const onTabChange = (key) => {
+        setIsLogin(key);
+    };
 
     return (
         <Modal
@@ -16,10 +24,13 @@ const SignInModal = (props) => {
             onOk={() => {
                 form.validateFields()
                     .then(async (values) => {
-                        const { username, password } = values;
-                        form.resetFields();
-                        api.login({ username, password, type: "Student" }).then(
-                            (res) => {
+                        if (isLogin === "1") {
+                            const { username, password } = values;
+                            form.resetFields();
+                            api.login({
+                                username,
+                                password,
+                            }).then((res) => {
                                 if (res.status === 200) {
                                     setCookie("username", res.data.username, {
                                         path: "/",
@@ -31,8 +42,26 @@ const SignInModal = (props) => {
                                 } else {
                                     setFailed(true);
                                 }
-                            }
-                        );
+                            });
+                        } else if (isLogin === "2") {
+                            const { username, password, name } = values;
+                            form.resetFields();
+                            api.register({
+                                username,
+                                password,
+                                name,
+                                type: "Student",
+                            }).then((res) => {
+                                if (res.status === 201) {
+                                    toast.success("Successfully registered!");
+                                    setIsLogin("1");
+                                } else {
+                                    toast.error(res.data.message);
+                                }
+                            });
+                        } else {
+                            alert(isLogin);
+                        }
                     })
                     .catch((info) => {
                         console.log("Validate Failed:", info);
@@ -43,44 +72,104 @@ const SignInModal = (props) => {
             centered
             // confirmLoading={false} //use redux for this
         >
-            <Form
-                // {...layout}
-                form={form}
-                className='signin-form'
-                labelCol={{ span: 5 }}
-                name='basic'
-                initialValues={{ remember: true }}
+            <Tabs
+                defaultActiveKey='1'
+                onChange={onTabChange}
+                activeKey={isLogin}
             >
-                <Form.Item
-                    label='Username'
-                    name='username'
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input your username!",
-                        },
-                    ]}
-                >
-                    <Input id='sign-in-username' />
-                </Form.Item>
+                <TabPane tab='Sign In' key='1'>
+                    <Form
+                        // {...layout}
+                        form={form}
+                        className='signin-form'
+                        labelCol={{ span: 5 }}
+                        name='basic'
+                        initialValues={{ remember: true }}
+                    >
+                        <Form.Item
+                            label='Username'
+                            name='username'
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your username!",
+                                },
+                            ]}
+                        >
+                            <Input id='sign-in-username' />
+                        </Form.Item>
 
-                <Form.Item
-                    label='Password'
-                    name='password'
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input your password!",
-                        },
-                    ]}
-                >
-                    <Input.Password id='sign-in-password' />
-                </Form.Item>
+                        <Form.Item
+                            label='Password'
+                            name='password'
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your password!",
+                                },
+                            ]}
+                        >
+                            <Input.Password id='sign-in-password' />
+                        </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    {failed && "Wrong credentials"}
-                </Form.Item>
-            </Form>
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            {failed && "Wrong credentials"}
+                        </Form.Item>
+                    </Form>
+                </TabPane>
+                <TabPane tab='Register' key='2'>
+                    <Form
+                        // {...layout}
+                        form={form}
+                        className='signin-form'
+                        labelCol={{ span: 5 }}
+                        name='basic'
+                        initialValues={{ remember: true }}
+                    >
+                        <Form.Item
+                            label='Username'
+                            name='username'
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your username!",
+                                },
+                            ]}
+                        >
+                            <Input id='sign-in-username' />
+                        </Form.Item>
+
+                        <Form.Item
+                            label='Password'
+                            name='password'
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your password!",
+                                },
+                            ]}
+                        >
+                            <Input.Password id='sign-in-password' />
+                        </Form.Item>
+
+                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            {failed && "Wrong credentials"}
+                        </Form.Item>
+                        <Form.Item
+                            label='Name'
+                            name='name'
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your name!",
+                                },
+                            ]}
+                        >
+                            <Input id='sign-in-name' />
+                        </Form.Item>
+                    </Form>
+                </TabPane>
+            </Tabs>
         </Modal>
     );
 };
