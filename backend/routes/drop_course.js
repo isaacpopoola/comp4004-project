@@ -22,6 +22,16 @@ router.post("", async (req, res) => {
             .status(400)
             .send({ message: "Student or Course does not exist" });
     } else {
+        let registered = await StudentRegisteredCourses.findOne({ 
+            where: {
+                student_id: student.id,
+                course_code: course.course_code,
+            } });
+
+        if (!registered) {
+            return res.status(400).send({ message: "Student is not registered" });
+        }
+
         try {
             // delete course records
             DeliverableGrades.destroy({
