@@ -161,6 +161,11 @@ When("Get all courses", async function () {
         });
 });
 
+When("prereqs are {string}", (prereqs) => {
+    const prerequisites = prereqs.split(",");
+    this.prerequisites = prerequisites;
+});
+
 When("Student {string} exists", async function (string) {
     await db.Students.create({
         username: "ryanduan",
@@ -246,6 +251,7 @@ When("Course is created", async function () {
             course_descr: this.course_descr,
             course_credits: this.course_descr,
             profId: this.prof_id,
+            prereqs: this.prerequisites,
         })
         .then((res) => {
             this.response = {};
@@ -316,7 +322,6 @@ When("Register user", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log("**********");
             console.log(this.response);
         });
 });
