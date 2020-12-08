@@ -10,10 +10,18 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Layout, Menu, Modal, Form, Input, Button, DatePicker, InputNumber } from "antd";
+import {
+    Layout,
+    Menu,
+    Modal,
+    Form,
+    Input,
+    Button,
+    DatePicker,
+    InputNumber,
+} from "antd";
 // const { Header, Content, Footer, Sider } = Layout;
 // const { SubMenu } = Menu;
-
 
 export const menus = {
     Student: (
@@ -42,55 +50,88 @@ export const views = {
                     Registration
                     <CoursesTable />
                 </div>
-            )
+            );
         },
         MyCourses: () => {
             return (
                 <div>
                     My Courses <EnrolledCoursesTable />
                 </div>
-            )
+            );
         },
     },
 
     Admin: {
         Home: () => {
-            return (
-                <div>Home</div>
-            )
+            return <div>Home</div>;
         },
-        Courses: connect(null, actions)((props) => {
+        Courses: connect(
+            null,
+            actions
+        )((props) => {
             props.fetchAllCourses();
             const [isModalVisible, setIsModalVisible] = useState(false);
 
             const toggleModal = () => {
                 setIsModalVisible(!isModalVisible);
-            }
+            };
 
             const [form] = Form.useForm();
 
             return (
                 <div>
-                    <div style={{ padding: '0.7em 0', float: 'right' }}>
-                        <Button type="primary" onClick={toggleModal}>Create Course</Button>
+                    <div style={{ padding: "0.7em 0", float: "right" }}>
+                        <Button type='primary' onClick={toggleModal}>
+                            Create Course
+                        </Button>
                     </div>
                     <div>
                         <AdminCourseTable />
                     </div>
                     <Modal
                         centered
-                        title="Create Course"
+                        title='Create Course'
                         visible={isModalVisible}
                         onOk={() => {
                             form.validateFields()
                                 .then(async (values) => {
-                                    const { course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day} = values;
+                                    const {
+                                        course_code,
+                                        course_name,
+                                        course_descr,
+                                        course_registration_deadline,
+                                        course_drop_deadline,
+                                        course_student_limit,
+                                        course_credits,
+                                        price,
+                                        course_duration,
+                                        course_time,
+                                        course_day,
+                                    } = values;
+                                    let prereqs = values.prereqs
+                                        ? values.prereqs.split(",")
+                                        : null;
+                                    if (prereqs)
+                                        prereqs = prereqs.map((s) => s.trim());
                                     form.resetFields();
-                                    await props.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits, price, course_duration, course_time, course_day);
-
-                                }).then(res => {
-                                    toggleModal();
+                                    await props.createCourse(
+                                        course_code,
+                                        course_name,
+                                        course_descr,
+                                        course_registration_deadline,
+                                        course_drop_deadline,
+                                        course_student_limit,
+                                        course_credits,
+                                        price,
+                                        course_duration,
+                                        course_time,
+                                        course_day,
+                                        prereqs
+                                    );
                                 })
+                                .then((res) => {
+                                    toggleModal();
+                                });
                         }}
                         onCancel={toggleModal}
                         width={800}
@@ -102,7 +143,7 @@ export const views = {
                             labelCol={{ span: 5 }}
                             name='basic'
                             initialValues={{ remember: true }}
-                            layout="horizontal"
+                            layout='horizontal'
                         >
                             <Form.Item
                                 required
@@ -111,7 +152,8 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course code!",
+                                        message:
+                                            "Please input the course code!",
                                     },
                                 ]}
                             >
@@ -125,7 +167,8 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course name!",
+                                        message:
+                                            "Please input the course name!",
                                     },
                                 ]}
                             >
@@ -139,11 +182,28 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course description!",
+                                        message:
+                                            "Please input the course description!",
                                     },
                                 ]}
                             >
                                 <Input.TextArea id='create-course-coursedescr' />
+                            </Form.Item>
+                            <Form.Item
+                                required
+                                label='Prerequisites'
+                                name='prereqs'
+                                rules={[
+                                    {
+                                        required: false,
+                                        message: "Input any prerequisites",
+                                    },
+                                ]}
+                            >
+                                <Input
+                                    id='prereqs'
+                                    placeholder='Comma separated prerequisites'
+                                />
                             </Form.Item>
 
                             <Form.Item
@@ -153,7 +213,8 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the registration deadline!",
+                                        message:
+                                            "Please input the registration deadline!",
                                     },
                                 ]}
                             >
@@ -167,7 +228,8 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the drop deadline!",
+                                        message:
+                                            "Please input the drop deadline!",
                                     },
                                 ]}
                             >
@@ -185,7 +247,10 @@ export const views = {
                                     },
                                 ]}
                             >
-                                <Input id='create-course-courseday' placeholder="Comma separated days" />
+                                <Input
+                                    id='create-course-courseday'
+                                    placeholder='Comma separated days'
+                                />
                             </Form.Item>
 
                             <Form.Item
@@ -195,11 +260,16 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course time!",
+                                        message:
+                                            "Please input the course time!",
                                     },
                                 ]}
                             >
-                                <Input style={{ width: 90}} id='create-course-coursetime' placeholder="HH:MM" />
+                                <Input
+                                    style={{ width: 90 }}
+                                    id='create-course-coursetime'
+                                    placeholder='HH:MM'
+                                />
                             </Form.Item>
 
                             <Form.Item
@@ -209,11 +279,16 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course duration!",
+                                        message:
+                                            "Please input the course duration!",
                                     },
                                 ]}
                             >
-                                <InputNumber min={0} step={0.5} id='create-course-courseduration' />
+                                <InputNumber
+                                    min={0}
+                                    step={0.5}
+                                    id='create-course-courseduration'
+                                />
                             </Form.Item>
                             <Form.Item
                                 required
@@ -222,7 +297,8 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the student limit!",
+                                        message:
+                                            "Please input the student limit!",
                                     },
                                 ]}
                             >
@@ -236,11 +312,16 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course credits!",
+                                        message:
+                                            "Please input the course credits!",
                                     },
                                 ]}
                             >
-                                <InputNumber min={0} step={0.5} id='create-course-coursecredits' />
+                                <InputNumber
+                                    min={0}
+                                    step={0.5}
+                                    id='create-course-coursecredits'
+                                />
                             </Form.Item>
 
                             <Form.Item
@@ -250,19 +331,26 @@ export const views = {
                                 rules={[
                                     {
                                         required: true,
-                                        message: "Please input the course price!",
+                                        message:
+                                            "Please input the course price!",
                                     },
                                 ]}
                             >
-                                <InputNumber 
-                                    formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                    parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                                    min={0} 
-                                    step={10} 
-                                    id='create-course-courseprice' 
+                                <InputNumber
+                                    formatter={(value) =>
+                                        `$ ${value}`.replace(
+                                            /\B(?=(\d{3})+(?!\d))/g,
+                                            ","
+                                        )
+                                    }
+                                    parser={(value) =>
+                                        value.replace(/\$\s?|(,*)/g, "")
+                                    }
+                                    min={0}
+                                    step={10}
+                                    id='create-course-courseprice'
                                 />
                             </Form.Item>
-
 
                             {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             {failed && "Wrong credentials"}
@@ -271,9 +359,12 @@ export const views = {
                     </Modal>
                     <ToastContainer />
                 </div>
-            )
+            );
         }),
-        Students: connect(null, actions)((props) => {
+        Students: connect(
+            null,
+            actions
+        )((props) => {
             props.fetchStudents();
             const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -281,90 +372,95 @@ export const views = {
 
             const toggleModal = () => {
                 setIsModalVisible(!isModalVisible);
-            }
-            return <div>
-                <div style={{ padding: '0.7em 0', float: 'right' }}>
-                    <Button type="primary" onClick={toggleModal}>Create Student</Button>
-                </div>
+            };
+            return (
                 <div>
-                    <StudentsTable />
-                </div>
-                <Modal
-                    title="Create Student"
-                    visible={isModalVisible}
-                    onOk={() => {
-                        form.validateFields()
-                            .then(async (values) => {
-                                const { name, username, password } = values;
-                                form.resetFields();
-                                props.createStudent(name, username, password)
-                            }).then(res => {
-                                toggleModal();
-                            })
-                    }}
-                    onCancel={toggleModal}
-                >
-                    <Form
-                        // {...layout}
-                        form={form}
-                        className='signin-form'
-                        labelCol={{ span: 5 }}
-                        name='basic'
-                        initialValues={{ remember: true }}
+                    <div style={{ padding: "0.7em 0", float: "right" }}>
+                        <Button type='primary' onClick={toggleModal}>
+                            Create Student
+                        </Button>
+                    </div>
+                    <div>
+                        <StudentsTable />
+                    </div>
+                    <Modal
+                        title='Create Student'
+                        visible={isModalVisible}
+                        onOk={() => {
+                            form.validateFields()
+                                .then(async (values) => {
+                                    const { name, username, password } = values;
+                                    form.resetFields();
+                                    props.createStudent(
+                                        name,
+                                        username,
+                                        password
+                                    );
+                                })
+                                .then((res) => {
+                                    toggleModal();
+                                });
+                        }}
+                        onCancel={toggleModal}
                     >
-                        <Form.Item
-                            required
-                            label='Full Name'
-                            name='name'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input the name!",
-                                },
-                            ]}
+                        <Form
+                            // {...layout}
+                            form={form}
+                            className='signin-form'
+                            labelCol={{ span: 5 }}
+                            name='basic'
+                            initialValues={{ remember: true }}
                         >
-                            <Input id='student-name' />
-                        </Form.Item>
-                        <Form.Item
-                            required
-                            label='Username'
-                            name='username'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input the username!",
-                                },
-                            ]}
-                        >
-                            <Input id='student-username' />
-                        </Form.Item>
+                            <Form.Item
+                                required
+                                label='Full Name'
+                                name='name'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the name!",
+                                    },
+                                ]}
+                            >
+                                <Input id='student-name' />
+                            </Form.Item>
+                            <Form.Item
+                                required
+                                label='Username'
+                                name='username'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the username!",
+                                    },
+                                ]}
+                            >
+                                <Input id='student-username' />
+                            </Form.Item>
 
-                        <Form.Item
-                            label='Password'
-                            name='password'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: "Please input the password!",
-                                },
-                            ]}
-                        >
-                            <Input.Password id='student-password' />
-                        </Form.Item>
+                            <Form.Item
+                                label='Password'
+                                name='password'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the password!",
+                                    },
+                                ]}
+                            >
+                                <Input.Password id='student-password' />
+                            </Form.Item>
 
-                        {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                            {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             {failed && "Wrong credentials"}
                         </Form.Item> */}
-                    </Form>
-                </Modal>
-                <ToastContainer />
-
-            </div>
-        }
-        )
-    }
+                        </Form>
+                    </Modal>
+                    <ToastContainer />
+                </div>
+            );
+        }),
+    },
 };
-
-
 
 // module.exports = { menus }
