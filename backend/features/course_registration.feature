@@ -26,6 +26,18 @@ Feature: Student registers for a course
     | address          | course_code | course_name | username   |
     | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" |
 
+    @createstudent @wipetables @createcoursewithprereqs
+    Scenario Outline: Fail to register for course because missing prereqs
+        Given Express Server is running and address is <address>
+        When Username is <username>
+        When Course code is <course_code> and course name is <course_name>
+        When Student registers for the course
+        Then Operation was unsuccessful
+
+    Examples:
+    | address          | course_code | course_name | username   |
+    | "localhost:8080" | "COMP40023"  | "COMP4004"  | "ryanduan" |
+
     @createstudent @createcourse @wipetables
     Scenario Outline: Fail to register past deadline
         Given Express Server is running and address is <address>
