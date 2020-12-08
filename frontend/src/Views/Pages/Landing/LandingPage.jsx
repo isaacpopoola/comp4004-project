@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
-import CoursesTable from "./CoursesTable.component";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { withCookies } from "react-cookie";
@@ -70,22 +68,27 @@ class LandingPage extends Component {
     };
 
     route = (type, menu) => {
-        switch (type){
+        switch (type) {
             case "Student":
-                switch (menu){
-                    case "MyCourses": return <views.Student.MyCourses />
-                    case "Registration": return <views.Student.Registration />
+                switch (menu) {
+                    case "MyCourses":
+                        return <views.Student.MyCourses />;
+                    case "Registration":
+                        return <views.Student.Registration />;
                 }
                 break;
             case "Admin":
-                switch (menu){
-                    case "Home": return <views.Admin.Home />
-                    case "Courses": return <views.Admin.Courses />
-                    case "Students": return <views.Admin.Students />
+                switch (menu) {
+                    case "Home":
+                        return <views.Admin.Home />;
+                    case "Courses":
+                        return <views.Admin.Courses />;
+                    case "Students":
+                        return <views.Admin.Students />;
                 }
                 break;
         }
-    }
+    };
 
     render() {
         const { collapsed, signinmodal } = this.state;
@@ -120,7 +123,6 @@ class LandingPage extends Component {
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>
-                            {/* {views[type][this.state.currentview]} */}
                             {this.route(type, this.state.currentview)}
                         </Content>
                     </Layout>
@@ -135,10 +137,5 @@ class LandingPage extends Component {
         );
     }
 }
-
-// const mapStateToProps = (state) => {};
-
-// const mapDispatchToProps = (dispatch) => {};
-// export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);
 
 export default withCookies(LandingPage);
