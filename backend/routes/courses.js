@@ -80,8 +80,12 @@ router.post("", async (req, resp) => {
                     });
             })
             .catch((err) => {
-                console.log(err);
-                resp.status(500).send({ message: "Error creating course" });
+                console.log(`*********************ERROR CODE:${err.parent.code}`);
+                if (err.parent.code == 23505){
+                    resp.status(400).send({message: `${course_code} already exists`});
+                } else {
+                    resp.status(500).send({ message: "Error creating course" });
+                }
             });
     }
 });
