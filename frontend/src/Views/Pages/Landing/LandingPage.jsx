@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./LandingPage.scss";
 import LandingNavBar from "./Navbar/Navbar.component";
 import SignInModal from "./SignInModal/Modal.component";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { withCookies } from "react-cookie";
 import { menus, views } from "./views";
@@ -21,6 +21,14 @@ class LandingPage extends Component {
             currentview: "home",
         };
     }
+
+    handleLogout = () => {
+        const { cookies } = this.props;
+        cookies.remove("username");
+        cookies.remove("type");
+        toast.success("Logged Out");
+        this.handleSignIn();
+    };
 
     onCollapse = (collapsed) => this.setState({ collapsed });
 
@@ -119,7 +127,7 @@ class LandingPage extends Component {
                         >
                             <LandingNavBar
                                 onClick={this.handleSignup}
-                                handleSignin={this.handleSignInModalVisibile}
+                                handleLogout={this.handleLogout}
                             />
                         </Header>
                         <Content style={{ margin: "0 16px" }}>

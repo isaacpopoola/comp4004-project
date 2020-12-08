@@ -1,5 +1,5 @@
 Feature: Register Student
-    I want to be able to login as different types of users
+    I want to be able to register as a student
 
     Scenario Outline: Register new student
         Given I open CMS page
