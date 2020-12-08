@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Table, Space } from "antd";
 import * as actions from "../../../Redux/Actions";
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 class CoursesTable extends Component {
     componentDidMount() {
@@ -33,7 +33,11 @@ class CoursesTable extends Component {
                     dataIndex='course_credits'
                     key='courseCredits'
                 />
-
+                <Column
+                    title='Prerequisites'
+                    dataIndex='prereqs'
+                    key='prereqs'
+                />
                 <Column
                     title='Registration Deadline'
                     dataIndex='course_registration_deadline'
@@ -49,7 +53,6 @@ class CoursesTable extends Component {
                     dataIndex='course_student_limit'
                     key='studentLimit'
                 />
-                {/* <Column title='Spots Available' dataIndex='course_drop_deadline' key='dropDeadline' /> */}
 
                 <Column
                     title='Enroll'

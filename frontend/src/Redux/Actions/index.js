@@ -58,6 +58,7 @@ export const enrollInClass = (courseCode) => async (dispatch) => {
     const response = await api.enrollInClass(courseCode);
 
     if (response.status >= 400) {
+        toast.error(response.data.message);
         dispatch({ type: "ENROLL_CLASS_FAILED" });
     } else if (response.status === 200) {
         toast.success(`Enrolled in ${courseCode}`);
