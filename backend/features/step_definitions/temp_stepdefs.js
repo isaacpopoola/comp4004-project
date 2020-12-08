@@ -17,21 +17,23 @@ const request = require("supertest");
 
 const db = require("../../db/models");
 
-BeforeAll(() => {
-    db.Courses.sync().then(() => {
-        db.Students.sync().then(() => {
-            db.FinalGrades.sync().then(() => {
-                db.Deliverables.sync().then(() => {
-                    db.DeliverableGrades.sync().then(() => {
-                        db.Professors.sync().then(() => {
-                            db.ProfessorAssignedCourses.sync({}).then(() => {
-                                db.StudentRegisteredCourses.sync({}).then(
-                                    () => {
-                                        db.Administrators.sync(
-                                            {}
-                                        ).then(() => {});
-                                    }
-                                );
+BeforeAll(async () => {
+    await db.Courses.sync({ force: true }).then(() => {
+        db.Students.sync({ force: true }).then(() => {
+            db.FinalGrades.sync({ force: true }).then(() => {
+                db.Deliverables.sync({ force: true }).then(() => {
+                    db.DeliverableGrades.sync({ force: true }).then(() => {
+                        db.Professors.sync({ force: true }).then(() => {
+                            db.ProfessorAssignedCourses.sync({
+                                force: true,
+                            }).then(() => {
+                                db.StudentRegisteredCourses.sync({
+                                    force: true,
+                                }).then(() => {
+                                    db.Administrators.sync({
+                                        force: true,
+                                    }).then(() => {});
+                                });
                             });
                         });
                     });
@@ -49,6 +51,20 @@ Before({ tags: "@createadmin" }, async () => {
 });
 
 Before({ tags: "@enrollCOMP3000" }, async () => {
+    await db.Students.create({
+        username: "ryanduan",
+        password: "pw",
+        gpa: 12.0,
+        name: "Ryan Duan",
+    });
+    await db.Courses.create({
+        course_code: "COMP3000",
+        course_name: "COMP3000",
+        registered_students: 50,
+        course_student_limit: 50,
+        course_descr: "Hello hi",
+        course_credits: 0.5,
+    });
     await db.StudentRegisteredCourses.create({
         student_id: 1,
         course_code: "COMP3000",
@@ -104,7 +120,7 @@ Before({ tags: "@createdeliverable" }, async () => {
         grade_weight: 70,
         description: "group project",
         due_date: "2020/12/25",
-        answer: "correct"
+        answer: "correct",
     });
 });
 
@@ -285,6 +301,23 @@ Then("New user is added to the database", async function () {
         });
 });
 
+When("Register user", async function () {
+    await request(app)
+        .post("/register")
+        .send({
+            username: this.username,
+            password: this.password,
+            type: this.type,
+            name: this.name,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            console.log("**********");
+            console.log(this.response);
+        });
+});
+
 When("Student is deleted", async function () {
     await request(app)
         .post("/delete_student")
@@ -355,45 +388,51 @@ When("Student drops the course", async function () {
         });
 });
 
-Then("Operation was successful with final grade and no refund", async function () {
-    assert.strictEqual(this.response.status, 200);
+Then(
+    "Operation was successful with final grade and no refund",
+    async function () {
+        assert.strictEqual(this.response.status, 200);
 
-    let student = await db.Students.findOne({
-        where: { username: this.username },
-    });
-    let student_grade = await db.FinalGrades.findOne({
-        where: { student_id: student.id, course_code: this.course_code },
-    });
-    assert.notStrictEqual(student_grade, null);
+        let student = await db.Students.findOne({
+            where: { username: this.username },
+        });
+        let student_grade = await db.FinalGrades.findOne({
+            where: { student_id: student.id, course_code: this.course_code },
+        });
+        assert.notStrictEqual(student_grade, null);
 
-    let course = await db.Courses.findOne({
-        where: { course_code: this.course_code },
-    });
+        let course = await db.Courses.findOne({
+            where: { course_code: this.course_code },
+        });
 
-    assert.strictEqual(course.registered_students, 0);
+        assert.strictEqual(course.registered_students, 0);
 
-    assert.strictEqual(student.balance, 10000);
-});
+        assert.strictEqual(student.balance, 10000);
+    }
+);
 
-Then("Operation was successful with no final grade and refund", async function () {
-    assert.strictEqual(this.response.status, 200);
+Then(
+    "Operation was successful with no final grade and refund",
+    async function () {
+        assert.strictEqual(this.response.status, 200);
 
-    let student = await db.Students.findOne({
-        where: { username: this.username },
-    });
-    let student_grade = await db.FinalGrades.findOne({
-        where: { student_id: student.id, course_code: this.course_code },
-    });
-    assert.strictEqual(student_grade, null);
+        let student = await db.Students.findOne({
+            where: { username: this.username },
+        });
+        let student_grade = await db.FinalGrades.findOne({
+            where: { student_id: student.id, course_code: this.course_code },
+        });
+        assert.strictEqual(student_grade, null);
 
-    let course = await db.Courses.findOne({
-        where: { course_code: this.course_code },
-    });
+        let course = await db.Courses.findOne({
+            where: { course_code: this.course_code },
+        });
 
-    assert.strictEqual(course.registered_students, 0);
+        assert.strictEqual(course.registered_students, 0);
 
-    assert.strictEqual(student.balance, 0);
-});
+        assert.strictEqual(student.balance, 0);
+    }
+);
 
 When("Admin cancels the course", async function () {
     await request(app)
@@ -407,43 +446,52 @@ When("Admin cancels the course", async function () {
         });
 });
 
-Then('Operation was successful and student balance is {int}', async function (student_balance) {
-    assert.strictEqual(this.response.status, 200);
+Then(
+    "Operation was successful and student balance is {int}",
+    async function (student_balance) {
+        assert.strictEqual(this.response.status, 200);
 
-    let student = await db.Students.findOne({
-        where: { username: this.username },
-    });
+        let student = await db.Students.findOne({
+            where: { username: this.username },
+        });
 
-    assert.strictEqual(student.balance, 10000);
-});
+        assert.strictEqual(student.balance, 10000);
+    }
+);
 
-When('Course code is {string} and Deliverable id is {int}', function (course_code, deliverable_id) {
-    this.course_code = course_code;
-    this.deliverable_id = deliverable_id;
-});
+When(
+    "Course code is {string} and Deliverable id is {int}",
+    function (course_code, deliverable_id) {
+        this.course_code = course_code;
+        this.deliverable_id = deliverable_id;
+    }
+);
 
-When('Deliverable deadline is {string}', async function (deadline) {
+When("Deliverable deadline is {string}", async function (deadline) {
     await db.Deliverables.update(
         { due_date: deadline },
         { where: { id: this.deliverable_id } }
     );
 });
 
-When('Student submits deliverable with answer {string}', async function (answer) {
-    await request(app)
-        .post("/submit_deliverable")
-        .set("Cookie", [`username=${this.username}`])
-        .send({
-            deliverable_id: this.deliverable_id,
-            submission: answer,
-        })
-        .then((res) => {
-            this.response = {};
-            this.response.status = res.status;
-        });
-});
+When(
+    "Student submits deliverable with answer {string}",
+    async function (answer) {
+        await request(app)
+            .post("/submit_deliverable")
+            .set("Cookie", [`username=${this.username}`])
+            .send({
+                deliverable_id: this.deliverable_id,
+                submission: answer,
+            })
+            .then((res) => {
+                this.response = {};
+                this.response.status = res.status;
+            });
+    }
+);
 
-Then('Operation was successful and grade is {int}', async function (grade) {
+Then("Operation was successful and grade is {int}", async function (grade) {
     assert.strictEqual(this.response.status, 200);
 
     let student = await db.Students.findOne({
@@ -451,7 +499,7 @@ Then('Operation was successful and grade is {int}', async function (grade) {
     });
 
     let d_grade = await db.DeliverableGrades.findOne({
-        where: { 
+        where: {
             student_id: student.id,
             course_code: this.course_code,
             deliverable_id: this.deliverable_id,

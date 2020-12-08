@@ -66,7 +66,7 @@ Examples:
     | "localhost:8080" |
 
 
-    @wipetables @createunavailablecourse
+    @createunavailablecourse @wipetables 
     Scenario Outline: Get all available courses returns empty list of courses if 0 courses are available
         Given Express Server is running and address is <address>
         When Get all courses
@@ -76,7 +76,7 @@ Examples:
         |address|
     | "localhost:8080" |
 
-    @enrollCOMP3000 @wipetables @createstudent
+    @enrollCOMP3000 @wipetables 
     Scenario Outline: Get all ryanduan's enrolled classes returns non-empty list of courses
         Given Express Server is running and address is <address>
         When Get enrolled courses for <username>
@@ -86,7 +86,7 @@ Examples:
         |address           | username   |
         | "localhost:8080" | "ryanduan" |
 
-    @wipetables @createstudent
+    @createstudent @wipetables 
     Scenario Outline: Get all ryanduan's enrolled classes returns empty list of courses
         Given Express Server is running and address is <address>
         When Get enrolled courses for <username>
