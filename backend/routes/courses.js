@@ -25,9 +25,9 @@ router.post("", async (req, resp) => {
         price,
         course_time,
         course_day,
-        course_duration
+        course_duration,
+        prereqs,
     } = req.body;
-
     // check if primary and foreign keys are null
     if (!course_code || !course_name || !course_descr || !course_credits) {
         return resp.status(400).send({
@@ -40,12 +40,10 @@ router.post("", async (req, resp) => {
         });
     }
     // check if prof exists
-    console.log("check if prof exists");
     let prof = await Professors.findOne({ where: { id: profId } });
 
     if (!prof) resp.status(400).send({ message: "Professor does not exist" });
     else {
-        console.log("Creating Course");
         Courses.create({
             course_code,
             course_name,
@@ -59,6 +57,7 @@ router.post("", async (req, resp) => {
             course_day,
             course_duration,
             registered_students: 0,
+            prereqs: prereqs ? prereqs : [],
         })
             .then((res) => {
                 console.log("Assigning Professor to Course");
@@ -80,9 +79,13 @@ router.post("", async (req, resp) => {
                     });
             })
             .catch((err) => {
-                console.log(`*********************ERROR CODE:${err.parent.code}`);
-                if (err.parent.code == 23505){
-                    resp.status(400).send({message: `${course_code} already exists`});
+                console.log(
+                    `*********************ERROR CODE:${err.parent.code}`
+                );
+                if (err.parent.code == 23505) {
+                    resp.status(400).send({
+                        message: `${course_code} already exists`,
+                    });
                 } else {
                     resp.status(500).send({ message: "Error creating course" });
                 }

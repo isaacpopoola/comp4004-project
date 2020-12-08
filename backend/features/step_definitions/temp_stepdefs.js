@@ -116,6 +116,23 @@ Before({ tags: "@createcourse" }, async () => {
     });
 });
 
+Before({ tags: "@createcoursewithprereqs" }, async function () {
+    await db.Courses.create({
+        course_code: "COMP40023",
+        course_name: "Software Quality Assurance",
+        course_descr: "A very interesting course",
+        course_credits: 0.5,
+        course_student_limit: 1,
+        registered_students: 0,
+        course_registration_deadline: "2020/12/25",
+        course_drop_deadline: "2020/12/25",
+        price: 10000,
+        course_time: "10:00",
+        course_duration: 1.5,
+        course_day: "Tueday,Thursday",
+        prereqs: ["COMP3004"],
+    });
+});
 Before({ tags: "@createdeliverable" }, async () => {
     await db.Deliverables.create({
         id: 1,
@@ -159,6 +176,11 @@ When("Get all courses", async function () {
             this.response.status = res.status;
             this.response.courses = res.body.courses;
         });
+});
+
+When("prereqs are {string}", (prereqs) => {
+    const prerequisites = prereqs.split(",");
+    this.prerequisites = prerequisites;
 });
 
 When("Student {string} exists", async function (string) {
@@ -246,6 +268,7 @@ When("Course is created", async function () {
             course_descr: this.course_descr,
             course_credits: this.course_descr,
             profId: this.prof_id,
+            prereqs: this.prerequisites,
         })
         .then((res) => {
             this.response = {};
@@ -316,7 +339,6 @@ When("Register user", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log("**********");
             console.log(this.response);
         });
 });
