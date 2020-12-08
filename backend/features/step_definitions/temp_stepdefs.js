@@ -110,6 +110,9 @@ Before({ tags: "@createcourse" }, async () => {
         course_registration_deadline: "2020/12/25",
         course_drop_deadline: "2020/12/25",
         price: 10000,
+        course_time: "10:00",
+        course_duration: 1.5,
+        course_day: "Tueday,Thursday",
     });
 });
 
