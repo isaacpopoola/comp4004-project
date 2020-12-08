@@ -53,7 +53,7 @@ import api from "../../../src/Services"
 
   And('Submit form', () => {
     cy.wait(200);
-    cy.get('body > div:nth-child(9) > div > div.ant-modal-wrap > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary').click()
+    cy.get('body > div:nth-child(8) > div > div.ant-modal-wrap > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary').click()
   })
 
 

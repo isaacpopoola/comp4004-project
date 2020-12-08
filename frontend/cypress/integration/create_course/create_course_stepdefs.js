@@ -98,7 +98,7 @@ And('Input duration {float}', (duration) => {
 
   And('Submit form', () => {
     cy.wait(200);
-    cy.get('body > div:nth-child(9) > div > div.ant-modal-wrap.ant-modal-centered > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary').click()
+    cy.get('body > div:nth-child(8) > div > div.ant-modal-wrap.ant-modal-centered > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary').click()
   })
 
 
