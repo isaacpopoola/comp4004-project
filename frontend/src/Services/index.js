@@ -55,7 +55,8 @@ const api = {
         price,
         course_duration,
         course_time,
-        course_day
+        course_day,
+        prereqs
     ) =>
         ApiInstance.post("/course", {
             course_code,
@@ -71,6 +72,7 @@ const api = {
             course_time,
             course_day,
             section: "A",
+            prereqs,
         }),
     submitDeliverable: (deliverable_id, submission) => 
         ApiInstance.post("/submit_deliverable", {

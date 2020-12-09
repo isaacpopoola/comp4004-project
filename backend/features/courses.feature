@@ -15,6 +15,21 @@ Feature: Create Courses and Assign Professor
     | address          | course_code   | course_name                  | course_descr                | credits | prof_id |
     | "localhost:8080" | "COMP4004"    | "Software Quality Assurance" | "A very interesting course" | 0.5     | 1       |
 
+    @wipetables
+    Scenario Outline: Course is  created successfully with prereqs
+        Given Express Server is running and address is <address>
+        When Course code is <course_code> and course name is <course_name>
+        When Professor <prof_id> exists
+        When Course description is <course_descr>
+        When Course credits is <credits>
+        When prereqs are <prereqs>
+        When Course is created
+        Then Operation was successful
+
+    Examples:
+    | address          | course_code   | course_name                  | course_descr                | credits | prof_id | prereqs |
+    | "localhost:8080" | "COMP4004"    | "Software Quality Assurance" | "A very interesting course" | 0.5     | 1       | "COMP3000,COMP3005" |
+
     @wipetables @createcourse
     Scenario Outline: Course already exists
         Given Express Server is running and address is <address>

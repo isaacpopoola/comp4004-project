@@ -29,15 +29,34 @@ router.post("", async (req, res) => {
     } else if (course.registered_students >= course.course_student_limit) {
         return res.status(400).send({ message: "Course is full" });
     } else {
-        let registered = await StudentRegisteredCourses.findOne({ 
+        let registered = await StudentRegisteredCourses.findOne({
             where: {
                 student_id: student.id,
                 course_code: course.course_code,
-            } });
+            },
+        });
 
         if (registered) {
-            return res.status(400).send({ message: "Student is already registered" });
+            return res
+                .status(400)
+                .send({ message: "Student is already registered" });
         }
+
+        const prerequisites = course.prereqs || [];
+        const enrolledCourses = await StudentRegisteredCourses.findAll({
+            where: { student_id: student.id },
+        });
+
+        let hasAllPrereqs = true;
+        for (let course of prerequisites) {
+            if (!(course in enrolledCourses)) {
+                hasAllPrereqs = false;
+                break;
+            }
+        }
+
+        if (!hasAllPrereqs)
+            return res.status(400).send({ message: "Missing prerequisites" });
 
         let student_registration = {
             student_id: student.id,
@@ -53,7 +72,7 @@ router.post("", async (req, res) => {
 
             // add course price to student balance
             Students.update(
-                { balance: (student.balance + course.price) },
+                { balance: student.balance + course.price },
                 { where: { id: student.id } }
             );
 
