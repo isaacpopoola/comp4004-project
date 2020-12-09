@@ -95,6 +95,19 @@ router.post("", async (req, resp) => {
     }
 });
 
+router.get("/all", async (req, res) => {
+    try {
+        const courses = await Courses.findAll({
+            where: {},
+        });
+        return res.status(200).send({ courses });
+    } catch {
+        return res
+            .status(400)
+            .send({ message: "error retrieving available courses" });
+    }
+});
+
 router.get("/available", async (req, res) => {
     try {
         const courses = await Courses.findAll({

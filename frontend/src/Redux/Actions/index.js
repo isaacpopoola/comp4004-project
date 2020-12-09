@@ -26,6 +26,20 @@ export const fetchStudents = () => async (dispatch) => {
     return Promise.resolve();
 };
 
+export const fetchAvailableCourses = () => async (dispatch) => {
+    const response = await api.fetchAvailableCourses();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_AVAILABLE_COURSES_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_AVAILABLE_COURSES_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
+};
+
 export const fetchAllCourses = () => async (dispatch) => {
     const response = await api.fetchAllCourses();
 
