@@ -7,7 +7,7 @@ const { Column } = Table;
 
 class CoursesTable extends Component {
     componentDidMount() {
-        this.props.fetchAllCourses();
+        this.props.fetchAvailableCourses();
     }
 
     render() {
@@ -78,7 +78,7 @@ class CoursesTable extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    courses: state.courses,
+    courses: state.availableCourses,
 });
 
 export default connect(mapStateToProps, actions)(CoursesTable);

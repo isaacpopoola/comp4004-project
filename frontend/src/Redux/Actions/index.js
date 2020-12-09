@@ -26,6 +26,20 @@ export const fetchStudents = () => async (dispatch) => {
     return Promise.resolve();
 };
 
+export const fetchAvailableCourses = () => async (dispatch) => {
+    const response = await api.fetchAvailableCourses();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_AVAILABLE_COURSES_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_AVAILABLE_COURSES_SUCCESS",
+            payload: response.data.courses,
+        });
+    }
+    return Promise.resolve();
+};
+
 export const fetchAllCourses = () => async (dispatch) => {
     const response = await api.fetchAllCourses();
 
@@ -116,6 +130,7 @@ export const dropClass = (courseCode) => async (dispatch) => {
     const response = await api.dropClass(courseCode);
 
     if (response.status >= 400) {
+        toast.error(`Failed to dropped class ${courseCode}`);
         dispatch({ type: "DROP_CLASS_FAILED" });
     } else if (response.status === 200) {
         toast.success(`Dropped class ${courseCode}`);
@@ -131,6 +146,7 @@ export const cancelCourse = (courseCode) => async (dispatch) => {
     const response = await api.cancelCourse(courseCode);
 
     if (response.status >= 400) {
+        toast.error(`Failed to canceled course ${courseCode}`);
         dispatch({ type: "CANCEL_COURSE_FAILED" });
     } else if (response.status === 200) {
         toast.success(`Canceled course ${courseCode}`);
@@ -188,3 +204,42 @@ export const createCourse = (
     }
     return Promise.resolve();
 };
+
+export const submitDeliverable = (deliverable_id, submission) => async (dispatch) => {
+    const response = await api.submitDeliverable(deliverable_id, submission);
+
+    if (response.status >= 400) {
+        toast.error(`Deliverable could not be submitted`);
+        dispatch({
+            type: "SUBMIT_DELIVERABLE_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        toast.success(`Deliverable has been successfully submitted`);
+        dispatch({
+            type: "SUBMIT_DELIVERABLE_SUCCESS",
+            payload: (response.data || {}).message,
+        });
+    }
+
+    return Promise.resolve();
+}
+
+export const getStudentBalance = () => async (dispatch) => {
+    const response = await api.getStudentBalance();
+
+    if (response.status >= 400) {
+        toast.error(`Error retrieving balance`);
+        dispatch({
+            type: "FETCH_STUDENT_BALANCE_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_STUDENT_BALANCE_SUCCESS",
+            payload: response.data,
+        });
+    }
+    
+    return Promise.resolve();
+}

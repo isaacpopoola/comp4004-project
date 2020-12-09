@@ -83,7 +83,7 @@ class AdminCoursesTable extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    courses: state.courses,
+    courses: state.allCourses,
 });
 
 export default connect(mapStateToProps, actions)(AdminCoursesTable);

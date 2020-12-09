@@ -5,8 +5,8 @@ Feature: Login
         Given I open CMS page
         When I see the Sign in modal
         When I type in <username> and <password>
-        Then I should see the <type> Dashboard
+        Then <username> should be logged in
     
     Examples:
     | username   | password       | type       |
-    | "ryanduan" | "pw"  | "Student"  |
+    | "ryanduan" | "pw"           | "Student"  |

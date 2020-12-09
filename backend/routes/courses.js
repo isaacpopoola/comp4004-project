@@ -6,10 +6,15 @@ const ProffessorAssignedCourses = require("../db/models")
     .ProfessorAssignedCourses;
 const Courses = require("../db/models").Courses;
 const { Op } = require("sequelize");
+const { sequelize } = require("../db/models");
 const Students = require("../db/models").Students;
 const StudentRegisteredCourses = require("../db/models")
     .StudentRegisteredCourses;
 const db = require("../db/models");
+const Deliverables = require("../db/models").Deliverables;
+const DeliverableGrades = require("../db/models").DeliverableGrades;
+
+
 
 router.post("", async (req, resp) => {
     const {
@@ -93,6 +98,19 @@ router.post("", async (req, resp) => {
     }
 });
 
+router.get("/all", async (req, res) => {
+    try {
+        const courses = await Courses.findAll({
+            where: {},
+        });
+        return res.status(200).send({ courses });
+    } catch {
+        return res
+            .status(400)
+            .send({ message: "error retrieving available courses" });
+    }
+});
+
 router.get("/available", async (req, res) => {
     try {
         const courses = await Courses.findAll({
@@ -119,8 +137,32 @@ router.get("/me", async (req, res) => {
         if (!user)
             return res.status(400).send({ message: "User does not exist" });
         const courses = await StudentRegisteredCourses.findAll({
+            raw: true,
             where: { student_id: user.id },
         });
+
+        for(var i = 0; i < courses.length; i++){
+            const deliverables = await Deliverables.findAll( { raw: true, where: { course_code: courses[i].course_code} })
+           
+            if (!deliverables){
+                courses[i]["deliverables"] = []
+            } else {
+                for(var j = 0; j < deliverables.length; j++){
+                    const grades = await DeliverableGrades.findOne({
+                        raw: true, 
+                        where: { student_id: user.id, course_code: courses[i].course_code, deliverable_id: deliverables[j].id},
+                        attributes: ["grade"],
+                        order: [ [ 'grade', 'DESC' ]],
+                    })
+                    console.log(grades)
+                    deliverables[j]["grade"] = grades == null ? null : grades.grade
+                }
+
+                courses[i]["deliverables"] = deliverables;
+            }
+            
+        }
+
         return res.status(200).send({ courses });
     } catch {
         return res.sendStatus(400);

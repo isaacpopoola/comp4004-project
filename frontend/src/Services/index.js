@@ -13,8 +13,10 @@ const api = {
         ),
     register: (body) =>
         ApiInstance.post("/register", body).catch((err) => err.response),
-    fetchAllCourses: () =>
+    fetchAvailableCourses: () =>
         ApiInstance.get("/course/available").catch((err) => err.response),
+    fetchAllCourses: () =>
+            ApiInstance.get("/course/all").catch((err) => err.response),
     enrollInClass: (courseCode) =>
         ApiInstance.post("/course_registration", {
             course_code: courseCode,
@@ -72,6 +74,12 @@ const api = {
             section: "A",
             prereqs,
         }),
+    submitDeliverable: (deliverable_id, submission) => 
+        ApiInstance.post("/submit_deliverable", {
+            deliverable_id,
+            submission
+        }),
+    getStudentBalance: () => ApiInstance.get("/students/me")
 };
 
 export default api;
