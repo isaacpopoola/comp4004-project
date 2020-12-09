@@ -192,4 +192,25 @@ export const submitDeliverable = (deliverable_id, submission) => async (dispatch
             payload: (response.data || {}).message,
         });
     }
+
+    return Promise.resolve();
+}
+
+export const getStudentBalance = () => async (dispatch) => {
+    const response = await api.getStudentBalance();
+
+    if (response.status >= 400) {
+        toast.error(`Error retrieving balance`);
+        dispatch({
+            type: "FETCH_STUDENT_BALANCE_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_STUDENT_BALANCE_SUCCESS",
+            payload: response.data,
+        });
+    }
+    
+    return Promise.resolve();
 }

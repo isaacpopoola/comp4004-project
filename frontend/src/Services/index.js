@@ -74,7 +74,8 @@ const api = {
         ApiInstance.post("/submit_deliverable", {
             deliverable_id,
             submission
-        })
+        }),
+    getStudentBalance: () => ApiInstance.get("/students/me")
 };
 
 export default api;

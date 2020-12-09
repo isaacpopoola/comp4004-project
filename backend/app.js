@@ -61,6 +61,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         password: "pw",
                                         gpa: 12.0,
                                         name: "Ryan Duan",
+                                        balance: 4938.24
                                     });
                                     await db.Administrators.create({
                                         username: "admin",

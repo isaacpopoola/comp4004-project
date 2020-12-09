@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import { Table, Space } from "antd";
 import * as actions from "../../../Redux/Actions";
 import { Collapse, Card, Col, Row, Button, Typography, Modal } from 'antd';
 const { Panel } = Collapse
