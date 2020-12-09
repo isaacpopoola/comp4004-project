@@ -61,6 +61,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         password: "pw",
                                         gpa: 12.0,
                                         name: "Ryan Duan",
+                                        balance: 4938.24
                                     });
                                     await db.Administrators.create({
                                         username: "admin",
@@ -142,6 +143,51 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.StudentRegisteredCourses.create({
                                         student_id: 1,
                                         course_code: "COMP3005",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 1,
+                                        course_code: "COMP4004",
+                                        grade_weight: 70,
+                                        description: "TDD/BDD Group Project",
+                                        due_date: "2020/12/20 23:59",
+                                        answer: "correct",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 2,
+                                        course_code: "COMP3004",
+                                        grade_weight: 50,
+                                        description: "Design Patterns Assignment",
+                                        due_date: "2020/12/21 23:59",
+                                        answer: "correct",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 3,
+                                        course_code: "COMP3005",
+                                        grade_weight: 20,
+                                        description: "SQL Assignment",
+                                        due_date: "2020/12/22 23:59",
+                                        answer: "correct",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 4,
+                                        course_code: "COMP3000",
+                                        grade_weight: 57,
+                                        description: "Fork Bomb Experiment",
+                                        due_date: "2020/12/23 23:59",
+                                        answer: "correct",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 5,
+                                        course_code: "COMP3000",
+                                        grade_weight: 43,
+                                        description: "Kill the Child Assignment",
+                                        due_date: "2020/12/25 23:59",
+                                        answer: "correct",
                                     });
                                 });
                             });

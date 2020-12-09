@@ -16,14 +16,11 @@ import { Before, After, Given, Then, When } from "cypress-cucumber-preprocessor/
       cy.wait(200)
       cy.get('input#sign-in-password.ant-input').type(password);
 
-      cy.get("form#basic.ant-form.ant-form-horizontal.signin-form").submit();
+      cy.get("body > div:nth-child(6) > div > div.ant-modal-wrap.ant-modal-centered > div > div.ant-modal-content > div.ant-modal-footer > button.ant-btn.ant-btn-primary").click();
   })
 
-  Then(`I should see the {string} Dashboard`, () => {
-    /*when implmented, cy should see either:
-    *       "Student Dashboard",
-    *       "Administrator Dashboard" or
-    *       "Professors Dashboard"
-    */
+  Then(`{string} should be logged in`, (username) => {
+    cy.wait(500);
+    cy.getCookie('username').should('have.property', 'value', `${username}`)
   })
   

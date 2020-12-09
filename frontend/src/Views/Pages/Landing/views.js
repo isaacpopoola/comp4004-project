@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import StudentsTable from "./StudentsTable/StudentsTable.component";
 import CoursesTable from "./CoursesTable.component";
 import AdminCourseTable from "./AdminCourseTable.component";
 import EnrolledCoursesTable from "./EnrolledCoursesTable.component";
+import StudentDeliverablesCollapse from "./StudentDeliverablesCollapse.component";
+import StudentBalanceTable from "./StudentBalanceTable.component";
 
 import * as actions from "../../../Redux/Actions";
 import { connect } from "react-redux";
@@ -11,17 +13,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-    Layout,
     Menu,
     Modal,
     Form,
     Input,
     Button,
-    DatePicker,
     InputNumber,
+    Typography,
 } from "antd";
-// const { Header, Content, Footer, Sider } = Layout;
-// const { SubMenu } = Menu;
+const { Title } = Typography;
 
 export const menus = {
     Student: (
@@ -29,7 +29,9 @@ export const menus = {
             <Menu.Item key='1'>Home</Menu.Item>
             <Menu.Item key='2'>My Courses</Menu.Item>
             <Menu.Item key='3'>Registration</Menu.Item>
-            <Menu.Item key='4'>Calendar</Menu.Item>
+            <Menu.Item key='4'>Deliverables</Menu.Item>
+            <Menu.Item key='5'>Balance</Menu.Item>
+            <Menu.Item key='6'>Calendar</Menu.Item>
         </>
     ),
 
@@ -56,6 +58,22 @@ export const views = {
             return (
                 <div>
                     My Courses <EnrolledCoursesTable />
+                </div>
+            );
+        },
+        Deliverables: (props) => {
+            return (
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Deliverables</Title>
+                    <StudentDeliverablesCollapse />
+                </div>
+            );
+        },
+        Balance: (props) => {
+            return (
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Balance</Title>
+                    <StudentBalanceTable />
                 </div>
             );
         },
@@ -190,7 +208,6 @@ export const views = {
                                 <Input.TextArea id='create-course-coursedescr' />
                             </Form.Item>
                             <Form.Item
-                                required
                                 label='Prerequisites'
                                 name='prereqs'
                                 rules={[
