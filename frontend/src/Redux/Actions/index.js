@@ -130,6 +130,7 @@ export const dropClass = (courseCode) => async (dispatch) => {
     const response = await api.dropClass(courseCode);
 
     if (response.status >= 400) {
+        toast.error(`Failed to dropped class ${courseCode}`);
         dispatch({ type: "DROP_CLASS_FAILED" });
     } else if (response.status === 200) {
         toast.success(`Dropped class ${courseCode}`);
@@ -145,6 +146,7 @@ export const cancelCourse = (courseCode) => async (dispatch) => {
     const response = await api.cancelCourse(courseCode);
 
     if (response.status >= 400) {
+        toast.error(`Failed to canceled course ${courseCode}`);
         dispatch({ type: "CANCEL_COURSE_FAILED" });
     } else if (response.status === 200) {
         toast.success(`Canceled course ${courseCode}`);
