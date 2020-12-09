@@ -26,5 +26,5 @@ When("I log out", () => {
 Then("I should see the success toast", () => {
     cy.wait(200);
     cy.get(".Toastify__toast-body").should("be.visible");
-    cy.contains("Successfully registered!").should("be.visible");
+    cy.contains("Logged Out").should("be.visible");
 });

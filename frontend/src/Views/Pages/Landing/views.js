@@ -13,13 +13,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-    Menu, 
-    Modal, 
-    Form, 
-    Input, 
-    Button, 
-    InputNumber, 
-    Typography 
+    Menu,
+    Modal,
+    Form,
+    Input,
+    Button,
+    InputNumber,
+    Typography,
 } from "antd";
 const { Title } = Typography;
 
@@ -62,22 +62,20 @@ export const views = {
             );
         },
         Deliverables: (props) => {
-
             return (
-                <div style={{padding:"0.5em"}}>
-                    <Title level={3} >Deliverables</Title>
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Deliverables</Title>
                     <StudentDeliverablesCollapse />
                 </div>
-            )
+            );
         },
         Balance: (props) => {
-
             return (
-                <div style={{padding:"0.5em"}}>
-                    <Title level={3} >Balance</Title>
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Balance</Title>
                     <StudentBalanceTable />
                 </div>
-            )
+            );
         },
     },
 
@@ -210,7 +208,6 @@ export const views = {
                                 <Input.TextArea id='create-course-coursedescr' />
                             </Form.Item>
                             <Form.Item
-                                required
                                 label='Prerequisites'
                                 name='prereqs'
                                 rules={[
