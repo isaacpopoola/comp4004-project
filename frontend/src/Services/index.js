@@ -70,6 +70,11 @@ const api = {
             course_day,
             section: "A",
         }),
+    submitDeliverable: (deliverable_id, submission) => 
+        ApiInstance.post("/submit_deliverable", {
+            deliverable_id,
+            submission
+        })
 };
 
 export default api;

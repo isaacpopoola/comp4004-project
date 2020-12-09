@@ -3,6 +3,7 @@ import StudentsTable from "./StudentsTable/StudentsTable.component";
 import CoursesTable from "./CoursesTable.component";
 import AdminCourseTable from "./AdminCourseTable.component";
 import EnrolledCoursesTable from "./EnrolledCoursesTable.component";
+import StudentDeliverablesCollapse from "./StudentDeliverablesCollapse.component";
 
 import * as actions from "../../../Redux/Actions";
 import { connect } from "react-redux";
@@ -10,18 +11,18 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { Layout, Menu, Modal, Form, Input, Button, DatePicker, InputNumber } from "antd";
+import { Layout, Menu, Modal, Form, Input, Button, DatePicker, InputNumber, Typography } from "antd";
 // const { Header, Content, Footer, Sider } = Layout;
 // const { SubMenu } = Menu;
-
-
+const { Title } = Typography;
 export const menus = {
     Student: (
         <>
             <Menu.Item key='1'>Home</Menu.Item>
             <Menu.Item key='2'>My Courses</Menu.Item>
             <Menu.Item key='3'>Registration</Menu.Item>
-            <Menu.Item key='4'>Calendar</Menu.Item>
+            <Menu.Item key='4'>Deliverables</Menu.Item>
+            <Menu.Item key='5'>Calendar</Menu.Item>
         </>
     ),
 
@@ -51,6 +52,15 @@ export const views = {
                 </div>
             )
         },
+        Deliverables: (props) => {
+
+            return (
+                <div style={{padding:"0.5em"}}>
+                    <Title level={3} >Deliverables</Title>
+                    <StudentDeliverablesCollapse />
+                </div>
+            )
+        }
     },
 
     Admin: {

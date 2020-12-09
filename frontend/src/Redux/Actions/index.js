@@ -175,3 +175,21 @@ export const createCourse = (course_code, course_name, course_descr, course_regi
     }
     return Promise.resolve();
 };
+
+export const submitDeliverable = (deliverable_id, submission) => async (dispatch) => {
+    const response = await api.submitDeliverable(deliverable_id, submission);
+
+    if (response.status >= 400) {
+        toast.error(`Deliverable could not be submitted`);
+        dispatch({
+            type: "SUBMIT_DELIVERABLE_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        toast.success(`Deliverable has been successfully submitted`);
+        dispatch({
+            type: "SUBMIT_DELIVERABLE_SUCCESS",
+            payload: (response.data || {}).message,
+        });
+    }
+}

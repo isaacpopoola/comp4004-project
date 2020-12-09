@@ -69,6 +69,9 @@ class LandingPage extends Component {
                 case "3":
                     this.setState({ currentview: "Registration" });
                     break;
+                case "4":
+                    this.setState({ currentview: "Deliverables" });
+                    break;
                 default:
                     break;
             }
@@ -83,6 +86,8 @@ class LandingPage extends Component {
                         return <views.Student.MyCourses />;
                     case "Registration":
                         return <views.Student.Registration />;
+                    case "Deliverables":
+                        return <views.Student.Deliverables />;
                 }
                 break;
             case "Admin":
