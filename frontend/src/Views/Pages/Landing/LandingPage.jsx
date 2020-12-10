@@ -75,6 +75,9 @@ class LandingPage extends Component {
                 case "5":
                     this.setState({ currentview: "Balance" });
                     break;
+                case "6":
+                    this.setState({ currentview: "Calendar" });
+                    break;
                 default:
                     break;
             }
@@ -93,6 +96,8 @@ class LandingPage extends Component {
                         return <views.Student.Deliverables />;
                     case "Balance":
                         return <views.Student.Balance />;
+                    case "Calendar":
+                        return <views.Student.Calendar />;
                 }
                 break;
             case "Admin":

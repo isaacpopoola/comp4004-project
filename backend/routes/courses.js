@@ -142,7 +142,8 @@ router.get("/me", async (req, res) => {
         });
 
         for(var i = 0; i < courses.length; i++){
-            const deliverables = await Deliverables.findAll( { raw: true, where: { course_code: courses[i].course_code} })
+            const deliverables = await Deliverables.findAll( { raw: true, where: { course_code: courses[i].course_code} });
+            const time = await Courses.findOne({ raw: true, where: { course_code: courses[i].course_code}});
            
             if (!deliverables){
                 courses[i]["deliverables"] = []
@@ -159,6 +160,9 @@ router.get("/me", async (req, res) => {
                 }
 
                 courses[i]["deliverables"] = deliverables;
+                courses[i]["course_time"] = time.course_time
+                courses[i]["course_duration"] = time.course_duration
+                courses[i]["course_day"] = time.course_day
             }
             
         }

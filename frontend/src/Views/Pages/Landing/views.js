@@ -5,6 +5,7 @@ import AdminCourseTable from "./AdminCourseTable.component";
 import EnrolledCoursesTable from "./EnrolledCoursesTable.component";
 import StudentDeliverablesCollapse from "./StudentDeliverablesCollapse.component";
 import StudentBalanceTable from "./StudentBalanceTable.component";
+import StudentCalendar from "./StudentCalendar.component";
 
 import * as actions from "../../../Redux/Actions";
 import { connect } from "react-redux";
@@ -77,6 +78,14 @@ export const views = {
                 </div>
             );
         },
+        Calendar: (props) => {
+            return (
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Calendar</Title>
+                    <StudentCalendar />
+                </div>
+            );
+        }
     },
 
     Admin: {
