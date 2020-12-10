@@ -12,13 +12,6 @@ router.post("", async (req, res) => {
 
     const { username } = req.body;
 
-    // Students.count({ where: { username } })
-    //     .then(count => {
-    //         if (count == 0) {
-    //             return false;
-    //         }
-    //     return true;
-    // });
 
     let student = await Students.findOne({ where: { username } });
 
@@ -32,7 +25,7 @@ router.post("", async (req, res) => {
             FinalGrade.destroy({ where: { student_id: student.id } });
 
             //decrement registeered students count in courses table
-            registed_courses = StudentRegisteredCourses.findAll({ where: { student_id: student.id } });
+            let registed_courses = StudentRegisteredCourses.findAll({ where: { student_id: student.id } });
 
             for (i = 0; i < registed_courses.length; ++i) {
                 Courses.decrement(

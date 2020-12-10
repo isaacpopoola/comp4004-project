@@ -533,3 +533,21 @@ Then("Operation was successful and grade is {int}", async function (grade) {
 
     assert.strictEqual(d_grade.grade, grade);
 });
+
+Then('Operation was successful and final grade is {int} and status is {string}', async function (final_grade, status) {
+    assert.strictEqual(this.response.status, 200);
+
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let f_grade = await db.FinalGrades.findOne({
+        where: {
+            student_id: student.id,
+            course_code: this.course_code,
+        },
+    });
+
+    assert.strictEqual(f_grade.grade, final_grade);
+    assert.strictEqual(f_grade.status, status);
+});
