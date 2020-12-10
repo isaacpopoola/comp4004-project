@@ -20,7 +20,7 @@ import { Before, After, Given, Then, When } from "cypress-cucumber-preprocessor/
   })
 
   Then(`{string} should be logged in`, (username) => {
-    cy.wait(500);
+    cy.wait(2500);
     cy.getCookie('username').should('have.property', 'value', `${username}`)
   })
   

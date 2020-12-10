@@ -9,7 +9,7 @@ import api from "../../../src/Services"
     var course_drop_deadline = Date.now();
     var course_student_limit = 250;
     var course_credits = 0.5;
-    await api.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits)
+    await api.createCourse(course_code, course_name, course_descr, course_registration_deadline, course_drop_deadline, course_student_limit, course_credits).catch(err => console.log(err))
 
   })
 

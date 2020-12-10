@@ -50,7 +50,7 @@ Feature: Create Course
 
     Examples:
     | admin_username   | admin_password  | course_code    | course_name   | course_descr    | course_student_limit | course_credits | time     | days                 | duration | price   | prereqs |
-    | "admin"          | "admin"         | "COMP7008"     | "Test Course" | "A test course" | 250                  | 0.5            | "18:00"  | "Wednesday, Friday"  | 1.5      | 1234.56 | "COMP4001,  COMP4000" |
+    | "admin"          | "admin"         | "COMP7009"     | "Test Course" | "A test course" | 250                  | 0.5            | "18:00"  | "Wednesday, Friday"  | 1.5      | 1234.56 | "COMP4001,  COMP4000" |
 
     
     # Scenario Outline: Create Course Successfully
