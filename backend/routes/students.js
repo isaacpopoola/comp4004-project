@@ -34,10 +34,14 @@ router.get("/me", async (req, res) => {
         for (var i = 0; i < courses.length; i++){
             prices = await Courses.findOne({
                 where: { course_code: courses[i].course_code},
-                attributes: ["price", "course_name"]
+                attributes: ["price", "course_name", "course_time", "course_duration", "course_day"]
             })
-            courses[i]["price"] = prices.price
-            courses[i]["course_name"] = prices.course_name
+            courses[i]["price"] = prices.price;
+            courses[i]["course_name"] = prices.course_name;
+            courses[i]["course_time"] = prices.course_time;
+            courses[i]["course_duration"] = prices.course_duration;
+            courses[i]["course_day"] = prices.course_day;
+        
         }
 
         return res.status(200).send({ student, courses });
