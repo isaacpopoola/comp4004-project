@@ -551,3 +551,17 @@ Then('Operation was successful and final grade is {int} and status is {string}',
     assert.strictEqual(f_grade.grade, final_grade);
     assert.strictEqual(f_grade.status, status);
 });
+
+When('Student completes the course', async function () {
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let final_grade = {
+        student_id: student.id,
+        course_code: this.course_code,
+        grade: 100,
+        status: "COMPLETED",
+    };
+    await db.FinalGrades.create(final_grade);
+});
