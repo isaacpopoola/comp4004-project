@@ -25,12 +25,14 @@ router.post("", async (req, res) => {
             FinalGrade.destroy({ where: { student_id: student.id } });
 
             //decrement registeered students count in courses table
-            let registed_courses = StudentRegisteredCourses.findAll({ where: { student_id: student.id } });
+            let registed_courses = await StudentRegisteredCourses.findAll({ where: { student_id: student.id } });
 
             for (i = 0; i < registed_courses.length; ++i) {
-                Courses.decrement(
-                    'registered_students',
-                    { where: { course_code: registed_courses[i].course_code } }
+                let curr_course = await Courses.findOne({ where: { course_code: registed_courses[i].course_code } });
+                let new_count = curr_course.registered_students - 1
+                await Courses.update(
+                    { registered_students: new_count },
+                    { where: { course_code: curr_course.course_code } }
                 );
             }
 
