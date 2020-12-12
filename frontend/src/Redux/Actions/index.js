@@ -54,6 +54,26 @@ export const fetchAllCourses = () => async (dispatch) => {
     return Promise.resolve();
 };
 
+export const fetchFinalGradesForStudent = () => async (dispatch) => {
+    const response = await api.getFinalGradesForStudent();
+
+    if (response.status >= 400) {
+        dispatch({ type: "FETCH_Final_Grades_FAILED" });
+    } else if (response.status === 200) {
+        dispatch({
+            type: "FETCH_FINAL_GRADES_SUCCESS",
+            payload: response.data.finalGrades,
+        });
+    }
+    return Promise.resolve();
+};
+
+export const createTerm = (dates) => async (dispatch) => {
+    toast.success("Successfully created term");
+    dispatch({ type: "CREATE_TERM_DATES", payload: dates });
+    return Promise.resolve();
+};
+
 export const fetchEnrolledCourses = () => async (dispatch) => {
     const response = await api.fetchEnrolledCourses();
 
@@ -205,7 +225,9 @@ export const createCourse = (
     return Promise.resolve();
 };
 
-export const submitDeliverable = (deliverable_id, submission) => async (dispatch) => {
+export const submitDeliverable = (deliverable_id, submission) => async (
+    dispatch
+) => {
     const response = await api.submitDeliverable(deliverable_id, submission);
 
     if (response.status >= 400) {
@@ -223,7 +245,7 @@ export const submitDeliverable = (deliverable_id, submission) => async (dispatch
     }
 
     return Promise.resolve();
-}
+};
 
 export const getStudentBalance = () => async (dispatch) => {
     const response = await api.getStudentBalance();
@@ -240,7 +262,7 @@ export const getStudentBalance = () => async (dispatch) => {
             payload: response.data,
         });
     }
-    
+
     return Promise.resolve();
 }
 
