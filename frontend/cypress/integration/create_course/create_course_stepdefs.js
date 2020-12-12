@@ -44,7 +44,7 @@ When("I click Courses", () => {
 When("I click Create Course", () => {
     cy.wait(200);
     cy.get(
-        "#root > section > section > main > div > div:nth-child(1) > button"
+        "#root > section > section > main > div > div:nth-child(1) > button:nth-child(2)"
     ).click();
 });
 
