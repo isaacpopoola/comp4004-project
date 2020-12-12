@@ -15,7 +15,31 @@ class StudentsTable extends Component {
         this.props.fetchStudents();
     }
 
+
     render() {
+        console.log(this.props)
+
+        const approveLink = (name) => {
+            var student = {}
+            this.props.students.forEach(element => {
+                if (element.username == name) {
+                    student = element;
+                    return;
+                }
+            });
+
+            if (student.is_approved) {
+                return <div>Approve</div>
+            } else {
+                return <a onClick={() => {
+                    this.props.approveStudent(name)
+                    this.forceUpdate()
+                    }}>
+                    Approve
+                        </a>
+            }
+        }
+
         return (
             <Table dataSource={this.props.students}>
                 <ColumnGroup title='Name'>
@@ -41,6 +65,16 @@ class StudentsTable extends Component {
                             >
                                 Delete
                             </a>
+                        </Space>
+                    )}
+                />
+
+                <Column
+                    title='Approve'
+                    key='approve'
+                    render={(text, record) => (
+                        <Space size='middle'>
+                            {approveLink(record.username)}
                         </Space>
                     )}
                 />

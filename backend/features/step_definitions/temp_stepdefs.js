@@ -56,6 +56,7 @@ Before({ tags: "@enrollCOMP3000" }, async () => {
         password: "pw",
         gpa: 12.0,
         name: "Ryan Duan",
+        is_approved: true
     });
     await db.Courses.create({
         course_code: "COMP3000",
@@ -77,6 +78,17 @@ Before({ tags: "@createstudent" }, async () => {
         password: "pw",
         gpa: 12.0,
         name: "Ryan Duan",
+        is_approved: true
+    });
+});
+
+Before({ tags: "@registerstudent" }, async () => {
+    await db.Students.create({
+        username: "isaacpopoola",
+        password: "pw",
+        gpa: 12.0,
+        name: "Isaac Popoola",
+        is_approved: false
     });
 });
 
@@ -189,6 +201,7 @@ When("Student {string} exists", async function (string) {
         password: "pw",
         name: "Ryan Duan",
         gpa: 12.0,
+        is_approved: true
     });
 });
 
@@ -533,3 +546,15 @@ Then("Operation was successful and grade is {int}", async function (grade) {
 
     assert.strictEqual(d_grade.grade, grade);
 });
+
+When("Student is approved", async function() {
+    await request(app)
+        .post("/register/approve")
+        .send({
+            username: this.username
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+        })
+})

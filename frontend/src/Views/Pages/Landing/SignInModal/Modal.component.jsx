@@ -14,6 +14,7 @@ const SignInModal = (props) => {
 
     const onTabChange = (key) => {
         setIsLogin(key);
+        console.log(key)
     };
 
     return (
@@ -40,6 +41,13 @@ const SignInModal = (props) => {
                                     });
                                     props.handleSignIn();
                                 } else {
+                                    console.log(res)
+
+                                    if (res.data.message == "Student has not been approved"){
+                                        toast.error(
+                                            `Student has not been approved`
+                                        );
+                                    }
                                     setFailed(true);
                                 }
                             });

@@ -79,7 +79,12 @@ const api = {
             deliverable_id,
             submission
         }),
-    getStudentBalance: () => ApiInstance.get("/students/me")
+    getStudentBalance: () => 
+        ApiInstance.get("/students/me"),
+    approveStudent: (username) =>
+        ApiInstance.post("/register/approve", {
+            username
+        })
 };
 
 export default api;

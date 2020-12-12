@@ -3,9 +3,9 @@ import { toast } from "react-toastify";
 
 export const attemptLogin = (body) => async (dispatch) => {
     const response = await api.login(body);
-
     if (response.status >= 400) {
         dispatch({ type: "LOGIN_FAILED" });
+        
     } else if (response.status === 200) {
         dispatch({ type: "LOGIN_SUCCESS" });
     }
@@ -237,6 +237,27 @@ export const getStudentBalance = () => async (dispatch) => {
     } else if (response.status === 200) {
         dispatch({
             type: "FETCH_STUDENT_BALANCE_SUCCESS",
+            payload: response.data,
+        });
+    }
+    
+    return Promise.resolve();
+}
+
+export const approveStudent = (username) => async (dispatch) => {
+    const response = await api.approveStudent(username);
+
+    
+    if (response.status >= 400) {
+        toast.error(`Error approving ${username}`);
+        dispatch({
+            type: "APPROVE_STUDENT_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        toast.success(`${username} has been approved`);
+        dispatch({
+            type: "APPROVE_STUDENT_SUCCESS",
             payload: response.data,
         });
     }

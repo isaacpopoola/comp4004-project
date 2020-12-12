@@ -17,6 +17,10 @@ router.post("", async (req, res) => {
     if (!user) {
         user = await Administrators.findOne({ where: { username } });
         type = "Admin"
+    } else {
+        if (!user.is_approved){
+            return res.status(400).send({ message: "Student has not been approved"});
+        }
     }
 
     // console.log(user);
