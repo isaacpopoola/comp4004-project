@@ -7,7 +7,6 @@ const {
     Before,
     After,
     BeforeAll,
-    AfterAll,
 } = require("cucumber");
 
 setDefaultTimeout(10000);
@@ -116,6 +115,35 @@ Before({ tags: "@createcourse" }, async () => {
     });
 });
 
+Before({ tags: "@createfinalgrade" }, async function () {
+    await db.Students.create({
+        username: "ryanduan",
+        password: "pw",
+        gpa: 12.0,
+        name: "Ryan Duan",
+    });
+    await db.Courses.create({
+        course_code: "COMP4004",
+        course_name: "Software Quality Assurance",
+        course_descr: "A very interesting course",
+        course_credits: 0.5,
+        course_student_limit: 1,
+        registered_students: 0,
+        course_registration_deadline: "2020/12/25",
+        course_drop_deadline: "2020/12/25",
+        price: 10000,
+        course_time: "10:00",
+        course_duration: 1.5,
+        course_day: "Tueday,Thursday",
+    });
+    await db.FinalGrades.create({
+        student_id: 1,
+        course_code: "COMP4004",
+        grade: 100,
+        status: "COMPLETED",
+    });
+});
+
 Before({ tags: "@createcoursewithprereqs" }, async function () {
     await db.Courses.create({
         course_code: "COMP40023",
@@ -168,6 +196,21 @@ Given("Express Server is running and address is {string}", function (address) {
         });
 });
 
+When("Student gets final grades", async function () {
+    await request(app)
+        .get("/finalGrades/me")
+        .set("Cookie", [`username=${this.username}`])
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.finalGrades = res.body.finalGrades;
+        });
+});
+
+Then("Final grades list is not empty", function () {
+    assert.strictEqual(this.response.finalGrades.length, 1);
+});
+
 When("Get all courses", async function () {
     await request(app)
         .get("/course/available")
@@ -200,7 +243,6 @@ When("Administrator {string} exists", async function (string) {
 });
 
 When("Professor {int} exists", async function (prof_id) {
-    console.log("CREATING PROF");
     await db.Professors.create({
         username: "jeanpier",
         password: "pw",
@@ -339,7 +381,6 @@ When("Register user", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
-            console.log(this.response);
         });
 });
 
