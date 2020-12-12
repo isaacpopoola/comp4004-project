@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { withCookies } from "react-cookie";
 import { menus, views } from "./views";
 
-import { Layout, Menu} from "antd";
+import { Layout, Menu } from "antd";
 const { Header, Content, Sider } = Layout;
 
 class LandingPage extends Component {
@@ -20,7 +20,6 @@ class LandingPage extends Component {
             currentview: "home",
         };
     }
-
 
     handleLogout = () => {
         const { cookies } = this.props;
@@ -78,6 +77,9 @@ class LandingPage extends Component {
                 case "6":
                     this.setState({ currentview: "Calendar" });
                     break;
+                case "7":
+                    this.setState({ currentview: "Transcript" });
+                    break;
                 default:
                     break;
             }
@@ -98,6 +100,8 @@ class LandingPage extends Component {
                         return <views.Student.Balance />;
                     case "Calendar":
                         return <views.Student.Calendar />;
+                    case "Transcript":
+                        return <views.Student.Transcript />;
                 }
                 break;
             case "Admin":

@@ -6,6 +6,7 @@ import EnrolledCoursesTable from "./EnrolledCoursesTable.component";
 import StudentDeliverablesCollapse from "./StudentDeliverablesCollapse.component";
 import StudentBalanceTable from "./StudentBalanceTable.component";
 import StudentCalendar from "./StudentCalendar.component";
+import Transcript from "./Transcript.component";
 
 import * as actions from "../../../Redux/Actions";
 import { connect } from "react-redux";
@@ -33,6 +34,7 @@ export const menus = {
             <Menu.Item key='4'>Deliverables</Menu.Item>
             <Menu.Item key='5'>Balance</Menu.Item>
             <Menu.Item key='6'>Calendar</Menu.Item>
+            <Menu.Item key='7'>Transcript</Menu.Item>
         </>
     ),
 
@@ -85,7 +87,15 @@ export const views = {
                     <StudentCalendar />
                 </div>
             );
-        }
+        },
+        Transcript: () => {
+            return (
+                <div style={{ padding: "0.5em" }}>
+                    <Title level={3}>Transcript</Title>
+                    <Transcript />
+                </div>
+            );
+        },
     },
 
     Admin: {

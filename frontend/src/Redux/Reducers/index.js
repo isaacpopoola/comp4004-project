@@ -4,6 +4,7 @@ import { students } from "./students";
 import { availableCourses, allCourses } from "./courses";
 import { enrolledCourses } from "./enrolledCourses";
 import { studentBalance } from "./studentBalance";
+import { finalGrades } from "./finalGrades";
 
 const rootReducer = combineReducers({
     login,
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     availableCourses,
     allCourses,
     enrolledCourses,
-    studentBalance
+    studentBalance,
+    finalGrades,
 });
 
 export default rootReducer;
