@@ -11,7 +11,7 @@ router.post("", async (req, res) => {
 
     switch (type) {
         case "Student":
-            const newStudent = { username, password, name, gpa: 12.0 };
+            const newStudent = { username, password, name, gpa: 12.0, is_approved: false };
             const studentExists = await Students.findOne({
                 where: { username },
             });
@@ -58,5 +58,23 @@ router.post("", async (req, res) => {
             });
     }
 });
+
+router.post("/approve", async (req, res) => {
+    const { username } = req.body;
+
+    if (!username)
+        return res.status(400).send({ message: "missing username" });
+
+    Students.update(
+        { is_approved: true },
+        { where: { username } }
+    ).then(result => {
+        return res.statusCode(200);
+    }).catch( err => {
+        return res.status(400).send({ message: "Unable to approve student" })
+    })
+    
+
+})
 
 module.exports = router;
