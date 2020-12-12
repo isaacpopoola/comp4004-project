@@ -10,11 +10,11 @@ const SignInModal = (props) => {
     const [failed, setFailed] = useState(false);
     const [isLogin, setIsLogin] = useState("1");
     const [cookie, setCookie] = useCookies(["username"]);
-    const [form] = Form.useForm();
+    const [signInForm] = Form.useForm();
+    const [registerForm] = Form.useForm();
 
     const onTabChange = (key) => {
         setIsLogin(key);
-        console.log(key)
     };
 
     return (
@@ -23,11 +23,12 @@ const SignInModal = (props) => {
             title='Sign In'
             visible={props.signinmodal}
             onOk={() => {
-                form.validateFields()
+                (isLogin === "1" ? signInForm : registerForm)
+                    .validateFields()
                     .then(async (values) => {
                         if (isLogin === "1") {
                             const { username, password } = values;
-                            form.resetFields();
+                            signInForm.resetFields();
                             api.login({
                                 username,
                                 password,
@@ -41,9 +42,10 @@ const SignInModal = (props) => {
                                     });
                                     props.handleSignIn();
                                 } else {
-                                    console.log(res)
-
-                                    if (res.data.message == "Student has not been approved"){
+                                    if (
+                                        res.data.message ==
+                                        "Student has not been approved"
+                                    ) {
                                         toast.error(
                                             `Student has not been approved`
                                         );
@@ -53,7 +55,7 @@ const SignInModal = (props) => {
                             });
                         } else if (isLogin === "2") {
                             const { username, password, name } = values;
-                            form.resetFields();
+                            registerForm.resetFields();
                             api.register({
                                 username,
                                 password,
@@ -88,7 +90,7 @@ const SignInModal = (props) => {
                 <TabPane tab='Sign In' key='1'>
                     <Form
                         // {...layout}
-                        form={form}
+                        form={signInForm}
                         className='signin-form'
                         labelCol={{ span: 5 }}
                         name='basic'
@@ -128,7 +130,7 @@ const SignInModal = (props) => {
                 <TabPane tab='Register' key='2'>
                     <Form
                         // {...layout}
-                        form={form}
+                        form={registerForm}
                         className='signin-form'
                         labelCol={{ span: 5 }}
                         name='basic'
@@ -144,7 +146,7 @@ const SignInModal = (props) => {
                                 },
                             ]}
                         >
-                            <Input id='sign-in-username' />
+                            <Input id='register-username' />
                         </Form.Item>
 
                         <Form.Item
@@ -157,11 +159,7 @@ const SignInModal = (props) => {
                                 },
                             ]}
                         >
-                            <Input.Password id='sign-in-password' />
-                        </Form.Item>
-
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            {failed && "Wrong credentials"}
+                            <Input.Password id='register-password' />
                         </Form.Item>
                         <Form.Item
                             label='Name'
@@ -173,7 +171,7 @@ const SignInModal = (props) => {
                                 },
                             ]}
                         >
-                            <Input id='sign-in-name' />
+                            <Input id='register-name' />
                         </Form.Item>
                     </Form>
                 </TabPane>
