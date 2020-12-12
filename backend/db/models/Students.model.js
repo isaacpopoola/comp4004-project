@@ -29,6 +29,10 @@ module.exports = function(sequelize, DataTypes) {
     balance: {
       type: DataTypes.DOUBLE,
       allowNull: true
+    },
+    is_approved: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     }
   }, {
     sequelize,
