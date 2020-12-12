@@ -444,7 +444,7 @@ export const views = {
                         <Form
                             // {...layout}
                             form={termForm}
-                            className='create-course-form'
+                            className='create-term-form'
                             labelCol={{ span: 5 }}
                             name='basic'
                             initialValues={{ remember: true }}
