@@ -68,6 +68,12 @@ export const fetchFinalGradesForStudent = () => async (dispatch) => {
     return Promise.resolve();
 };
 
+export const createTerm = (dates) => async (dispatch) => {
+    toast.success("Successfully created term");
+    dispatch({ type: "CREATE_TERM_DATES", payload: dates });
+    return Promise.resolve();
+};
+
 export const fetchEnrolledCourses = () => async (dispatch) => {
     const response = await api.fetchEnrolledCourses();
 

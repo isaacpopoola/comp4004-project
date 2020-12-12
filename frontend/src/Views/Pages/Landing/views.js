@@ -23,7 +23,13 @@ import {
     InputNumber,
     Typography,
 } from "antd";
+import { term } from "../../../Redux/Reducers/term";
 const { Title } = Typography;
+
+const mapStateToProps = (state) => ({
+    startDate: state.term.start_date,
+    endDate: state.term.end_date,
+});
 
 export const menus = {
     Student: (
@@ -103,21 +109,32 @@ export const views = {
             return <div>Home</div>;
         },
         Courses: connect(
-            null,
+            mapStateToProps,
             actions
         )((props) => {
             props.fetchAllCourses();
             const [isModalVisible, setIsModalVisible] = useState(false);
+            const [isTermModalVisible, setIsTermModalVisible] = useState(false);
 
             const toggleModal = () => {
                 setIsModalVisible(!isModalVisible);
             };
+
+            const toggleTermModal = () =>
+                setIsTermModalVisible(!isTermModalVisible);
 
             const [form] = Form.useForm();
 
             return (
                 <div>
                     <div style={{ padding: "0.7em 0", float: "right" }}>
+                        <Button
+                            style={{ marginRight: 10 }}
+                            type='primary'
+                            onClick={toggleTermModal}
+                        >
+                            Create Term
+                        </Button>
                         <Button type='primary' onClick={toggleModal}>
                             Create Course
                         </Button>
@@ -241,7 +258,6 @@ export const views = {
                                     placeholder='Comma separated prerequisites'
                                 />
                             </Form.Item>
-
                             <Form.Item
                                 required
                                 label='Registration Deadline'
@@ -255,6 +271,18 @@ export const views = {
                                 ]}
                             >
                                 <Input id='create-course-courseregistrationdeadline' />
+                            </Form.Item>
+                            <Form.Item
+                                label='Course Start Date'
+                                name='course_start_date'
+                            >
+                                {props.startDate || "Create Term First"}
+                            </Form.Item>
+                            <Form.Item
+                                label='Course End Date'
+                                name='course_end_date'
+                            >
+                                {props.endDate || "Create Term First"}
                             </Form.Item>
 
                             <Form.Item
@@ -393,6 +421,62 @@ export const views = {
                         </Form.Item> */}
                         </Form>
                     </Modal>
+                    <Modal
+                        centered
+                        title='Create Term'
+                        visible={isTermModalVisible}
+                        onOk={() => {
+                            form.validateFields()
+                                .then(async (values) => {
+                                    const { start_date, end_date } = values;
+                                    form.resetFields();
+                                    props.createTerm({ start_date, end_date });
+                                })
+                                .then((res) => {
+                                    toggleTermModal();
+                                });
+                        }}
+                        onCancel={toggleTermModal}
+                        width={800}
+                    >
+                        <Form
+                            // {...layout}
+                            form={form}
+                            className='create-course-form'
+                            labelCol={{ span: 5 }}
+                            name='basic'
+                            initialValues={{ remember: true }}
+                            layout='horizontal'
+                        >
+                            <Form.Item
+                                required
+                                label='Term Start Date'
+                                name='start_date'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the start date!",
+                                    },
+                                ]}
+                            >
+                                <Input id='create-term-start-date' />
+                            </Form.Item>
+
+                            <Form.Item
+                                required
+                                label='Term End Date'
+                                name='end_date'
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: "Please input the end date!",
+                                    },
+                                ]}
+                            >
+                                <Input id='create-term-end-date' />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
                     <ToastContainer />
                 </div>
             );
@@ -486,10 +570,6 @@ export const views = {
                             >
                                 <Input.Password id='student-password' />
                             </Form.Item>
-
-                            {/* <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            {failed && "Wrong credentials"}
-                        </Form.Item> */}
                         </Form>
                     </Modal>
                     <ToastContainer />
@@ -498,5 +578,3 @@ export const views = {
         }),
     },
 };
-
-// module.exports = { menus }
