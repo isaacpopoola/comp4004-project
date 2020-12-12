@@ -13,10 +13,10 @@ When(
     "I type in {string} and {string} and {string}",
     (username, password, name) => {
         cy.wait(200);
-        cy.get("#sign-in-username").type(username, { force: true });
+        cy.get("#register-username").type(username, { force: true });
         cy.wait(200);
-        cy.get("#sign-in-password").type(password, { force: true });
-        cy.get("#sign-in-name").type(name, { force: true });
+        cy.get("#register-password").type(password, { force: true });
+        cy.get("#register-name").type(name, { force: true });
         cy.get(".ant-btn:nth-child(2)").click();
     }
 );
