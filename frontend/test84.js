@@ -1,9 +1,15 @@
 const puppeteer = require("puppeteer");
 (async () => {
-    const browser = await puppeteer.launch({ headless: false, slowMo: 15 });
+    const browser = await puppeteer.launch({
+        headless: false,
+        slowMo: 15,
+        args: ["--start-fullscreen"],
+    });
     const page = await browser.newPage();
-    await page.setViewport({ width: 1440, height: 721 });
-
+    await page.setViewport({
+        width: 1400,
+        height: 800,
+    });
     /***
      * Admin creates new term and deadline
      */
@@ -63,10 +69,16 @@ const puppeteer = require("puppeteer");
     /***
      * Student 1 requests creation
      */
-    const browser2 = await puppeteer.launch({ headless: false, slowMo: 15 });
+    const browser2 = await puppeteer.launch({
+        headless: false,
+        slowMo: 15,
+        args: ["--start-fullscreen"],
+    });
     const page2 = await browser2.newPage();
-
-    await page2.setViewport({ width: 1440, height: 721 });
+    await page2.setViewport({
+        width: 1400,
+        height: 800,
+    });
 
     await page2.bringToFront();
 
@@ -204,7 +216,7 @@ const puppeteer = require("puppeteer");
      * Admin creates course 1 and course 3
      */
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
 
     await page.waitForSelector(
         ".ant-layout-content > div > div > .ant-btn:nth-child(2) > span"
@@ -300,7 +312,7 @@ const puppeteer = require("puppeteer");
         (elem) => elem.click()
     );
 
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
 
     await page.waitForSelector(
         ".ant-layout-content > div > div > .ant-btn:nth-child(2) > span"
@@ -400,10 +412,17 @@ const puppeteer = require("puppeteer");
      * Student 2 and Student 3 request creation
      */
 
-    const browser3 = await puppeteer.launch({ headless: false, slowMo: 15 });
+    const browser3 = await puppeteer.launch({
+        headless: false,
+        slowMo: 15,
+        args: ["--start-fullscreen"],
+    });
 
     const page3 = await browser3.newPage();
-    await page3.setViewport({ width: 1440, height: 721 });
+    await page3.setViewport({
+        width: 1400,
+        height: 800,
+    });
 
     await page3.bringToFront();
 
@@ -434,11 +453,17 @@ const puppeteer = require("puppeteer");
 
     await page3.waitForTimeout(2000);
 
-    const browser4 = await puppeteer.launch({ headless: false, slowMo: 15 });
+    const browser4 = await puppeteer.launch({
+        headless: false,
+        slowMo: 15,
+        args: ["--start-fullscreen"],
+    });
 
     const page4 = await browser4.newPage();
-
-    await page4.setViewport({ width: 1440, height: 721 });
+    await page4.setViewport({
+        width: 1400,
+        height: 800,
+    });
 
     await page4.bringToFront();
 
@@ -483,24 +508,24 @@ const puppeteer = require("puppeteer");
     );
 
     await page.waitForSelector(
-        ".ant-table-row:nth-child(3) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
-    );
-    await page.click(
-        ".ant-table-row:nth-child(3) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
-    );
-
-    await page.waitForSelector(
-        ".ant-table-row:nth-child(4) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
-    );
-    await page.click(
-        ".ant-table-row:nth-child(4) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
-    );
-
-    await page.waitForSelector(
         ".ant-table-row:nth-child(5) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
     );
     await page.click(
         ".ant-table-row:nth-child(5) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
+    );
+
+    await page.waitForSelector(
+        ".ant-table-row:nth-child(6) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
+    );
+    await page.click(
+        ".ant-table-row:nth-child(6) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
+    );
+
+    await page.waitForSelector(
+        ".ant-table-row:nth-child(7) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
+    );
+    await page.click(
+        ".ant-table-row:nth-child(7) > .ant-table-cell:nth-child(5) > .ant-space > .ant-space-item > a"
     );
 
     await page.waitForTimeout(2000);
@@ -586,10 +611,10 @@ const puppeteer = require("puppeteer");
     await page3.waitForTimeout(1500);
 
     await page3.waitForSelector(
-        ".ant-table-row:nth-child(4) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(7) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
     await page3.click(
-        ".ant-table-row:nth-child(4) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(7) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
 
     await page3.waitForTimeout(1500);
@@ -604,10 +629,10 @@ const puppeteer = require("puppeteer");
     await page4.waitForTimeout(1500);
 
     await page4.waitForSelector(
-        ".ant-table-row:nth-child(4) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(7) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
     await page4.click(
-        ".ant-table-row:nth-child(4) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(7) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
 
     await page4.waitForTimeout(1500);
@@ -626,19 +651,19 @@ const puppeteer = require("puppeteer");
     await page2.waitForTimeout(1500);
 
     await page2.waitForSelector(
-        ".ant-table-row:nth-child(5) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
     await page2.click(
-        ".ant-table-row:nth-child(5) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
 
     await page2.waitForTimeout(1500);
 
     await page2.waitForSelector(
-        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(8) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
     await page2.click(
-        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(8) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
 
     await page2.waitForTimeout(1500);
@@ -653,10 +678,10 @@ const puppeteer = require("puppeteer");
     await page3.waitForTimeout(1500);
 
     await page3.waitForSelector(
-        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(8) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
     await page3.click(
-        ".ant-table-row:nth-child(6) > .ant-table-cell > .ant-space > .ant-space-item > a"
+        ".ant-table-row:nth-child(8) > .ant-table-cell > .ant-space > .ant-space-item > a"
     );
 
     await page3.waitForTimeout(1500);
@@ -672,7 +697,7 @@ const puppeteer = require("puppeteer");
         (elem) => elem.click()
     );
 
-    await page2.waitForTimeout(1500);
+    await page2.waitForTimeout(2500);
 
     await page2.waitForSelector(
         ".ant-table-row:nth-child(1) > .ant-table-cell > .ant-space > .ant-space-item > a"
@@ -686,6 +711,8 @@ const puppeteer = require("puppeteer");
     /**
      * Student 2 and Student 3 Submit project for Course 1
      */
+
+    await page3.bringToFront();
 
     await page3.waitForSelector(
         ".ant-layout > .ant-layout-sider > .ant-layout-sider-children > .ant-menu > .ant-menu-item:nth-child(4)"
@@ -709,6 +736,8 @@ const puppeteer = require("puppeteer");
     );
 
     await page3.waitForTimeout(1500);
+
+    await page4.bringToFront();
 
     await page4.waitForSelector(
         ".ant-layout > .ant-layout-sider > .ant-layout-sider-children > .ant-menu > .ant-menu-item:nth-child(4)"
@@ -805,6 +834,8 @@ const puppeteer = require("puppeteer");
         (elem) => elem.click()
     );
 
+    await page2.waitForTimeout(1000);
+
     await page3.bringToFront();
 
     await page3.waitForSelector(
@@ -814,6 +845,9 @@ const puppeteer = require("puppeteer");
         ".ant-layout > .ant-layout-header > .nav > .ant-btn > span",
         (elem) => elem.click()
     );
+
+    await page3.waitForTimeout(1000);
+
     await page4.bringToFront();
 
     await page4.waitForSelector(
@@ -824,7 +858,7 @@ const puppeteer = require("puppeteer");
         (elem) => elem.click()
     );
 
-    await page4.waitForTimeout(2500);
+    await page4.waitForTimeout(1000);
 
     await browser.close();
     await browser2.close();
