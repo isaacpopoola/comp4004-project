@@ -306,6 +306,24 @@ When(
     }
 );
 
+When("Course code is {string}", function (course_code) {
+    this.course_code = course_code;
+});
+
+When("Course final grade is {int}", async function (grade) {
+    let student = await db.Students.findOne({
+        raw: true,
+        where: { username: this.username },
+    });
+
+    await db.FinalGrades.create({
+        student_id: student.id,
+        course_code: this.course_code,
+        grade,
+        status: "COMPLETED",
+    });
+});
+
 When("Course description is {string}", function (course_descr) {
     this.course_descr = course_descr;
 });
@@ -328,6 +346,20 @@ When("Course is created", async function () {
         .then((res) => {
             this.response = {};
             this.response.status = res.status;
+        });
+});
+
+When("Requests to SATUNSAT course", async function () {
+    await request(app)
+        .post("/finalGrades/request_satunsat")
+        .set("Cookie", [`username=${this.username}`])
+        .send({
+            course_code: this.course_code,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.body = res.body;
         });
 });
 
@@ -588,6 +620,45 @@ Then("Operation was successful and grade is {int}", async function (grade) {
     assert.strictEqual(d_grade.grade, grade);
 });
 
+Then("Operation was successful and is {string}", function (satunsat) {
+    assert.strictEqual(this.response.status, 200);
+    assert.strictEqual(this.response.body.status, satunsat);
+});
+
+Then(
+    "Operation was successful and final grade is {int} and status is {string}",
+    async function (final_grade, status) {
+        assert.strictEqual(this.response.status, 200);
+
+        let student = await db.Students.findOne({
+            where: { username: this.username },
+        });
+
+        let f_grade = await db.FinalGrades.findOne({
+            where: {
+                student_id: student.id,
+                course_code: this.course_code,
+            },
+        });
+
+        assert.strictEqual(f_grade.grade, final_grade);
+        assert.strictEqual(f_grade.status, status);
+    }
+);
+
+When("Student completes the course", async function () {
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let final_grade = {
+        student_id: student.id,
+        course_code: this.course_code,
+        grade: 100,
+        status: "COMPLETED",
+    };
+    await db.FinalGrades.create(final_grade);
+});
 When("Student is approved", async function () {
     await request(app)
         .post("/register/approve")

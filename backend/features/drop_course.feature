@@ -30,7 +30,7 @@ Feature: Student drops a course
     | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" | "2020/1/1"    |
 
     @createstudent @wipetables
-    Scenario Outline: Student fails to drop course
+    Scenario Outline: Student fails to drop course, when course doesnt exist
         Given Express Server is running and address is <address>
         When Username is <username>
         When Course code is <course_code> and course name is <course_name>
@@ -42,3 +42,27 @@ Feature: Student drops a course
     | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" |
 
     
+    @createstudent @createcourse @wipetables
+    Scenario Outline: Student fails to drop course they are not registered in
+        Given Express Server is running and address is <address>
+        When Username is <username>
+        When Course code is <course_code> and course name is <course_name>
+        When Student drops the course
+        Then Operation was unsuccessful
+
+    Examples:
+    | address          | course_code | course_name | username   |
+    | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" |
+
+    @createstudent @createcourse @wipetables
+    Scenario Outline: Student fails to drop course they are not registered in
+        Given Express Server is running and address is <address>
+        When Username is <username>
+        When Course code is <course_code> and course name is <course_name>
+        When Student completes the course
+        When Student drops the course
+        Then Operation was unsuccessful
+
+    Examples:
+    | address          | course_code | course_name | username   |
+    | "localhost:8080" | "COMP4004"  | "COMP4004"  | "ryanduan" |
