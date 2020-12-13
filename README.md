@@ -32,6 +32,7 @@ How to run frontend tests
     - cd into backend directory, run npm start 
     - in frontend directory, run npm run-script cypress
         - this will boot up cypress and you can run the tests inside the browse popup
+***IMPORTANT*** this generates a code coverage file in frontend/coverage/lcov-report/index.html
 
 How to run backend tests
     - run psql
@@ -49,7 +50,8 @@ How to run complex test scenarios (grid row 84 onwards)
     - after this one, run node test108.js
 
 How to run test coverage
+
+BACKEND:
     - cd into backend directory, run ./testcoverage.sh
         - if you don't have proper permissions, run chmod 777 testcoverage.sh
     - the coverage file will be in backend/coverage/lcov-report/index.html
-

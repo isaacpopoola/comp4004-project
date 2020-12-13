@@ -12,7 +12,7 @@ Feature: Student enroll in course
         
     Examples:
     | username   | password  |   course_code  |
-    | "ryanduan"          | "pw"         | "COMP4004"        |
+    | "nathaniel"          | "pw"         | "COMP4004"        |
 
 
     Scenario Outline: Cannot enroll in COMP3000 because overlimit
