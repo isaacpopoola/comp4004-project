@@ -215,7 +215,6 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 6,
                                         course_code: "COMP3005",
                                         grade_weight: 50,
                                         description: "SQL Assignment 2",
@@ -224,7 +223,6 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 4,
                                         course_code: "COMP3000",
                                         grade_weight: 50,
                                         description: "Fork Bomb Experiment",
