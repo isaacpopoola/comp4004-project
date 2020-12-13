@@ -28,6 +28,7 @@ Login credentials
 
 
 How to run frontend tests
+    - make sure database is running
     - cd into backend directory, run npm start 
     - in frontend directory, run npm run-script cypress
         - this will boot up cypress and you can run the tests inside the browse popup
@@ -39,8 +40,10 @@ How to run backend tests
 
 How to run complex test scenarios (grid row 84 onwards)
 
-    ***IMPORTANT*** RE-RUN npm start in backend before each of these test, this will reset to a fresh version the database ***IMPORTANT***
-    - inside backend directory, run node test84.js
+    ***IMPORTANT*** RE-RUN "npm start" in backend before each of these test, this will reset to a fresh version the database ***IMPORTANT***
+    - make sure database is running
+    - cd into frontend directory, run npm start
+    - inside front directory, run node test84.js
     - after this one, run node test104.js
     - after this one, run node test108.js
 
