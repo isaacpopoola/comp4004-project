@@ -74,6 +74,22 @@ db.Courses.sync({ force: true }).then(() => {
                                         is_approved: false,
                                     });
 
+                                    await db.Students.create({
+                                        username: "nathaniel",
+                                        password: "pw",
+                                        gpa: 12.0,
+                                        name: "Nathaniel Salami",
+                                        balance: 0.0,
+                                        is_approved: true,
+                                    });
+                                    await db.Students.create({
+                                        username: "rd123",
+                                        password: "pw",
+                                        gpa: 12.0,
+                                        name: "Ric",
+                                        balance: 0.0,
+                                        is_approved: true,
+                                    });
                                     await db.Administrators.create({
                                         username: "admin",
                                         password: "admin",
@@ -86,6 +102,21 @@ db.Courses.sync({ force: true }).then(() => {
                                             "A very interesting course",
                                         course_credits: 0.5,
                                         course_student_limit: 100,
+                                        registered_students: 0,
+                                        course_registration_deadline:
+                                            "2020/12/25",
+                                        course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "10:00",
+                                        course_duration: 1.5,
+                                        course_day: "Monday, Wednesday",
+                                    });
+                                    await db.Courses.create({
+                                        course_code: "ZZZZ4004",
+                                        course_name: "Test 104",
+                                        course_descr: "Test 104",
+                                        course_credits: 0.5,
+                                        course_student_limit: 2,
                                         registered_students: 0,
                                         course_registration_deadline:
                                             "2020/12/25",

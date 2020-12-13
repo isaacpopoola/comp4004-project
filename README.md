@@ -37,6 +37,7 @@ How to run backend tests
     - run psql
         - inside psql, run "create database test_cms;"
     - in backend directory, run npm test
+    *** IMPORTANT*** sometimes you might see "Sequelize error", just re-run npm test until it works
 
 How to run complex test scenarios (grid row 84 onwards)
 
