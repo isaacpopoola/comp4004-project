@@ -6,7 +6,6 @@ const ProffessorAssignedCourses = require("../db/models")
     .ProfessorAssignedCourses;
 const Courses = require("../db/models").Courses;
 const { Op } = require("sequelize");
-const { sequelize } = require("../db/models");
 const Students = require("../db/models").Students;
 const StudentRegisteredCourses = require("../db/models")
     .StudentRegisteredCourses;
@@ -69,11 +68,24 @@ router.post("", async (req, resp) => {
                     prof_id: profId,
                     section,
                 })
-                    .then((res) =>
-                        resp
-                            .status(200)
-                            .send({ message: "Successfully created course" })
-                    )
+                    .then(async (res) => {
+                        await Deliverables.create({
+                            course_code: course_code,
+                            grade_weight: 70,
+                            description: "Project",
+                            due_date: "2020/12/31 23:59",
+                        });
+
+                        await Deliverables.create({
+                            course_code: course_code,
+                            grade_weight: 30,
+                            description: "Essay",
+                            due_date: "2020/12/31 23:59",
+                        });
+                        return resp.status(200).send({
+                            message: "Successfully created course",
+                        });
+                    })
                     .catch((err) => {
                         console.log(err);
                         resp.status(500).send({
@@ -82,9 +94,6 @@ router.post("", async (req, resp) => {
                     });
             })
             .catch((err) => {
-                console.log(
-                    `*********************ERROR CODE:${err.parent.code}`
-                );
                 if (err.parent.code == 23505) {
                     resp.status(400).send({
                         message: `${course_code} already exists`,

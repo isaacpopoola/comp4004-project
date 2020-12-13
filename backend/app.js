@@ -54,15 +54,15 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Professors.create({
                                         username: "jeanpier",
                                         password: "jp",
-                                        name: "JP"
-                                    })
+                                        name: "JP",
+                                    });
                                     await db.Students.create({
                                         username: "ryanduan",
                                         password: "pw",
                                         gpa: 12.0,
                                         name: "Ryan Duan",
                                         balance: 4938.24,
-                                        is_approved: true
+                                        is_approved: true,
                                     });
 
                                     await db.Students.create({
@@ -71,7 +71,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         gpa: 12.0,
                                         name: "Isaac Popoola",
                                         balance: 0.0,
-                                        is_approved: false
+                                        is_approved: false,
                                     });
 
                                     await db.Administrators.create({
@@ -93,7 +93,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         price: 1234.56,
                                         course_time: "10:00",
                                         course_duration: 1.5,
-                                        course_day: "Monday, Wednesday"
+                                        course_day: "Monday, Wednesday",
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3004",
@@ -109,7 +109,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         price: 1234.56,
                                         course_time: "10:00",
                                         course_duration: 1.5,
-                                        course_day: "Tuesday, Thursday"
+                                        course_day: "Tuesday, Thursday",
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3000",
@@ -125,7 +125,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         price: 1234.56,
                                         course_time: "11:30",
                                         course_duration: 1.5,
-                                        course_day: "Wednesday, Friday"
+                                        course_day: "Wednesday, Friday",
                                     });
                                     await db.Courses.create({
                                         course_code: "COMP3005",
@@ -141,7 +141,7 @@ db.Courses.sync({ force: true }).then(() => {
                                         price: 1234.56,
                                         course_time: "14:30",
                                         course_duration: 3,
-                                        course_day: "Friday"
+                                        course_day: "Friday",
                                     });
                                     await db.StudentRegisteredCourses.create({
                                         student_id: 1,
@@ -157,7 +157,6 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 1,
                                         course_code: "COMP4004",
                                         grade_weight: 70,
                                         description: "TDD/BDD Group Project",
@@ -166,16 +165,15 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 2,
                                         course_code: "COMP3004",
                                         grade_weight: 50,
-                                        description: "Design Patterns Assignment",
+                                        description:
+                                            "Design Patterns Assignment",
                                         due_date: "2020/12/21 23:59",
                                         answer: "correct",
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 3,
                                         course_code: "COMP3005",
                                         grade_weight: 20,
                                         description: "SQL Assignment",
@@ -184,7 +182,6 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 4,
                                         course_code: "COMP3000",
                                         grade_weight: 57,
                                         description: "Fork Bomb Experiment",
@@ -193,10 +190,10 @@ db.Courses.sync({ force: true }).then(() => {
                                     });
 
                                     await db.Deliverables.create({
-                                        id: 5,
                                         course_code: "COMP3000",
                                         grade_weight: 43,
-                                        description: "Kill the Child Assignment",
+                                        description:
+                                            "Kill the Child Assignment",
                                         due_date: "2020/12/25 23:59",
                                         answer: "correct",
                                     });
