@@ -35,7 +35,7 @@ router.post("", async (req, res) => {
         // 50% for late submissions
         if (deliverable.due_date && today > deliverable.due_date)
             submission_grade.grade /= 2;
-
+ 
         await DeliverableGrades.create(submission_grade);
 
         // give final grade after submiting all deliverables

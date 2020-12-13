@@ -133,6 +133,7 @@ Before({ tags: "@createfinalgrade" }, async function () {
         password: "pw",
         gpa: 12.0,
         name: "Ryan Duan",
+        is_approved: true
     });
     await db.Courses.create({
         course_code: "COMP4004",
@@ -306,6 +307,31 @@ When(
     }
 );
 
+When(
+    "Course code is {string}",
+    function (course_code) {
+        this.course_code = course_code;
+    }
+);
+
+When(
+    "Course final grade is {int}",
+    async function (grade) {
+        let student = await db.Students.findOne({
+            raw: true,
+            where: { username: this.username },
+        });
+
+        await db.FinalGrades.create({
+            student_id: student.id,
+            course_code: this.course_code,
+            grade,
+            status: "COMPLETED"
+        })
+        
+    }
+);
+
 When("Course description is {string}", function (course_descr) {
     this.course_descr = course_descr;
 });
@@ -330,6 +356,20 @@ When("Course is created", async function () {
             this.response.status = res.status;
         });
 });
+
+When("Requests to SATUNSAT course", async function (){
+    await request(app)
+        .post("/finalGrades/request_satunsat")
+        .set("Cookie", [`username=${this.username}`])
+        .send({
+            course_code: this.course_code,
+        })
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.body = res.body;
+        })
+})
 
 When("Get all students", async function () {
     await request(app)
@@ -586,6 +626,11 @@ Then("Operation was successful and grade is {int}", async function (grade) {
     });
 
     assert.strictEqual(d_grade.grade, grade);
+});
+
+Then("Operation was successful and is {string}", function (satunsat) {
+    assert.strictEqual(this.response.status, 200);
+    assert.strictEqual(this.response.body.status, satunsat);
 });
 
 Then('Operation was successful and final grade is {int} and status is {string}', async function (final_grade, status) {

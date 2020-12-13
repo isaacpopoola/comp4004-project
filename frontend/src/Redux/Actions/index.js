@@ -286,3 +286,23 @@ export const approveStudent = (username) => async (dispatch) => {
     
     return Promise.resolve();
 }
+
+export const requestSAT = (course_code) => async (dispatch) => {
+    const response = await api.requestSAT(course_code);
+
+    if (response.status >= 400) {
+        toast.error(`Error requesting SAT/UNSAT`);
+        dispatch({
+            type: "SAT_REQUEST_FAILED",
+            payload: (response.data || {}).message,
+        });
+    } else if (response.status === 200) {
+        toast.success(`SAT/UNSAT request has been approved`);
+        dispatch({
+            type: "SAT_REQUEST_SUCCESS",
+            payload: response.data,
+        });
+    }
+    
+    return Promise.resolve();
+}
