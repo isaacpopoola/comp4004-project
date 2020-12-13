@@ -49,7 +49,7 @@ class StudentBalanceTable extends Component {
                                     key='courseCode'
                                 />
                                 <Column
-                                    title='Cost'
+                                    title='Cost (CAD)'
                                     dataIndex='price'
                                     key='coursePrice'
                                 />

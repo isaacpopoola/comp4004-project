@@ -168,7 +168,7 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 2,
                                         course_code: "COMP3004",
-                                        grade_weight: 50,
+                                        grade_weight: 65,
                                         description: "Design Patterns Assignment",
                                         due_date: "2020/12/21 23:59",
                                         answer: "correct",
@@ -177,7 +177,7 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 3,
                                         course_code: "COMP3005",
-                                        grade_weight: 20,
+                                        grade_weight: 45,
                                         description: "SQL Assignment",
                                         due_date: "2020/12/22 23:59",
                                         answer: "correct",

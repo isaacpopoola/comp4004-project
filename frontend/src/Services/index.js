@@ -73,20 +73,24 @@ const api = {
             course_day,
             section: "A",
             prereqs,
-        }),
+        }).catch((err) => err.response),
     submitDeliverable: (deliverable_id, submission) =>
         ApiInstance.post("/submit_deliverable", {
             deliverable_id,
             submission,
-        }),
+        }).catch((err) => err.response),
     getStudentBalance: () => 
-        ApiInstance.get("/students/me"),
+        ApiInstance.get("/students/me").catch((err) => err.response),
     approveStudent: (username) =>
         ApiInstance.post("/register/approve", {
             username
-        }),
+        }).catch((err) => err.response),
     getFinalGradesForStudent: () =>
         ApiInstance.get("/finalGrades/me").catch((err) => err.response),
+    requestSAT: (course_code) => 
+        ApiInstance.post("/finalGrades/request_satunsat", {
+            course_code
+        }).catch((err) => err.response),
 };
 
 export default api;

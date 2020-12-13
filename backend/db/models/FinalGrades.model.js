@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     grade: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: true
     },
     status: {
