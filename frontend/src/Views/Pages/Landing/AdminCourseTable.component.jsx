@@ -54,6 +54,11 @@ class AdminCoursesTable extends Component {
                     key='dropDeadline'
                 />
                 <Column
+                    title='Prerequisites'
+                    dataIndex='prereqs'
+                    key='prereqs'
+                />
+                <Column
                     title='Course Limit'
                     dataIndex='course_student_limit'
                     key='studentLimit'

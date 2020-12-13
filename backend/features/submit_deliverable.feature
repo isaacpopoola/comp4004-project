@@ -64,3 +64,16 @@ Feature: Student submits a deliverable
     Examples:
     | address          | username   | course_code | deliverable_id | submission |
     | "localhost:8080" | "ryanduan" | "COMP4004"  | 1              | "wrong"    |
+
+    @createcourse @createdeliverable @createstudent @wipetables 
+    Scenario Outline: Submit final deliverable and get final grade
+        Given Express Server is running and address is <address>
+        When Username is <username>
+        When Course code is <course_code> and Deliverable id is <deliverable_id>
+        When Deliverable deadline is <deadline>
+        When Student submits deliverable with answer <submission>
+        Then Operation was successful and final grade is <grade> and status is <status>
+
+    Examples:
+    | address          | username   | course_code | deliverable_id | deadline     | submission | grade | status      |
+    | "localhost:8080" | "ryanduan" | "COMP4004"  | 1              | "2020/12/25" | "correct"  | 100   | "COMPLETED" |

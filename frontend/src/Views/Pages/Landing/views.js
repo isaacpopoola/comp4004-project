@@ -124,6 +124,7 @@ export const views = {
                 setIsTermModalVisible(!isTermModalVisible);
 
             const [form] = Form.useForm();
+            const [termForm] = Form.useForm();
 
             return (
                 <div>
@@ -426,10 +427,11 @@ export const views = {
                         title='Create Term'
                         visible={isTermModalVisible}
                         onOk={() => {
-                            form.validateFields()
+                            termForm
+                                .validateFields()
                                 .then(async (values) => {
                                     const { start_date, end_date } = values;
-                                    form.resetFields();
+                                    termForm.resetFields();
                                     props.createTerm({ start_date, end_date });
                                 })
                                 .then((res) => {
@@ -441,8 +443,8 @@ export const views = {
                     >
                         <Form
                             // {...layout}
-                            form={form}
-                            className='create-course-form'
+                            form={termForm}
+                            className='create-term-form'
                             labelCol={{ span: 5 }}
                             name='basic'
                             initialValues={{ remember: true }}

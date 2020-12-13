@@ -27,6 +27,7 @@ class StudentDeliverablesCollapse extends Component {
     async submitDeliverable(deliv_id){
         var answers = ["correct", "wrong"]
         var submission = answers[Math.floor(Math.random() * answers.length)];
+        // var submission = "correct"
         await this.props.submitDeliverable(deliv_id, submission);
         this.update();
     }

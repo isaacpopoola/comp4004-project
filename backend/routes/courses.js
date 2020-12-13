@@ -14,8 +14,6 @@ const db = require("../db/models");
 const Deliverables = require("../db/models").Deliverables;
 const DeliverableGrades = require("../db/models").DeliverableGrades;
 
-
-
 router.post("", async (req, resp) => {
     const {
         course_code,
@@ -119,6 +117,7 @@ router.get("/available", async (req, res) => {
                     [Op.lt]: db.sequelize.col("course_student_limit"),
                 },
             },
+            order: db.sequelize.col("course_code"),
         });
         return res.status(200).send({ courses });
     } catch {
@@ -141,30 +140,40 @@ router.get("/me", async (req, res) => {
             where: { student_id: user.id },
         });
 
-        for(var i = 0; i < courses.length; i++){
-            const deliverables = await Deliverables.findAll( { raw: true, where: { course_code: courses[i].course_code} });
-            const time = await Courses.findOne({ raw: true, where: { course_code: courses[i].course_code}});
-           
-            if (!deliverables){
-                courses[i]["deliverables"] = []
+        for (var i = 0; i < courses.length; i++) {
+            const deliverables = await Deliverables.findAll({
+                raw: true,
+                where: { course_code: courses[i].course_code },
+            });
+            const time = await Courses.findOne({
+                raw: true,
+                where: { course_code: courses[i].course_code },
+            });
+
+            if (!deliverables) {
+                courses[i]["deliverables"] = [];
             } else {
-                for(var j = 0; j < deliverables.length; j++){
+                for (var j = 0; j < deliverables.length; j++) {
                     const grades = await DeliverableGrades.findOne({
-                        raw: true, 
-                        where: { student_id: user.id, course_code: courses[i].course_code, deliverable_id: deliverables[j].id},
+                        raw: true,
+                        where: {
+                            student_id: user.id,
+                            course_code: courses[i].course_code,
+                            deliverable_id: deliverables[j].id,
+                        },
                         attributes: ["grade"],
-                        order: [ [ 'grade', 'DESC' ]],
-                    })
-                    console.log(grades)
-                    deliverables[j]["grade"] = grades == null ? null : grades.grade
+                        order: [["grade", "DESC"]],
+                    });
+                    console.log(grades);
+                    deliverables[j]["grade"] =
+                        grades == null ? null : grades.grade;
                 }
 
                 courses[i]["deliverables"] = deliverables;
-                courses[i]["course_time"] = time.course_time
-                courses[i]["course_duration"] = time.course_duration
-                courses[i]["course_day"] = time.course_day
+                courses[i]["course_time"] = time.course_time;
+                courses[i]["course_duration"] = time.course_duration;
+                courses[i]["course_day"] = time.course_day;
             }
-            
         }
 
         return res.status(200).send({ courses });

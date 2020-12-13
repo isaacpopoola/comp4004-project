@@ -633,6 +633,37 @@ Then("Operation was successful and is {string}", function (satunsat) {
     assert.strictEqual(this.response.body.status, satunsat);
 });
 
+Then('Operation was successful and final grade is {int} and status is {string}', async function (final_grade, status) {
+    assert.strictEqual(this.response.status, 200);
+
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let f_grade = await db.FinalGrades.findOne({
+        where: {
+            student_id: student.id,
+            course_code: this.course_code,
+        },
+    });
+
+    assert.strictEqual(f_grade.grade, final_grade);
+    assert.strictEqual(f_grade.status, status);
+});
+
+When('Student completes the course', async function () {
+    let student = await db.Students.findOne({
+        where: { username: this.username },
+    });
+
+    let final_grade = {
+        student_id: student.id,
+        course_code: this.course_code,
+        grade: 100,
+        status: "COMPLETED",
+    };
+    await db.FinalGrades.create(final_grade);
+});
 When("Student is approved", async function() {
     await request(app)
         .post("/register/approve")

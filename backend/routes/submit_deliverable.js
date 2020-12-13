@@ -38,33 +38,47 @@ router.post("", async (req, res) => {
  
         await DeliverableGrades.create(submission_grade);
 
-        //gives final grades if needed
-        var course_deliv = await Deliverables.findAll({raw: true, where: { course_code: deliverable.course_code}});
-        var completed_deliv = await DeliverableGrades.findAll({raw: true, where: { student_id: student.id, course_code: deliverable.course_code},})
-        var finalgrade = 0;
+        // give final grade after submiting all deliverables
+        let total_deliverables = await Deliverables.findAll({
+            where: { course_code: deliverable.course_code }
+        });
 
-        if (course_deliv.length <= completed_deliv.length){
-            for(var i = 0; i < course_deliv.length; i++){
-                for(var j = 0; j < completed_deliv.length; j++){
-                    if (course_deliv[i].id === completed_deliv[j].deliverable_id){
-                        finalgrade += completed_deliv[j].grade * (course_deliv[i].grade_weight/100)
-                    }
-                }
+        let submitted = await DeliverableGrades.findAll({
+            where: { 
+                course_code: deliverable.course_code,
+                student_id: student.id,
+            }
+        });
+
+        if (total_deliverables.length == submitted.length) {
+            let total_score = 0;
+            let student_score = 0;
+
+            for (i = 0; i < total_deliverables.length; ++i) {
+                total_score += total_deliverables[i].grade_weight;
+                student_score += submitted[i].grade;
             }
 
-            await FinalGrades.create({
+            let final_grade = 100 * Math.floor(student_score / total_score);
+
+            let student_final_grade = {
                 student_id: student.id,
                 course_code: deliverable.course_code,
-                grade: finalgrade,
-                status: "COMPLETED"
-            })
+                grade: final_grade,
+                status: "COMPLETED",
+            };
+
+            await FinalGrades.create(student_final_grade);
+
+            return res.status(200).send({ 
+                message: "Student has made a submission and completed the course" 
+            });
+        }
+        else {
+            return res.status(200).send({ message: "Student has made a submission" });
         }
 
-
-
-        return res
-                .status(200)
-                .send({ message: "Student has made a submission" });
+        
     }
 });
 

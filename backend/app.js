@@ -120,8 +120,8 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_student_limit: 1,
                                         registered_students: 1,
                                         course_registration_deadline:
-                                            "2020/12/25",
-                                        course_drop_deadline: "2020/12/25",
+                                            "2020/1/1",
+                                        course_drop_deadline: "2020/11/11",
                                         price: 1234.56,
                                         course_time: "11:30",
                                         course_duration: 1.5,
@@ -143,6 +143,39 @@ db.Courses.sync({ force: true }).then(() => {
                                         course_duration: 3,
                                         course_day: "Friday"
                                     });
+                                    await db.Courses.create({
+                                        course_code: "COMP4900",
+                                        course_name: "Intro to Machine Learning",
+                                        course_descr:
+                                            "Intro to Machine Learning",
+                                        course_credits: 1,
+                                        course_student_limit: 10,
+                                        registered_students: 0,
+                                        course_registration_deadline:
+                                            "2020/12/25",
+                                        course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "08:30",
+                                        course_duration: 3,
+                                        course_day: "Friday",
+                                        prereqs: ["COMP4004"]
+                                    });
+                                    await db.Courses.create({
+                                        course_code: "COMP4905",
+                                        course_name: "Honours Project",
+                                        course_descr:
+                                            "Honours Project",
+                                        course_credits: 1,
+                                        course_student_limit: 10,
+                                        registered_students: 0,
+                                        course_registration_deadline:
+                                            "2020/12/25",
+                                        course_drop_deadline: "2020/12/25",
+                                        price: 1234.56,
+                                        course_time: "10:30",
+                                        course_duration: 1.5,
+                                        course_day: "Friday"
+                                    });
                                     await db.StudentRegisteredCourses.create({
                                         student_id: 1,
                                         course_code: "COMP3000",
@@ -159,7 +192,7 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 1,
                                         course_code: "COMP4004",
-                                        grade_weight: 70,
+                                        grade_weight: 100,
                                         description: "TDD/BDD Group Project",
                                         due_date: "2020/12/20 23:59",
                                         answer: "correct",
@@ -168,7 +201,7 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 2,
                                         course_code: "COMP3004",
-                                        grade_weight: 65,
+                                        grade_weight: 100,
                                         description: "Design Patterns Assignment",
                                         due_date: "2020/12/21 23:59",
                                         answer: "correct",
@@ -177,16 +210,25 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 3,
                                         course_code: "COMP3005",
-                                        grade_weight: 45,
-                                        description: "SQL Assignment",
+                                        grade_weight: 50,
+                                        description: "SQL Assignment 1",
                                         due_date: "2020/12/22 23:59",
+                                        answer: "correct",
+                                    });
+
+                                    await db.Deliverables.create({
+                                        id: 6,
+                                        course_code: "COMP3005",
+                                        grade_weight: 50,
+                                        description: "SQL Assignment 2",
+                                        due_date: "2020/11/22 23:59",
                                         answer: "correct",
                                     });
 
                                     await db.Deliverables.create({
                                         id: 4,
                                         course_code: "COMP3000",
-                                        grade_weight: 57,
+                                        grade_weight: 50,
                                         description: "Fork Bomb Experiment",
                                         due_date: "2020/12/23 23:59",
                                         answer: "correct",
@@ -195,9 +237,9 @@ db.Courses.sync({ force: true }).then(() => {
                                     await db.Deliverables.create({
                                         id: 5,
                                         course_code: "COMP3000",
-                                        grade_weight: 43,
+                                        grade_weight: 50,
                                         description: "Kill the Child Assignment",
-                                        due_date: "2020/12/25 23:59",
+                                        due_date: "2020/12/1 23:59",
                                         answer: "correct",
                                     });
                                 });
