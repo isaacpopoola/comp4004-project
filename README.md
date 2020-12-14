@@ -9,7 +9,8 @@ cd into frontend directory
 cd into backend directory
     - npm i 
 
-Set up postgres
+Set up postgres auth
+
     - Make sure to add "POSTGRES_PASSWORD=postgres" to your environment variables
     - Alternatively, you can add "POSTGRES_HOST_AUTH_METHOD=trust" for the database to accept all connections
 
