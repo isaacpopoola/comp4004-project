@@ -53,6 +53,5 @@ How to run test coverage
 
     BACKEND:
     - make sure database is rurnning
-    - cd into backend directory, run ./testcoverage.sh
-        - if you don't have proper permissions, run chmod 777 testcoverage.sh
+    - run npm run-script coverage
     - the coverage file will be in backend/coverage/lcov-report/index.html
