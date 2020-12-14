@@ -24,7 +24,7 @@ Login credentials
         username: admin     password: admin
     
     - Student user
-        username: ryanuan   password: pw
+        username: ryanduan   password: pw
 
 How to run frontend tests
     - make sure database is running
