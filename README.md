@@ -27,10 +27,11 @@ Login credentials
         username: ryanduan   password: pw
 
 How to run frontend tests
+
     - make sure database is running
-    - cd into backend directory, run npm start 
-    - cd into frontend directory, run npm start 
-    - in frontend directory, run npm run-script cypress
+    - cd into backend directory, run npm start (in a new terminal)
+    - cd into frontend directory, run npm start (in a new terminal)
+    - in frontend directory, run npm run-script cypress (in a new terminal)
         - this will boot up cypress and you can run the tests inside the browse popup
 ***IMPORTANT*** this generates a code coverage file in frontend/coverage/lcov-report/index.html
 
