@@ -1,7 +1,7 @@
 # comp4004-project
 
-Install latest stable version of Node.js
-Install latest stable version of psql 
+Install latest stable version of Node.js (12.x worked for us)
+Install latest stable version of psql (postgres) 
 
 cd into frontend directory
     - npm i
@@ -14,7 +14,7 @@ How to run the application
 
     - start postgres
     - run psql
-        - inside psql, run "create database cms;"
+        - inside psql, run "create database cms;" and run "create database test_cms;"
     - in backend directory, run npm start
     - in frontend directory, run npm start
 
