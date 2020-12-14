@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node server.js",
     "test": "NODE_ENV=test cucumber-js",
-    "unit-test": "jest"
+    "unit-test": "jest",
+    "coverage": "node_modules/.bin/nyc --silent --no-clean node node_modules/cucumber/bin/cucumber-js && node_modules/.bin/nyc report --reporter=lcov"
   },
   "dependencies": {
     "axios": "^0.21.0",
