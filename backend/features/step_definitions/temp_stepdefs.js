@@ -82,6 +82,7 @@ Before({ tags: "@createstudent" }, async () => {
 });
 
 Before({ tags: "@registerstudent" }, async () => {
+    await new Promise(resolve => setTimeout(resolve, 500));
     await db.Students.create({
         username: "isaacpopoola",
         password: "pw",
@@ -670,3 +671,23 @@ When("Student is approved", async function () {
             this.response.status = res.status;
         });
 });
+
+When("Requests to see calendar", async function () {
+    await request(app)
+        .get("/students/me")
+        .set("Cookie", [`username=${this.username}`])
+        .then((res) => {
+            this.response = {};
+            this.response.status = res.status;
+            this.response.courses = res.body.courses;
+        });
+})
+
+Then("{string} should exist in the response", function (course_code) {
+    assert.strictEqual(this.response.status, 200);
+    this.response.courses.forEach(ele => {
+        if (ele.course_code == course_code){
+            assert.ok;
+        }
+    })
+})

@@ -1,8 +1,8 @@
 Feature: Delete Student
-    I want to be able to login as different types of users
+    I want admins to be able to delete Students
 
     @createStudent
-    Scenario Outline: Logging In
+    Scenario Outline: Delete a student
         Given I open CMS page
         When I see the Sign in modal
         When I type in <admin_username> and <admin_password>

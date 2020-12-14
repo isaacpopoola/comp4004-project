@@ -53,9 +53,19 @@ import api from "../../../src/Services"
             const text = $e1.text();
             
             // checks if username exist in table
-            if (text.includes(student_username)){
+            if (text === student_username){
+              cy.wait(200);
               exists.is = true;
-              cy.get(`#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr:nth-child(${index+1}) > td:nth-child(4) > div > div > a`).click()
+              // cy.get(`#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr:nth-child(${index+1}) > td:nth-child(4) > div > div > a`)
+              // cy.get(`.ant-table-row:nth-child(${index+1}) > .ant-table-cell:nth-child(4) > a)`)
+              try{
+                cy.get(`:nth-child(${index+1}) > :nth-child(4) > .ant-space > .ant-space-item > a`).click();
+              } catch(e){
+                console.log("doesnt exist")
+              }
+
+              return false;
+              
             }
 
           }).then( () => {
@@ -67,12 +77,14 @@ import api from "../../../src/Services"
   Then(`{string} should not exist in table`, (student_username) => {
     cy.wait(200);
 
-    cy.get("#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr") 
+    cy.get("#root > section > section > main > div > div:nth-child(2) > div > div > div > div > div > div > table > tbody > tr > td:nth-child(2)") 
     .each(($e1, index, $list) => {
       
       const text = $e1.text();
-      expect(text).to.not.include(student_username);
+      expect(text).to.not.equal(student_username);
 
     })
   })
+
+  
   
